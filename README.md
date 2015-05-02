@@ -10,4 +10,4 @@ Pull requests are always welcome!
 
 ## License
 
-[GPLv2+](http://www.gnu.org/licenses/gpl-2.0.html)
+[GPLv3+](http://www.gnu.org/licenses/gpl-3.0.html)
