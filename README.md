@@ -18,6 +18,8 @@ Option to completely disable JUMPSTART with `Jetpack_Options::update_option( 'ju
 
 Can we disable Debug link in the footer menu? Afraid not... Maybe contribute a filter to Jetpack?
 
+Can we disable the "Connect to get started" nag?
+
 ## License
 
 [GPLv3+](http://www.gnu.org/licenses/gpl-3.0.html)
