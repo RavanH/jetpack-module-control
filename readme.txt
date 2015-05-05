@@ -4,8 +4,8 @@ Tags: Jetpack, jet pack, module, modules, manual control, blacklist, blacklist m
 Stable tag: 0.4
 Requires at least: 4.1
 Tested up to: 4.2
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+License: GPLv3 or later
+License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
 Your Jetpack, Restricted.
 
