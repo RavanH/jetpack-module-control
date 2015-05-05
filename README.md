@@ -6,7 +6,7 @@ For more information, check out [Jetpack Module Control on WordPress.org](https:
 
 ## Contributors
 
-Pull requests are always welcome!
+Pull requests, bug reports or feature requests are always welcome!
 
 ## License
 
