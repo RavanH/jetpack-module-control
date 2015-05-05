@@ -2,11 +2,11 @@
 /*
 Plugin Name: Jetpack Module Control
 Plugin URI: http://status301.net/wordpress-plugins/jetpack-module-control/
-Description: Control Jetpack module activation and availability across your WordPress Multisite.
+Description: This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.
 Text Domain: jetpack-mc
 Domain Path: languages
 Network: true
-Version: 1.0-beta1
+Version: 1.0
 Author: RavanH
 Author URI: http://status301.net/
 */
@@ -82,43 +82,115 @@ class Jetpack_Module_Control {
 	 * @access  private
 	 * @var array 
 	 */
-	private static $known_modules_names = array(
-						'after-the-deadline' 	=> 'Spelling and Grammar',
-						'carousel' 				=> 'Carousel',
-						'comments' 				=> 'Jetpack Comments',
-						'contact-form' 			=> 'Contact Form',
-						'custom-content-types' 	=> 'Custom Content Types',
-						'custom-css' 			=> 'Custom CSS',
-						'enhanced-distribution'	=> 'Enhanced Distribution',
-						'gravatar-hovercards' 	=> 'Gravatar Hovercards',
-						'infinite-scroll' 		=> 'Infinite Scroll',
-						'json-api' 				=> 'JSON API',
-						'latex' 				=> 'Beautiful Math',
-						'likes' 				=> 'Likes',
-						'manage' 				=> 'Manage',
-						'markdown' 				=> 'Markdown',
-						'minileven' 			=> 'Mobile Theme',
-						'monitor' 				=> 'Monitor',
-						'notes' 				=> 'Notifications',
-						'omnisearch' 			=> 'Omnisearch',
-						'photon' 				=> 'Photon',
-						'post-by-email' 		=> 'Post by Email',
-						'protect' 				=> 'Protect',
-						'publicize' 			=> 'Publicize',
-						'related-posts' 		=> 'Related Posts',
-						'sharedaddy' 			=> 'Sharing',
-						'shortcodes' 			=> 'Shortcode Embeds',
-						'shortlinks' 			=> 'WP.me Shortlinks',
-						'site-icon' 			=> 'Site Icon',
-						'sso' 					=> 'Jetpack Single Sign On',
-						'stats' 				=> 'WordPress.com Stats',
-						'subscriptions' 		=> 'Subscriptions',	
-						'tiled-gallery' 		=> 'Tiled Galleries',
-						'vaultpress' 			=> 'VaultPress',
-						'verification-tools' 	=> 'Site Verification',
-						'videopress' 			=> 'VideoPress',
-						'widget-visibility' 	=> 'Widget Visibility',
-						'widgets' 				=> 'Extra Sidebar Widgets'
+	private static $known_modules = array(
+						'after-the-deadline' 	=> array( 'name' 		=> 'Spelling and Grammar',
+												'requires_connection' 	=> true
+														),
+						'carousel' 				=> array( 'name' 		=> 'Carousel',
+												'requires_connection' 	=> false
+														),
+						'comments' 				=> array( 'name' 		=> 'Jetpack Comments',
+												'requires_connection' 	=> true
+														),
+						'contact-form' 			=> array( 'name' 		=> 'Contact Form',
+												'requires_connection' 	=> false
+														),
+						'custom-content-types' 	=> array( 'name' 		=> 'Custom Content Types',
+												'requires_connection' 	=> false
+														),
+						'custom-css' 			=> array( 'name' 		=> 'Custom CSS',
+												'requires_connection' 	=> false
+														),
+						'enhanced-distribution'	=> array( 'name' 		=> 'Enhanced Distribution',
+												'requires_connection'	 => true
+														),
+						'gravatar-hovercards' 	=> array( 'name' 		=> 'Gravatar Hovercards',
+												'requires_connection' 	=> false
+														),
+						'infinite-scroll' 		=> array( 'name' 		=> 'Infinite Scroll',
+												'requires_connection' 	=> false
+														),
+						'json-api' 				=> array( 'name' 		=> 'JSON API',
+												'requires_connection' 	=> true
+														),
+						'latex' 				=> array( 'name' 		=> 'Beautiful Math',
+												'requires_connection' 	=> false
+														),
+						'likes' 				=> array( 'name' 		=> 'Likes',
+												'requires_connection' 	=> true
+														),
+						'manage' 				=> array( 'name' 		=> 'Manage',
+												'requires_connection' 	=> true
+														),
+						'markdown' 				=> array( 'name' 		=> 'Markdown',
+												'requires_connection' 	=> false
+														),
+						'minileven' 			=> array( 'name' 		=> 'Mobile Theme',
+												'requires_connection' 	=> false
+														),
+						'monitor' 				=> array( 'name' 		=> 'Monitor',
+												'requires_connection' 	=> true
+														),
+						'notes' 				=> array( 'name' 		=> 'Notifications',
+												'requires_connection' 	=> true
+														),
+						'omnisearch' 			=> array( 'name' 		=> 'Omnisearch',
+												'requires_connection' 	=> false
+														),
+						'photon' 				=> array( 'name' 		=> 'Photon',
+												'requires_connection' 	=> true
+														),
+						'post-by-email' 		=> array( 'name' 		=> 'Post by Email',
+												'requires_connection' 	=> true
+														),
+						'protect' 				=> array( 'name' 		=> 'Protect',
+												'requires_connection' 	=> true
+														),
+						'publicize' 			=> array( 'name' 		=> 'Publicize',
+												'requires_connection' 	=> true
+														),
+						'related-posts' 		=> array( 'name' 		=> 'Related Posts',
+												'requires_connection' 	=> true
+														),
+						'sharedaddy' 			=> array( 'name' 		=> 'Sharing',
+												'requires_connection' 	=> false
+														),
+						'shortcodes' 			=> array( 'name' 		=> 'Shortcode Embeds',
+												'requires_connection' 	=> false
+														),
+						'shortlinks' 			=> array( 'name' 		=> 'WP.me Shortlinks',
+												'requires_connection' 	=> true
+														),
+						'site-icon' 			=> array( 'name' 		=> 'Site Icon',
+												'requires_connection' 	=> false
+														),
+						'sso' 					=> array( 'name' 		=> 'Jetpack Single Sign On',
+												'requires_connection' 	=> true
+														),
+						'stats' 				=> array( 'name' 		=> 'WordPress.com Stats',
+												'requires_connection' 	=> true
+														),
+						'subscriptions' 		=> array( 'name' 		=> 'Subscriptions',
+												'requires_connection' 	=> true
+														),
+						'tiled-gallery' 		=> array( 'name' 		=> 'Tiled Galleries',
+												'requires_connection' 	=> false
+														),
+						'vaultpress' 			=> array( 'name' 		=> 'VaultPress',
+												'requires_connection' 	=> false
+														),
+						'verification-tools' 	=> array( 'name' 		=> 'Site Verification',
+												'requires_connection' 	=> false
+														),
+						'videopress' 			=> array( 'name' 		=> 'VideoPress',
+												'requires_connection' 	=> true
+														),
+						'widget-visibility' 	=> array( 'name' 		=> 'Widget Visibility',
+												'requires_connection' 	=> false
+														),
+						'widgets' 				=> array( 'name' 		=> 'Extra Sidebar Widgets',
+												'requires_connection' 	=> false
+														)
 					);
 
 	/**
@@ -163,8 +235,16 @@ class Jetpack_Module_Control {
 						'verification-tools' 	=> 'clipboard', // maye yes
 						'videopress' 			=> 'controls-play',
 						'widget-visibility' 	=> 'welcome-widgets-menus',
-						'widgets' 				=> 'welcome-widgets-menus',
+						'widgets' 				=> 'welcome-widgets-menus'
 					);
+
+	/**
+	 * Default dashicon
+	 * @since 1.0
+	 * @access  private
+	 * @var string 
+	 */
+	private static $default_icon = 'star-empty';
 
 	/**
 	 * Return Jetpack available modules
@@ -176,15 +256,15 @@ class Jetpack_Module_Control {
 			if ( class_exists('Jetpack') ) {
 				//remove_filter( 'jetpack_get_available_modules', array($this, 'blacklist') ); // remove filter useless here because of bug in Jetpack
 				$modules = array();
-				foreach ( Jetpack::get_available_modules() as $module_slug ) {
-					$module = Jetpack::get_module( $module_slug );
+				foreach ( Jetpack::get_available_modules() as $slug ) {
+					$module = Jetpack::get_module( $slug );
 					if ( $module )
-						$modules[$module_slug] = $module['name'];
+						$modules[$slug] = $module;
 				}
 				self::$modules = $modules;
-				add_filter( 'jetpack_get_available_modules', array($this, 'blacklist') ); 
+				//add_filter( 'jetpack_get_available_modules', array($this, 'blacklist') ); 
 			} else {
-				self::$modules = self::$known_modules_names;
+				self::$modules = self::$known_modules;
 			}
 		}
 		return self::$modules;
@@ -275,7 +355,7 @@ class Jetpack_Module_Control {
 			<?php disabled( $disabled ); ?>> 
 			<?php _e('Allow activating Jetpack modules without a WordPress.com connection.','jetpack-mc'); ?>
 		</label>
-		<p class="description"><?php _e('By forcing Jetpack into development mode, modules can be used without a WordPress.com account. All modules that cannot run without a WordPress.com connection are disabled.','jetpack-mc'); ?></p>
+		<p class="description"><?php _e('By forcing Jetpack into development mode, modules are used without a WordPress.com account. All modules that require a WordPress.com connection will be unavailable. These modules are marked with an asterisk (*) below. The admin message about Jetpack running in development mode will be hidden.','jetpack-mc'); ?></p>
 		<?php
 
 	} // END development_mode_settings()
@@ -342,28 +422,31 @@ class Jetpack_Module_Control {
 		
 		$blacklist = get_site_option( 'jetpack_mc_blacklist', array() );
 		
+		$dev_mode = get_site_option( 'jetpack_mc_development_mode' );
+		
 		$modules = $this->get_available_modules();
 		asort($modules);
-		
+
 		$icons = self::$known_modules_icons;
 
-		$disabled = defined('JETPACK_MC_LOCKDOWN') ? JETPACK_MC_LOCKDOWN : false;
+		$lockdown = defined('JETPACK_MC_LOCKDOWN') ? JETPACK_MC_LOCKDOWN : false;
 
 		?>
 		<fieldset><legend class="screen-reader-text"><span><?php _e('Blacklist Modules','jetpack-mc'); ?></span></legend>
 		<?php
-		foreach ( $modules as $module => $name ) {
-			$icon = isset($icons[$module]) ? $icons[$module] : 'star-empty';
+		foreach ( $modules as $slug => $module ) {
+			$icon = isset($icons[$slug]) ? $icons[$slug] : self::$default_icon;
 			?>
 			<label>
-				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo $module; ?>' 
-				<?php checked( in_array($module,(array)$blacklist), true ); ?> 
-				<?php disabled( $disabled ); ?>> 
-				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo $name; ?>
-			</label><br>
+				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo $slug; ?>' 
+				<?php checked( in_array($slug,(array)$blacklist), true ); ?> 
+				<?php disabled( $lockdown ); ?>> 
+				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo $module['name']; ?>
+			</label><?php echo !empty($module['requires_connection']) && true === $module['requires_connection'] ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a  WordPress.com connection','jetpack-mc') . '">*</a>' : ''; ?><br>
 			<?php
 		}
 		?>
+		<aside role="note" id="jmc-note-1"><p class="description"><?php _e('*) Modules marked with an asterisk require a WordPress.com connection. They will be unavailable if Jetpack is forced into development mode.','jetpack-mc'); ?></p></aside>
 		</fieldset>
 		<?php
 
@@ -530,11 +613,11 @@ class Jetpack_Module_Control {
 				. '&no_shipping=0&tax=0&charset=UTF%2d8&currency_code=EUR" title="'
 				. __('Donate to keep plugin development going!','jetpack-mc')
 				. '"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" style="border:none;float:right;margin:5px 0 0 10px" alt="'
-				. __('Donate to keep plugin development going!','jetpack-mc')
-				. '" width="92" height="26" /></a>'
-				. sprintf(__('The options in this section are provided by the plugin %1$s to allow individual Jetpack module blacklisting. These settings can be locked down by adding %2$s to your wp-config.php file.','jetpack-mc'),'<strong><a href="http://status301.net/wordpress-plugins/jetpack-module-control/">'
-				. __('Jetpack Module Control','jetpack-mc') . ' ' . $this->version
-				. '</a></strong>','<code> define( \'JETPACK_MC_LOCKDOWN\', true);</code>')
+				. __('Donate to keep plugin development going!','jetpack-mc') . '" width="92" height="26" /></a>'
+				. sprintf(__('The options in this section are provided by %s.','jetpack-mc'),'<strong><a href="http://status301.net/wordpress-plugins/jetpack-module-control/">'
+				. __('Jetpack Module Control','jetpack-mc') . ' ' . $this->version . '</a></strong>') . ' '
+				. __('This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.','jetpack-mc') . ' '
+				. sprintf(__('These settings can be locked down by adding %s to your wp-config.php file.','jetpack-mc'),'<code>define(\'JETPACK_MC_LOCKDOWN\', true);</code>')
 			. '</p>';
 
 	} // END add_setting_section()
