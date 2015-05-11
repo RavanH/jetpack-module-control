@@ -6,7 +6,7 @@ Description: This plugin brings additional control over Jetpack modules. You can
 Text Domain: jetpack-mc
 Domain Path: languages
 Network: true
-Version: 1.0
+Version: 1.1
 Author: RavanH
 Author URI: http://status301.net/
 */
@@ -344,7 +344,7 @@ class Jetpack_Module_Control {
 	 */	
 	public function development_mode_settings() {		
 		
-		$forced = is_plugin_active('slimjetpack/slimjetpack.php') || ( defined('JETPACK_DEV_DEBUG') && JETPACK_DEV_DEBUG ) ? true : false;
+		$forced = is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php') || ( defined('JETPACK_DEV_DEBUG') && JETPACK_DEV_DEBUG ) ? true : false;
 		$option = $forced ? '1' : get_site_option('jetpack_mc_development_mode');	
 		$disabled = $forced || ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) ? true : false;
 
