@@ -55,10 +55,15 @@ Please [contact me](http://status301.net/contact-en/) to submit your translation
 
 == Upgrade Notice ==
 
-= 1.0 =
-New: Jetpack Debug Mode to allow modules without connection.
+= 1.1 =
+Detect Unplug Jetpack
 
 == Changelog ==
+
+= 1.1 =
+Date: 2015/05/11
+
+* Detect the Unplug Jetpack plugin
 
 = 1.0 =
 Date: Mai 5nd, 2015
