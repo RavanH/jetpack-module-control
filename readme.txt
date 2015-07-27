@@ -1,4 +1,4 @@
-=== Jetpack Module Control ===
+=== Module Control for Jetpack ===
 Contributors: RavanH
 Tags: Jetpack, jet pack, module, modules, manual control, blacklist, blacklist modules, slim jetpack, jetpack light
 Stable tag: 1.1
