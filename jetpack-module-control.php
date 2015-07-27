@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Jetpack Module Control
+Plugin Name: Module Control for Jetpack
 Plugin URI: http://status301.net/wordpress-plugins/jetpack-module-control/
 Description: This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.
 Text Domain: jetpack-mc
