@@ -1,7 +1,7 @@
 === Module Control for Jetpack ===
 Contributors: RavanH
-Tags: Jetpack, jet pack, module, modules, manual control, blacklist, blacklist modules, slim jetpack, jetpack light
-Stable tag: 1.1
+Tags: Jetpack, jet pack, jetpack light, manual control, blacklist, blacklist jepack modules, slim jetpack
+Stable tag: 1.2
 Requires at least: 4.0
 Tested up to: 4.2
 License: GPLv3 or later
@@ -55,10 +55,15 @@ Please [contact me](http://status301.net/contact-en/) to submit your translation
 
 == Upgrade Notice ==
 
-= 1.1 =
-Detect Unplug Jetpack
+= 1.2 =
+Fix https://github.com/RavanH/jetpack-module-control/issues/2
 
 == Changelog ==
+
+= 1.2 =
+Date: 2015/08/01
+
+* Fix "Missing argument 1 for Jetpack_Module_Control::add_settings_section()" https://github.com/RavanH/jetpack-module-control/issues/2
 
 = 1.1 =
 Date: 2015/05/11
