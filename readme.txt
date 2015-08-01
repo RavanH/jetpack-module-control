@@ -56,7 +56,7 @@ Please [contact me](http://status301.net/contact-en/) to submit your translation
 == Upgrade Notice ==
 
 = 1.2 =
-Detect Unplug Jetpack
+Fix https://github.com/RavanH/jetpack-module-control/issues/2
 
 == Changelog ==
 
