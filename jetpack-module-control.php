@@ -6,7 +6,7 @@ Description: This plugin brings additional control over Jetpack modules. You can
 Text Domain: jetpack-mc
 Domain Path: languages
 Network: true
-Version: 1.1
+Version: 1.2
 Author: RavanH
 Author URI: http://status301.net/
 */
@@ -566,7 +566,7 @@ class Jetpack_Module_Control {
 		?>
 		<h3><a name="jetpack-mc"></a><?php _e('Jetpack Module Control','jetpack-mc'); ?></h3>
 		<?php
-        $this->add_settings_section();
+        $this->add_settings_section('');
 		?>
 		<table class="form-table">
 			<tbody>
