@@ -1,15 +1,16 @@
 <?php
 /*
-Plugin Name: Module Control for Jetpack
-Plugin URI: http://status301.net/wordpress-plugins/jetpack-module-control/
-Description: This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.
-Text Domain: jetpack-mc
-Domain Path: languages
-Network: true
-Version: 1.2
-Author: RavanH
-Author URI: http://status301.net/
-*/
+ * Plugin Name: Module Control for Jetpack
+ * Plugin URI: http://status301.net/wordpress-plugins/jetpack-module-control/
+ * Description: This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.
+ * Author: RavanH
+ * Author URI: http://status301.net/
+ * Network: true
+ * Text Domain: jetpack-mc
+ * Domain Path: /languages/
+ * License: GPL2+
+ * Version: 1.3
+ */
 
 /*
  * ROADMAP
@@ -66,7 +67,7 @@ class Jetpack_Module_Control {
 	 * @since 0.1
 	 * @var string 
 	 */
-	public $version = '1.0';
+	public $version = '1.2';
 	
 	/**
 	 * Available modules array
@@ -232,7 +233,7 @@ class Jetpack_Module_Control {
 						'subscriptions' 		=> 'email',
 						'tiled-gallery' 		=> 'schedule', // not available. maybe tagcloud ?
 						'vaultpress' 			=> 'shield-alt', // not availabe
-						'verification-tools' 	=> 'clipboard', // maye yes
+						'verification-tools' 	=> 'clipboard', // maybe yes
 						'videopress' 			=> 'controls-play',
 						'widget-visibility' 	=> 'welcome-widgets-menus',
 						'widgets' 				=> 'welcome-widgets-menus'
@@ -251,6 +252,7 @@ class Jetpack_Module_Control {
 	 * @since 0.1
 	 * @return array
 	 */	
+	 
 	private function get_available_modules() {
 		if ( null === self::$modules ) {
 			if ( class_exists('Jetpack') ) {
@@ -277,6 +279,7 @@ class Jetpack_Module_Control {
 	 * 
 	 * @return string Plugin basename
 	 */	
+	 
 	private function plugin_basename() {
 		if ( null === self::$plugin_basename ) {
 			self::$plugin_basename = plugin_basename( __FILE__ );
@@ -298,6 +301,7 @@ class Jetpack_Module_Control {
 	 * @echo Html Checkbox input field for jetpack_mc_manual_control option
 	 * @return void
 	 */	
+	 
 	public function manual_control_settings() {		
 
 		$cws_manual_control = class_exists('CWS_Manual_Control_for_Jetpack_Plugin') ? true : false;
@@ -311,6 +315,7 @@ class Jetpack_Module_Control {
 			<?php disabled( $disabled ); ?>> 
 			<?php _e('Prevent the Jetpack plugin from auto-activating (new) modules.','jetpack-mc'); ?>
 		</label>
+		<p class="description"><?php echo sprintf( __('Note: The module %s will always be auto-activated.','jetpack-mc'), _x('Protect','Module Name','jetpack') ); ?></p>
 		<?php
 
 	} // END manual_control_settings()
@@ -323,6 +328,7 @@ class Jetpack_Module_Control {
 	 * @since 0.1
 	 * @see add_filter()
 	 */
+	 
 	public function manual_control( $modules ) {
 		
 		return get_site_option('jetpack_mc_manual_control', false) ? array() : $modules;
@@ -342,6 +348,7 @@ class Jetpack_Module_Control {
 	 * @echo Html Checkbox input field for jetpack_mc_development_mode option
 	 * @return void
 	 */	
+	 
 	public function development_mode_settings() {		
 		
 		$forced = is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php') || ( defined('JETPACK_DEV_DEBUG') && JETPACK_DEV_DEBUG ) ? true : false;
@@ -367,6 +374,7 @@ class Jetpack_Module_Control {
 	 * @since 1.0
 	 * @see add_filter()
 	 */
+	 
 	public function development_mode() {
 		
 		return get_site_option('jetpack_mc_development_mode', false) ? true : false;
@@ -383,6 +391,7 @@ class Jetpack_Module_Control {
 	 * @since 0.1
 	 * @see add_filter()
 	 */
+	 
 	private function no_manage_notice() {
 		
 		$blacklist = get_site_option('jetpack_mc_blacklist', array() );
@@ -418,6 +427,7 @@ class Jetpack_Module_Control {
 	 * @uses jetpack_mc_blacklist network option
 	 * @echo Html Checkbox input field table for jetpack_mc_blacklist option
 	 */
+	 
 	public function blacklist_settings() {	
 		
 		$blacklist = get_site_option( 'jetpack_mc_blacklist', array() );
@@ -441,8 +451,8 @@ class Jetpack_Module_Control {
 				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo $slug; ?>' 
 				<?php checked( in_array($slug,(array)$blacklist), true ); ?> 
 				<?php disabled( $lockdown ); ?>> 
-				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo $module['name']; ?>
-			</label><?php echo !empty($module['requires_connection']) && true === $module['requires_connection'] ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a  WordPress.com connection','jetpack-mc') . '">*</a>' : ''; ?><br>
+				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php _ex( $module['name'], 'Module Name', 'jetpack' ) ?>
+			</label><?php echo !empty($module['requires_connection']) && true === $module['requires_connection'] ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a WordPress.com connection','jetpack-mc') . '">*</a>' : ''; ?><br>
 			<?php
 		}
 		?>
@@ -461,6 +471,7 @@ class Jetpack_Module_Control {
 	 * 
 	 * @return Array Allowed modules after unsetting blacklisted modules from all modules array
 	 */
+	 
 	public function blacklist ( $modules ) {
 		
 		$blacklist = get_site_option('jetpack_mc_blacklist');	
@@ -540,19 +551,20 @@ class Jetpack_Module_Control {
 	 */
 	public function save_network_settings() {
 
-		$posted_settings = array();
+		$posted_settings = array(
+								'jetpack_mc_manual_control' => '',
+								'jetpack_mc_development_mode' => '',
+								'jetpack_mc_blacklist' => ''
+								);
 
-		if( isset( $_POST['jetpack_mc_manual_control'] ) )
-			$posted_settings['jetpack_mc_manual_control'] = '1';
+		isset( $_POST['jetpack_mc_manual_control'] ) && $posted_settings['jetpack_mc_manual_control'] = '1';
 
-		if( isset( $_POST['jetpack_mc_development_mode'] ) )
-			$posted_settings['jetpack_mc_development_mode'] = '1';
+		isset( $_POST['jetpack_mc_development_mode'] ) && $posted_settings['jetpack_mc_development_mode'] = '1';
 
-		if( isset( $_POST['jetpack_mc_blacklist'] ) )
-			$posted_settings['jetpack_mc_blacklist'] = array_values($_POST['jetpack_mc_blacklist']);
+		isset( $_POST['jetpack_mc_blacklist'] ) && is_array( $_POST['jetpack_mc_blacklist'] ) && $posted_settings['jetpack_mc_blacklist'] = array_values( $_POST['jetpack_mc_blacklist'] );
 
-        foreach ( $posted_settings as $name => $value )
-            update_site_option( $name, $value );
+		foreach( $posted_settings as $name => $value )
+			update_site_option( $name, $value );
 
 	}
 
@@ -657,7 +669,7 @@ class Jetpack_Module_Control {
 
 		// only need translations on admin page
 		if ( is_admin() ) {			
-			load_plugin_textdomain('jetpack-mc', false, $this->plugin_basename() . '/languages/');
+			load_plugin_textdomain( 'jetpack-mc', false, dirname( $this->plugin_basename() ) . '/languages/' );
 
 			// populate jetpack modules list before filter is added 
 			if ( in_array( $pagenow, array( 'options-general.php', 'settings.php' ) ) )
