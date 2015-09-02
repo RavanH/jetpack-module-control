@@ -1,9 +1,9 @@
 === Module Control for Jetpack ===
 Contributors: RavanH
 Tags: Jetpack, jet pack, jetpack light, manual control, blacklist, blacklist jepack modules, slim jetpack
-Stable tag: 1.2
+Stable tag: 1.3
 Requires at least: 4.0
-Tested up to: 4.2
+Tested up to: 4.4
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -35,8 +35,8 @@ The project can be forked and or contributed to on [Github](https://github.com/R
 
 The package contains a sample jetpack-mc-xx_XX.po file ready for translators.
 
-- **Dutch** * R.A. van Hagen http://status301.net/ (version 1.0)
-- **French** * R.A. van Hagen http://status301.net/ (version 0.3, incomplete)
+- **Dutch** * R.A. van Hagen http://status301.net/ (version 1.2)
+- **French** * R.A. van Hagen http://status301.net/ (version 1.2, incomplete)
 
 Please [contact me](http://status301.net/contact-en/) to submit your translation and get mentioned here :)
 
@@ -55,10 +55,17 @@ Please [contact me](http://status301.net/contact-en/) to submit your translation
 
 == Upgrade Notice ==
 
-= 1.2 =
-Fix https://github.com/RavanH/jetpack-module-control/issues/2
+= 1.3 =
+Module names translated. Fix opions saving bug and translation path.
 
 == Changelog ==
+
+= 1.3 =
+Date: 2015/09/02
+
+* Module names now translated using jetpack.mo
+* BUGFIX options not saving deactivation
+* BUGFIX translation files not found
 
 = 1.2 =
 Date: 2015/08/01
