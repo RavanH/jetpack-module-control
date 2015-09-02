@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Jetpack Module Control\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-05 04:57+0100\n"
-"PO-Revision-Date: 2015-05-05 04:58+0100\n"
+"POT-Creation-Date: 2015-09-03 00:28+0100\n"
+"PO-Revision-Date: 2015-09-03 00:28+0100\n"
 "Last-Translator: RavanH <ravanhagen@gmail.com>\n"
 "Language-Team:  <ravanhagen@gmail.com>\n"
 "Language: en\n"
@@ -17,15 +17,20 @@ msgstr ""
 "X-Generator: Poedit 1.7.5\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: ../jetpack-module-control.php:312
+#: ../jetpack-module-control.php:315
 msgid "Prevent the Jetpack plugin from auto-activating (new) modules."
 msgstr ""
 
-#: ../jetpack-module-control.php:356
+#: ../jetpack-module-control.php:317
+#, php-format
+msgid "Note: The module %s will always be auto-activated."
+msgstr ""
+
+#: ../jetpack-module-control.php:362
 msgid "Allow activating Jetpack modules without a WordPress.com connection."
 msgstr ""
 
-#: ../jetpack-module-control.php:358
+#: ../jetpack-module-control.php:364
 msgid ""
 "By forcing Jetpack into development mode, modules are used without a "
 "WordPress.com account. All modules that require a WordPress.com connection "
@@ -33,51 +38,51 @@ msgid ""
 "The admin message about Jetpack running in development mode will be hidden."
 msgstr ""
 
-#: ../jetpack-module-control.php:435 ../jetpack-module-control.php:530
-#: ../jetpack-module-control.php:590
+#: ../jetpack-module-control.php:444 ../jetpack-module-control.php:540
+#: ../jetpack-module-control.php:601
 msgid "Blacklist Modules"
 msgstr ""
 
-#: ../jetpack-module-control.php:445
-msgid "Requires a  WordPress.com connection"
+#: ../jetpack-module-control.php:454
+msgid "Requires a WordPress.com connection"
 msgstr ""
 
-#: ../jetpack-module-control.php:449
+#: ../jetpack-module-control.php:458
 msgid ""
 "*) Modules marked with an asterisk require a WordPress.com connection. They "
 "will be unavailable if Jetpack is forced into development mode."
 msgstr ""
 
-#: ../jetpack-module-control.php:516 ../jetpack-module-control.php:567
-#: ../jetpack-module-control.php:618
+#: ../jetpack-module-control.php:526 ../jetpack-module-control.php:578
+#: ../jetpack-module-control.php:629
 msgid "Jetpack Module Control"
 msgstr ""
 
-#: ../jetpack-module-control.php:528 ../jetpack-module-control.php:574
+#: ../jetpack-module-control.php:538 ../jetpack-module-control.php:585
 msgid "Manual Control"
 msgstr ""
 
-#: ../jetpack-module-control.php:529 ../jetpack-module-control.php:582
+#: ../jetpack-module-control.php:539 ../jetpack-module-control.php:593
 msgid "Development Mode"
 msgstr ""
 
-#: ../jetpack-module-control.php:614 ../jetpack-module-control.php:616
+#: ../jetpack-module-control.php:625 ../jetpack-module-control.php:627
 msgid "Donate to keep plugin development going!"
 msgstr ""
 
-#: ../jetpack-module-control.php:617
+#: ../jetpack-module-control.php:628
 #, php-format
 msgid "The options in this section are provided by %s."
 msgstr ""
 
-#: ../jetpack-module-control.php:619
+#: ../jetpack-module-control.php:630
 msgid ""
 "This plugin brings additional control over Jetpack modules. You can "
 "blacklist / remove individual modules, prevent auto-activation or allow "
 "activation without a WordPress.com account."
 msgstr ""
 
-#: ../jetpack-module-control.php:620
+#: ../jetpack-module-control.php:631
 #, php-format
 msgid ""
 "These settings can be locked down by adding %s to your wp-config.php file."
