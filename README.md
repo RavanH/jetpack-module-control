@@ -1,6 +1,6 @@
 ## Module Control for Jetpack
 
-[Jetpack](https://wordpress.org/plugins/jetpack/) adds powerful features... but sometimes we don't want them all. This WordPress plugin will allow you to blacklist / remove individual Jetpack modules. It can also prevent auto-activation of any Jetpack modules.
+[Jetpack](https://wordpress.org/plugins/jetpack/) adds powerful features... but sometimes we don't want them all. This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.
 
 For more information, check out [Module Control for Jetpack on WordPress.org](https://wordpress.org/plugins/jetpack-module-control/).
 
