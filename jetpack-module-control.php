@@ -9,7 +9,7 @@
  * Text Domain: jetpack-mc
  * Domain Path: /languages/
  * License: GPL2+
- * Version: 1.3
+ * Version: 1.4-alpha
  */
 
 /*
@@ -67,7 +67,7 @@ class Jetpack_Module_Control {
 	 * @since 0.1
 	 * @var string 
 	 */
-	public $version = '1.2';
+	public $version = '1.4';
 	
 	/**
 	 * Available modules array
@@ -304,18 +304,28 @@ class Jetpack_Module_Control {
 	 
 	public function manual_control_settings() {		
 
-		$cws_manual_control = class_exists('CWS_Manual_Control_for_Jetpack_Plugin') ? true : false;
-		$option = $cws_manual_control ? '1' : get_site_option('jetpack_mc_manual_control');	
-		$disabled = $cws_manual_control || ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) ? true : false;
+		if ( is_network_admin() ) {
+			// in network admin retrieve network settings
+			$disabled = is_plugin_active_for_network('manual-control/manual-control.php') ? true : false;
+			$option = $disabled ? '1' : get_site_option('jetpack_mc_manual_control');	
+		} else {
+			// in site admin retrieve site settings, fall back on network settings
+			$forced = is_plugin_active('manual-control/manual-control.php') ? true : false;
+			if ( $forced )
+				$option = '1';
+			else
+				$option = get_option('jetpack_mc_manual_control') ? : get_site_option('jetpack_mc_manual_control');	
+			$disabled = $forced || ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) ? true : false;
+		}
 
 		?>
 		<label>
 			<input type='checkbox' name='jetpack_mc_manual_control' value='1' 
 			<?php checked( $option, '1' ); ?> 
 			<?php disabled( $disabled ); ?>> 
-			<?php _e('Prevent the Jetpack plugin from auto-activating (new) modules.','jetpack-mc'); ?>
+			<?php _e('Prevent Jetpack from auto-activating (new) modules','jetpack-mc'); ?>
 		</label>
-		<p class="description"><?php echo sprintf( __('Note: The module %s will always be auto-activated.','jetpack-mc'), _x('Protect','Module Name','jetpack') ); ?></p>
+		<p class="description"><?php echo sprintf( __('Note: The module %s is excepted from this rule.','jetpack-mc'), _x('Protect','Module Name','jetpack') ); ?></p>
 		<?php
 
 	} // END manual_control_settings()
@@ -331,7 +341,7 @@ class Jetpack_Module_Control {
 	 
 	public function manual_control( $modules ) {
 		
-		return get_site_option('jetpack_mc_manual_control', false) ? array() : $modules;
+		return get_option('jetpack_mc_manual_control', false) || get_site_option('jetpack_mc_manual_control', false) ? array() : $modules;
 
 	} // END manual_control()
 
@@ -351,16 +361,26 @@ class Jetpack_Module_Control {
 	 
 	public function development_mode_settings() {		
 		
-		$forced = is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php') || ( defined('JETPACK_DEV_DEBUG') && JETPACK_DEV_DEBUG ) ? true : false;
-		$option = $forced ? '1' : get_site_option('jetpack_mc_development_mode');	
-		$disabled = $forced || ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) ? true : false;
+		if ( is_network_admin() ) {
+			// in network admin retrieve network settings
+			$disabled = is_plugin_active_for_network('slimjetpack/slimjetpack.php') || is_plugin_active_for_network('unplug-jetpack/unplug-jetpack.php') ? true : false;
+			$option = $disabled ? '1' : get_site_option('jetpack_mc_development_mode');	
+		} else {
+			// in site admin retrieve site settings, fall back on network settings
+			$forced = is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php') ? true : false;
+			if ( $forced )
+				$option = '1';
+			else
+				$option = get_option('jetpack_mc_development_mode') ? : get_site_option('jetpack_mc_development_mode');	
+			$disabled = $forced || ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) ? true : false;
+		}
 
 		?>
 		<label>
 			<input type='checkbox' name='jetpack_mc_development_mode' value='1' 
 			<?php checked( $option, '1' ); ?> 
 			<?php disabled( $disabled ); ?>> 
-			<?php _e('Allow activating Jetpack modules without a WordPress.com connection.','jetpack-mc'); ?>
+			<?php _e('Use Jetpack modules without a WordPress.com connection','jetpack-mc'); ?>
 		</label>
 		<p class="description"><?php _e('By forcing Jetpack into development mode, modules are used without a WordPress.com account. All modules that require a WordPress.com connection will be unavailable. These modules are marked with an asterisk (*) below. The admin message about Jetpack running in development mode will be hidden.','jetpack-mc'); ?></p>
 		<?php
@@ -377,7 +397,7 @@ class Jetpack_Module_Control {
 	 
 	public function development_mode() {
 		
-		return get_site_option('jetpack_mc_development_mode', false) ? true : false;
+		return get_option('jetpack_mc_development_mode', false) || get_site_option('jetpack_mc_development_mode', false) ? true : false;
 
 	} // END development_mode()
 
@@ -394,22 +414,22 @@ class Jetpack_Module_Control {
 	 
 	private function no_manage_notice() {
 		
-		$blacklist = get_site_option('jetpack_mc_blacklist', array() );
+		$blacklist = get_option('jetpack_mc_blacklist', array() ) ? : get_site_option('jetpack_mc_blacklist', array() );
 
-		if ( in_array('manage', (array)$blacklist ) )
+		if ( in_array( 'manage', (array)$blacklist ) )
 			add_filter( 'can_display_jetpack_manage_notice', '__return_false' );
 
 	} // END no_manage_notice()
 
 	/**
-	 * Disables Centralized Site Management banner by returning false on can_display_jetpack_manage_notice filter. 
+	 * Disables Centralized Site Management banner by removing show_development_mode_notice from jetpack_notices actions. 
 	 * 
 	 * @since 0.1
 	 * @see add_filter()
 	 */
 	private function no_dev_notice() {
 
-		if ( get_site_option('jetpack_mc_development_mode', false) && class_exists('Jetpack') )
+		if ( class_exists('Jetpack') && ( get_option('jetpack_mc_development_mode', false) || get_site_option('jetpack_mc_development_mode', false) ) )
 			remove_action( 'jetpack_notices', array( Jetpack::init(), 'show_development_mode_notice' ) );
 
 	} // END no_dev_notice()
@@ -430,16 +450,22 @@ class Jetpack_Module_Control {
 	 
 	public function blacklist_settings() {	
 		
-		$blacklist = get_site_option( 'jetpack_mc_blacklist', array() );
-		
-		$dev_mode = get_site_option( 'jetpack_mc_development_mode' );
+		if ( is_network_admin() ) {
+			// in network admin retrieve network settings
+			$blacklist = get_site_option( 'jetpack_mc_blacklist', array() );
+			$dev_mode = get_site_option( 'jetpack_mc_development_mode' );
+		} else {
+			// in site admin retrieve site settings, fall back on network settings
+			$blacklist = get_option( 'jetpack_mc_blacklist', array() ) ? : get_site_option( 'jetpack_mc_blacklist', array() );
+			$dev_mode = get_option( 'jetpack_mc_development_mode' ) ? : get_site_option( 'jetpack_mc_development_mode' );
+		}
 		
 		$modules = $this->get_available_modules();
 		asort($modules);
 
 		$icons = self::$known_modules_icons;
 
-		$lockdown = defined('JETPACK_MC_LOCKDOWN') ? JETPACK_MC_LOCKDOWN : false;
+		$lockdown = !is_multisite() && defined('JETPACK_MC_LOCKDOWN') ? JETPACK_MC_LOCKDOWN : false;
 
 		?>
 		<fieldset><legend class="screen-reader-text"><span><?php _e('Blacklist Modules','jetpack-mc'); ?></span></legend>
@@ -474,7 +500,7 @@ class Jetpack_Module_Control {
 	 
 	public function blacklist ( $modules ) {
 		
-		$blacklist = get_site_option('jetpack_mc_blacklist');	
+		$blacklist = get_option('jetpack_mc_blacklist') ? : get_site_option('jetpack_mc_blacklist');	
 
 		foreach ( (array)$blacklist as $mod ) {
 			if ( isset( $modules[$mod] ) ) {
@@ -502,23 +528,24 @@ class Jetpack_Module_Control {
 
 		$this->no_dev_notice();
 
-		if ( is_plugin_active_for_network( $this->plugin_basename() ) ) {
+		//if ( is_plugin_active_for_network( $this->plugin_basename() ) ) {
+		if ( is_super_admin() ) { // true for admin in a single site and super admin in a network
 
 			add_filter( 'network_admin_plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link') );
 
 			// Add settings to Network Settings
 			// thanks to http://zao.is/2013/07/adding-settings-to-network-settings-for-wordpress-multisite/
-			if ( is_network_admin() ) {
+			//if ( is_network_admin() ) {
 				add_filter( 'wpmu_options', array( $this, 'show_network_settings' ) );
 				if ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) {
-					// do not add action to save network settings
+					// do not add action to prevent saving network settings
 				} else {
 					add_action( 'update_wpmu_options', array( $this, 'save_network_settings' ) );
 				}
-			}
+				//defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? : add_action( 'update_wpmu_options', array( $this, 'save_network_settings' ) );
+			//}
 
-		} else {
-			
+		//} else {
 			add_filter( 'plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link') );
 
 			// Do regular register/add_settings stuff in 'general' settings on options-general.php 
@@ -528,7 +555,7 @@ class Jetpack_Module_Control {
 
 			// register settings
 			if ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) {
-				// do not register settings to prevent them being updated
+				// do not register site settings to prevent them being updated
 			} else {
 				register_setting( $settings, 'jetpack_mc_manual_control' ); // sanitize_callback 'boolval' ?
 				register_setting( $settings, 'jetpack_mc_development_mode' ); // sanitize_callback 'boolval' ?
@@ -628,9 +655,14 @@ class Jetpack_Module_Control {
 				. __('Donate to keep plugin development going!','jetpack-mc') . '" width="92" height="26" /></a>'
 				. sprintf(__('The options in this section are provided by %s.','jetpack-mc'),'<strong><a href="http://status301.net/wordpress-plugins/jetpack-module-control/">'
 				. __('Jetpack Module Control','jetpack-mc') . ' ' . $this->version . '</a></strong>') . ' '
-				. __('This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.','jetpack-mc') . ' '
-				. sprintf(__('These settings can be locked down by adding %s to your wp-config.php file.','jetpack-mc'),'<code>define(\'JETPACK_MC_LOCKDOWN\', true);</code>')
-			. '</p>';
+				. __('This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.','jetpack-mc') . ' ';
+
+		if ( !is_multisite() )
+			echo sprintf(__('These settings can be locked down by adding %s to your wp-config.php file.','jetpack-mc'),'<code>define(\'JETPACK_MC_LOCKDOWN\', true);</code>');
+		else if ( !is_network_admin() )
+				echo '<br><em>' . __('These settings are only visible to you as Super Admin and allow overriding the network settings on this site only.','jetpack-mc') . '</em>';
+
+		echo '</p>';
 
 	} // END add_setting_section()
  
