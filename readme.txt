@@ -67,8 +67,8 @@ Please [contact me](http://status301.net/contact-en/) to submit your translation
 
 == Upgrade Notice ==
 
-= 1.3 =
-Module names translated. Fix opions saving bug and translation path.
+= 1.3.1 =
+Module names translated. Fix opions saving bug and translation path. Removed Favicon module blacklisting.
 
 == Changelog ==
 
