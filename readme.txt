@@ -3,7 +3,7 @@ Contributors: RavanH
 Tags: Jetpack, jet pack, jetpack light, manual control, blacklist, blacklist jepack modules, slim jetpack
 Stable tag: 1.3
 Requires at least: 4.0
-Tested up to: 4.4
+Tested up to: 4.4-alpha
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -16,9 +16,9 @@ Your Jetpack, Controlled.
 = Features =
 
 1. Blacklist / remove individual Jetpack modules.
-2. Prevent module auto-activation on connection or after an upgrade.
-3. Allow activation of certain Jetpack modules without a WordPress.com connection.
-4. Single site and Multisite compatible
+1. Prevent module auto-activation on connection or after an upgrade.
+1. Allow activation of certain Jetpack modules without a WordPress.com connection.
+1. Single site and Multisite compatible
 
 = Examples =
 
@@ -67,15 +67,15 @@ Please [contact me](http://status301.net/contact-en/) to submit your translation
 
 == Upgrade Notice ==
 
-= 1.3.1 =
-Module names translated. Fix opions saving bug and translation path. Removed Favicon module blacklisting.
+= 1.4 =
+Allow per site settings by Super Admin.
 
 == Changelog ==
 
-= 1.3.1 =
-Date: 2015/09/28
+= 1.4 =
+Date: 2015/09/29
 
-* Removed Favicon module blacklisting
+* Allow per site settings by Super Admin
 
 = 1.3 =
 Date: 2015/09/02
