@@ -9,7 +9,7 @@
  * Text Domain: jetpack-mc
  * Domain Path: /languages/
  * License: GPL2+
- * Version: 1.3.1
+ * Version: 1.3
  */
 
 /*
@@ -162,6 +162,9 @@ class Jetpack_Module_Control {
 						'shortlinks' 			=> array( 'name' 		=> 'WP.me Shortlinks',
 												'requires_connection' 	=> true
 														),
+						'site-icon' 			=> array( 'name' 		=> 'Site Icon',
+												'requires_connection' 	=> false
+														),
 						'sso' 					=> array( 'name' 		=> 'Jetpack Single Sign On',
 												'requires_connection' 	=> true
 														),
@@ -224,6 +227,7 @@ class Jetpack_Module_Control {
 						'sharedaddy' 			=> 'share-alt',
 						'shortcodes' 			=> 'text',
 						'shortlinks' 			=> 'admin-links',
+						'site-icon' 			=> 'admin-site',
 						'sso' 					=> 'wordpress-alt',
 						'stats' 				=> 'wordpress-alt',
 						'subscriptions' 		=> 'email',
