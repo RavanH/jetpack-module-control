@@ -9,7 +9,7 @@
  * Text Domain: jetpack-mc
  * Domain Path: /languages/
  * License: GPL2+
- * Version: 1.4-alpha
+ * Version: 1.4-alpha-2
  */
 
 /*
@@ -305,17 +305,19 @@ class Jetpack_Module_Control {
 	public function manual_control_settings() {		
 
 		if ( is_network_admin() ) {
-			// in network admin retrieve network settings
-			$disabled = is_plugin_active_for_network('manual-control/manual-control.php') ? true : false;
+			// we're in network admin: retrieve network settings
+			$disabled = is_plugin_active_for_network('manual-control/manual-control.php');
 			$option = $disabled ? '1' : get_site_option('jetpack_mc_manual_control');	
 		} else {
-			// in site admin retrieve site settings, fall back on network settings
-			$forced = is_plugin_active('manual-control/manual-control.php') ? true : false;
-			if ( $forced )
+			// we're in site admin
+			if ( is_plugin_active('manual-control/manual-control.php') ) {
 				$option = '1';
-			else
+				$disabled = true;
+			} else {
+				// retrieve site settings, fall back on network settings
 				$option = get_option('jetpack_mc_manual_control') ? : get_site_option('jetpack_mc_manual_control');	
-			$disabled = $forced || ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) ? true : false;
+				$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
+			}
 		}
 
 		?>
@@ -341,7 +343,7 @@ class Jetpack_Module_Control {
 	 
 	public function manual_control( $modules ) {
 		
-		return get_option('jetpack_mc_manual_control', false) || get_site_option('jetpack_mc_manual_control', false) ? array() : $modules;
+		return get_option('jetpack_mc_manual_control') || get_site_option('jetpack_mc_manual_control') ? array() : $modules;
 
 	} // END manual_control()
 
@@ -362,17 +364,25 @@ class Jetpack_Module_Control {
 	public function development_mode_settings() {		
 		
 		if ( is_network_admin() ) {
-			// in network admin retrieve network settings
-			$disabled = is_plugin_active_for_network('slimjetpack/slimjetpack.php') || is_plugin_active_for_network('unplug-jetpack/unplug-jetpack.php') ? true : false;
-			$option = $disabled ? '1' : get_site_option('jetpack_mc_development_mode');	
-		} else {
-			// in site admin retrieve site settings, fall back on network settings
-			$forced = is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php') ? true : false;
-			if ( $forced )
+			// we're in network admin
+			if ( is_plugin_active_for_network('slimjetpack/slimjetpack.php') || is_plugin_active_for_network('unplug-jetpack/unplug-jetpack.php') ) {
 				$option = '1';
-			else
+				$disabled = true;
+			} else {
+				// retrieve network settings
+				$option = get_site_option('jetpack_mc_development_mode');	
+				$disabled = false;
+			}
+		} else {
+			// we're in site admin 
+			if ( is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php') ) {
+				$option = '1';
+				$disabled = true;
+			} else {
+				//retrieve site settings, fall back on network settings
 				$option = get_option('jetpack_mc_development_mode') ? : get_site_option('jetpack_mc_development_mode');	
-			$disabled = $forced || ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) ? true : false;
+				$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
+			}
 		}
 
 		?>
@@ -397,7 +407,7 @@ class Jetpack_Module_Control {
 	 
 	public function development_mode() {
 		
-		return get_option('jetpack_mc_development_mode', false) || get_site_option('jetpack_mc_development_mode', false) ? true : false;
+		return get_option('jetpack_mc_development_mode') || get_site_option('jetpack_mc_development_mode') ? true : false;
 
 	} // END development_mode()
 
@@ -453,19 +463,19 @@ class Jetpack_Module_Control {
 		if ( is_network_admin() ) {
 			// in network admin retrieve network settings
 			$blacklist = get_site_option( 'jetpack_mc_blacklist', array() );
-			$dev_mode = get_site_option( 'jetpack_mc_development_mode' );
+			//$dev_mode = get_site_option( 'jetpack_mc_development_mode' );
+			$disabled = false;
 		} else {
 			// in site admin retrieve site settings, fall back on network settings
 			$blacklist = get_option( 'jetpack_mc_blacklist', array() ) ? : get_site_option( 'jetpack_mc_blacklist', array() );
-			$dev_mode = get_option( 'jetpack_mc_development_mode' ) ? : get_site_option( 'jetpack_mc_development_mode' );
+			//$dev_mode = get_option( 'jetpack_mc_development_mode' ) ? : get_site_option( 'jetpack_mc_development_mode' );
+			$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
 		}
 		
 		$modules = $this->get_available_modules();
 		asort($modules);
 
 		$icons = self::$known_modules_icons;
-
-		$lockdown = !is_multisite() && defined('JETPACK_MC_LOCKDOWN') ? JETPACK_MC_LOCKDOWN : false;
 
 		?>
 		<fieldset><legend class="screen-reader-text"><span><?php _e('Blacklist Modules','jetpack-mc'); ?></span></legend>
@@ -476,7 +486,7 @@ class Jetpack_Module_Control {
 			<label>
 				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo $slug; ?>' 
 				<?php checked( in_array($slug,(array)$blacklist), true ); ?> 
-				<?php disabled( $lockdown ); ?>> 
+				<?php disabled( $disabled ); ?>> 
 				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php _ex( $module['name'], 'Module Name', 'jetpack' ) ?>
 			</label><?php echo !empty($module['requires_connection']) && true === $module['requires_connection'] ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a WordPress.com connection','jetpack-mc') . '">*</a>' : ''; ?><br>
 			<?php
@@ -528,46 +538,42 @@ class Jetpack_Module_Control {
 
 		$this->no_dev_notice();
 
-		//if ( is_plugin_active_for_network( $this->plugin_basename() ) ) {
-		if ( is_super_admin() ) { // true for admin in a single site and super admin in a network
-
-			add_filter( 'network_admin_plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link') );
-
+		if ( is_plugin_active_for_network( $this->plugin_basename() ) ) {
+			// Check for network activation, else these will also take effect when 
+			// plugin is activated on the primary site alone.
+			// TODO : see if you can actually use this scenario where plugin is activatied on site 1 and
+			// network options can be set to serve as default settings for other site activations !
+			
 			// Add settings to Network Settings
 			// thanks to http://zao.is/2013/07/adding-settings-to-network-settings-for-wordpress-multisite/
-			//if ( is_network_admin() ) {
-				add_filter( 'wpmu_options', array( $this, 'show_network_settings' ) );
-				if ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) {
-					// do not add action to prevent saving network settings
-				} else {
-					add_action( 'update_wpmu_options', array( $this, 'save_network_settings' ) );
-				}
-				//defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? : add_action( 'update_wpmu_options', array( $this, 'save_network_settings' ) );
-			//}
-
-		//} else {
-			add_filter( 'plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link') );
-
-			// Do regular register/add_settings stuff in 'general' settings on options-general.php 
-			$settings = 'general';
-
-			add_settings_section('jetpack-mc', '<a name="jetpack-mc"></a>' . __('Jetpack Module Control','jetpack-mc'), array($this, 'add_settings_section'), $settings);
-
-			// register settings
-			if ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) {
-				// do not register site settings to prevent them being updated
-			} else {
-				register_setting( $settings, 'jetpack_mc_manual_control' ); // sanitize_callback 'boolval' ?
-				register_setting( $settings, 'jetpack_mc_development_mode' ); // sanitize_callback 'boolval' ?
-				register_setting( $settings, 'jetpack_mc_blacklist', 'array_values' );
-			}
+			add_filter( 'wpmu_options', array( $this, 'show_network_settings' ) );
+			add_action( 'update_wpmu_options', array( $this, 'save_network_settings' ) );
 			
-			// add settings fields
-			add_settings_field( 'jetpack_mc_manual_control', __('Manual Control','jetpack-mc'), array($this, 'manual_control_settings'), $settings, 'jetpack-mc' ); // array('label_for' => 'elementid')
-			add_settings_field( 'jetpack_mc_development_mode', __('Development Mode','jetpack-mc'), array($this, 'development_mode_settings'), $settings, 'jetpack-mc' ); // array('label_for' => 'elementid')
-			add_settings_field( 'jetpack_mc_blacklist', __('Blacklist Modules','jetpack-mc'), array($this, 'blacklist_settings'), $settings, 'jetpack-mc' );
-
+			// Plugin action links
+			add_filter( 'network_admin_plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link') );
 		}
+
+		// Plugin action links
+		add_filter( 'plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link') );
+
+		// Do regular register/add_settings stuff in 'general' settings on options-general.php 
+		$settings = 'general';
+
+		add_settings_section('jetpack-mc', '<a name="jetpack-mc"></a>' . __('Jetpack Module Control','jetpack-mc'), array($this, 'add_settings_section'), $settings);
+
+		// register settings
+		if ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) {
+			// do not register site settings to prevent them being updated
+		} else {
+			register_setting( $settings, 'jetpack_mc_manual_control' ); // sanitize_callback 'boolval' ?
+			register_setting( $settings, 'jetpack_mc_development_mode' ); // sanitize_callback 'boolval' ?
+			register_setting( $settings, 'jetpack_mc_blacklist', 'array_values' );
+		}
+			
+		// add settings fields
+		add_settings_field( 'jetpack_mc_manual_control', __('Manual Control','jetpack-mc'), array($this, 'manual_control_settings'), $settings, 'jetpack-mc' ); // array('label_for' => 'elementid')
+		add_settings_field( 'jetpack_mc_development_mode', __('Development Mode','jetpack-mc'), array($this, 'development_mode_settings'), $settings, 'jetpack-mc' ); // array('label_for' => 'elementid')
+		add_settings_field( 'jetpack_mc_blacklist', __('Blacklist Modules','jetpack-mc'), array($this, 'blacklist_settings'), $settings, 'jetpack-mc' );
 
 	}
 
