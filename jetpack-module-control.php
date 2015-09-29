@@ -9,7 +9,7 @@
  * Text Domain: jetpack-mc
  * Domain Path: /languages/
  * License: GPL2+
- * Version: 1.4-alpha-2
+ * Version: 1.4-alpha-4
  */
 
 /*
@@ -254,9 +254,11 @@ class Jetpack_Module_Control {
 	 */	
 	 
 	private function get_available_modules() {
+		// TODO : consider removing connection dependent modules when 'jetpack_mc_development_mode' is ON
+
 		if ( null === self::$modules ) {
 			if ( class_exists('Jetpack') ) {
-				//remove_filter( 'jetpack_get_available_modules', array($this, 'blacklist') ); // remove filter useless here because of bug in Jetpack
+				remove_filter( 'jetpack_get_available_modules', array($this, 'blacklist') );
 				$modules = array();
 				foreach ( Jetpack::get_available_modules() as $slug ) {
 					$module = Jetpack::get_module( $slug );
@@ -264,7 +266,7 @@ class Jetpack_Module_Control {
 						$modules[$slug] = $module;
 				}
 				self::$modules = $modules;
-				//add_filter( 'jetpack_get_available_modules', array($this, 'blacklist') ); 
+				add_filter( 'jetpack_get_available_modules', array($this, 'blacklist') ); 
 			} else {
 				self::$modules = self::$known_modules;
 			}
@@ -314,8 +316,10 @@ class Jetpack_Module_Control {
 				$option = '1';
 				$disabled = true;
 			} else {
-				// retrieve site settings, fall back on network settings
-				$option = get_option('jetpack_mc_manual_control') ? : get_site_option('jetpack_mc_manual_control');	
+				// retrieve site setting
+				$option = get_option('jetpack_mc_manual_control');
+				// fall back on network settings
+				if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_manual_control');	
 				$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
 			}
 		}
@@ -343,7 +347,11 @@ class Jetpack_Module_Control {
 	 
 	public function manual_control( $modules ) {
 		
-		return get_option('jetpack_mc_manual_control') || get_site_option('jetpack_mc_manual_control') ? array() : $modules;
+		$option = get_option('jetpack_mc_manual_control');	
+		// if false, fall back on network settings
+		if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_manual_control');	
+
+		return !empty($option) ? true : false;
 
 	} // END manual_control()
 
@@ -379,8 +387,10 @@ class Jetpack_Module_Control {
 				$option = '1';
 				$disabled = true;
 			} else {
-				//retrieve site settings, fall back on network settings
-				$option = get_option('jetpack_mc_development_mode') ? : get_site_option('jetpack_mc_development_mode');	
+				//retrieve site setting
+				$option = get_option('jetpack_mc_development_mode');	
+				// fall back on network settings
+				if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_development_mode');	
 				$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
 			}
 		}
@@ -407,7 +417,11 @@ class Jetpack_Module_Control {
 	 
 	public function development_mode() {
 		
-		return get_option('jetpack_mc_development_mode') || get_site_option('jetpack_mc_development_mode') ? true : false;
+		$option = get_option('jetpack_mc_development_mode');	
+		// if false, fall back on network settings
+		if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_development_mode');	
+
+		return !empty($option) ? true : false;
 
 	} // END development_mode()
 
@@ -424,9 +438,12 @@ class Jetpack_Module_Control {
 	 
 	private function no_manage_notice() {
 		
-		$blacklist = get_option('jetpack_mc_blacklist', array() ) ? : get_site_option('jetpack_mc_blacklist', array() );
+		$blacklist = get_option('jetpack_mc_blacklist');
+		
+		// fall back on network setting
+		if ( $blacklist === false && is_multisite() ) $blacklist = get_site_option('jetpack_mc_blacklist');
 
-		if ( in_array( 'manage', (array)$blacklist ) )
+		if ( is_array( $blacklist ) && in_array( 'manage', $blacklist ) )
 			add_filter( 'can_display_jetpack_manage_notice', '__return_false' );
 
 	} // END no_manage_notice()
@@ -439,7 +456,7 @@ class Jetpack_Module_Control {
 	 */
 	private function no_dev_notice() {
 
-		if ( class_exists('Jetpack') && ( get_option('jetpack_mc_development_mode', false) || get_site_option('jetpack_mc_development_mode', false) ) )
+		if ( class_exists('Jetpack') && ( get_option('jetpack_mc_development_mode') || get_site_option('jetpack_mc_development_mode') ) )
 			remove_action( 'jetpack_notices', array( Jetpack::init(), 'show_development_mode_notice' ) );
 
 	} // END no_dev_notice()
@@ -463,14 +480,17 @@ class Jetpack_Module_Control {
 		if ( is_network_admin() ) {
 			// in network admin retrieve network settings
 			$blacklist = get_site_option( 'jetpack_mc_blacklist', array() );
-			//$dev_mode = get_site_option( 'jetpack_mc_development_mode' );
 			$disabled = false;
 		} else {
-			// in site admin retrieve site settings, fall back on network settings
-			$blacklist = get_option( 'jetpack_mc_blacklist', array() ) ? : get_site_option( 'jetpack_mc_blacklist', array() );
-			//$dev_mode = get_option( 'jetpack_mc_development_mode' ) ? : get_site_option( 'jetpack_mc_development_mode' );
+			// in site admin retrieve site settings
+			$blacklist = get_option( 'jetpack_mc_blacklist' );
+			// fall back on network setting
+			if ( $blacklist === false && is_multisite() ) $blacklist = get_site_option('jetpack_mc_blacklist');
 			$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
 		}
+		
+		// blacklist must be an array, if anything else then just make it an empty array
+		if ( !is_array($blacklist) ) $blacklist = array();
 		
 		$modules = $this->get_available_modules();
 		asort($modules);
@@ -485,7 +505,7 @@ class Jetpack_Module_Control {
 			?>
 			<label>
 				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo $slug; ?>' 
-				<?php checked( in_array($slug,(array)$blacklist), true ); ?> 
+				<?php checked( in_array( $slug, $blacklist ), true ); ?> 
 				<?php disabled( $disabled ); ?>> 
 				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php _ex( $module['name'], 'Module Name', 'jetpack' ) ?>
 			</label><?php echo !empty($module['requires_connection']) && true === $module['requires_connection'] ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a WordPress.com connection','jetpack-mc') . '">*</a>' : ''; ?><br>
@@ -510,13 +530,14 @@ class Jetpack_Module_Control {
 	 
 	public function blacklist ( $modules ) {
 		
-		$blacklist = get_option('jetpack_mc_blacklist') ? : get_site_option('jetpack_mc_blacklist');	
+		$blacklist = get_option('jetpack_mc_blacklist');	
+		
+		// fall back on network setting
+		if ( $blacklist === false && is_multisite() ) $blacklist = get_site_option('jetpack_mc_blacklist');
 
-		foreach ( (array)$blacklist as $mod ) {
-			if ( isset( $modules[$mod] ) ) {
+		foreach ( (array)$blacklist as $mod )
+			if ( isset( $modules[$mod] ) )
 				unset( $modules[$mod] );
-			}
-		}
 
 		return $modules;
 
@@ -698,7 +719,7 @@ class Jetpack_Module_Control {
 	 * We need to add our jetpack_get_available_modules filter 
 	 * AFTER running get_available_modules() because of bug in Jetpack
 	 * https://github.com/Automattic/jetpack/issues/2026
-	 * https://github.com/Automattic/jetpack/pull/2027
+	 * https://github.com/Automattic/jetpack/pull/2027 >> request accepted and fixed
 	 *
 	 * @since 0.1
 	 */
@@ -710,8 +731,8 @@ class Jetpack_Module_Control {
 			load_plugin_textdomain( 'jetpack-mc', false, dirname( $this->plugin_basename() ) . '/languages/' );
 
 			// populate jetpack modules list before filter is added 
-			if ( in_array( $pagenow, array( 'options-general.php', 'settings.php' ) ) )
-				$this->get_available_modules();
+/*			if ( in_array( $pagenow, array( 'options-general.php', 'settings.php' ) ) )
+				$this->get_available_modules();*/
 		}
 
 		add_filter( 'jetpack_get_default_modules', array( $this, 'manual_control' ), 99 );
