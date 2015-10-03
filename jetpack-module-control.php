@@ -9,7 +9,7 @@
  * Text Domain: jetpack-mc
  * Domain Path: /languages/
  * License: GPL2+
- * Version: 1.4-alpha-4
+ * Version: 1.4-alpha-6
  */
 
 /*
@@ -351,7 +351,7 @@ class Jetpack_Module_Control {
 		// if false, fall back on network settings
 		if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_manual_control');	
 
-		return !empty($option) ? true : false;
+		return !empty($option) ? array() : $modules;
 
 	} // END manual_control()
 
@@ -678,7 +678,7 @@ class Jetpack_Module_Control {
 				. $this->version
 				. '&no_shipping=0&tax=0&charset=UTF%2d8&currency_code=EUR" title="'
 				. __('Donate to keep plugin development going!','jetpack-mc')
-				. '"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" style="border:none;float:right;margin:5px 0 0 10px" alt="'
+				. '" target="_blank"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" style="border:none;float:right;margin:5px 0 0 10px" alt="'
 				. __('Donate to keep plugin development going!','jetpack-mc') . '" width="92" height="26" /></a>'
 				. sprintf(__('The options in this section are provided by %s.','jetpack-mc'),'<strong><a href="http://status301.net/wordpress-plugins/jetpack-module-control/">'
 				. __('Jetpack Module Control','jetpack-mc') . ' ' . $this->version . '</a></strong>') . ' '
