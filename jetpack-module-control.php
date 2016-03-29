@@ -9,7 +9,7 @@
  * Text Domain: jetpack-mc
  * Domain Path: /languages/
  * License: GPL2+
- * Version: 1.4-alpha-7
+ * Version: 1.4
  */
 
 /*
