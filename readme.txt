@@ -3,7 +3,7 @@ Contributors: RavanH
 Tags: Jetpack, jet pack, jetpack light, manual control, blacklist, blacklist jepack modules, slim jetpack
 Stable tag: 1.3
 Requires at least: 4.0
-Tested up to: 4.4-alpha
+Tested up to: 4.5-alpha
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -68,14 +68,15 @@ Please [contact me](http://status301.net/contact-en/) to submit your translation
 == Upgrade Notice ==
 
 = 1.4 =
-Allow per site settings by Super Admin.
+Allow per site settings by Super Admin. Jetpack 3.9+ compatibility.
 
 == Changelog ==
 
 = 1.4 =
-Date: 2015/09/29
+Date: 2016/03/29
 
 * Allow per site settings by Super Admin
+* Added Sitemaps to known modules
 
 = 1.3 =
 Date: 2015/09/02
