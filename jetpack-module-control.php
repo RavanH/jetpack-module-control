@@ -9,7 +9,7 @@
  * Text Domain: jetpack-mc
  * Domain Path: /languages/
  * License: GPL2+
- * Version: 1.3
+ * Version: 1.4-alpha-7
  */
 
 /*
@@ -67,7 +67,7 @@ class Jetpack_Module_Control {
 	 * @since 0.1
 	 * @var string 
 	 */
-	public $version = '1.2';
+	public $version = '1.4';
 	
 	/**
 	 * Available modules array
@@ -84,159 +84,129 @@ class Jetpack_Module_Control {
 	 * @var array 
 	 */
 	private static $known_modules = array(
-						'after-the-deadline' 	=> array( 'name' 		=> 'Spelling and Grammar',
-												'requires_connection' 	=> true
-														),
-						'carousel' 				=> array( 'name' 		=> 'Carousel',
-												'requires_connection' 	=> false
-														),
-						'comments' 				=> array( 'name' 		=> 'Jetpack Comments',
-												'requires_connection' 	=> true
-														),
-						'contact-form' 			=> array( 'name' 		=> 'Contact Form',
-												'requires_connection' 	=> false
-														),
-						'custom-content-types' 	=> array( 'name' 		=> 'Custom Content Types',
-												'requires_connection' 	=> false
-														),
-						'custom-css' 			=> array( 'name' 		=> 'Custom CSS',
-												'requires_connection' 	=> false
-														),
-						'enhanced-distribution'	=> array( 'name' 		=> 'Enhanced Distribution',
-												'requires_connection'	 => true
-														),
-						'gravatar-hovercards' 	=> array( 'name' 		=> 'Gravatar Hovercards',
-												'requires_connection' 	=> false
-														),
-						'infinite-scroll' 		=> array( 'name' 		=> 'Infinite Scroll',
-												'requires_connection' 	=> false
-														),
-						'json-api' 				=> array( 'name' 		=> 'JSON API',
-												'requires_connection' 	=> true
-														),
-						'latex' 				=> array( 'name' 		=> 'Beautiful Math',
-												'requires_connection' 	=> false
-														),
-						'likes' 				=> array( 'name' 		=> 'Likes',
-												'requires_connection' 	=> true
-														),
-						'manage' 				=> array( 'name' 		=> 'Manage',
-												'requires_connection' 	=> true
-														),
-						'markdown' 				=> array( 'name' 		=> 'Markdown',
-												'requires_connection' 	=> false
-														),
-						'minileven' 			=> array( 'name' 		=> 'Mobile Theme',
-												'requires_connection' 	=> false
-														),
-						'monitor' 				=> array( 'name' 		=> 'Monitor',
-												'requires_connection' 	=> true
-														),
-						'notes' 				=> array( 'name' 		=> 'Notifications',
-												'requires_connection' 	=> true
-														),
-						'omnisearch' 			=> array( 'name' 		=> 'Omnisearch',
-												'requires_connection' 	=> false
-														),
-						'photon' 				=> array( 'name' 		=> 'Photon',
-												'requires_connection' 	=> true
-														),
-						'post-by-email' 		=> array( 'name' 		=> 'Post by Email',
-												'requires_connection' 	=> true
-														),
-						'protect' 				=> array( 'name' 		=> 'Protect',
-												'requires_connection' 	=> true
-														),
-						'publicize' 			=> array( 'name' 		=> 'Publicize',
-												'requires_connection' 	=> true
-														),
-						'related-posts' 		=> array( 'name' 		=> 'Related Posts',
-												'requires_connection' 	=> true
-														),
-						'sharedaddy' 			=> array( 'name' 		=> 'Sharing',
-												'requires_connection' 	=> false
-														),
-						'shortcodes' 			=> array( 'name' 		=> 'Shortcode Embeds',
-												'requires_connection' 	=> false
-														),
-						'shortlinks' 			=> array( 'name' 		=> 'WP.me Shortlinks',
-												'requires_connection' 	=> true
-														),
-						'site-icon' 			=> array( 'name' 		=> 'Site Icon',
-												'requires_connection' 	=> false
-														),
-						'sso' 					=> array( 'name' 		=> 'Jetpack Single Sign On',
-												'requires_connection' 	=> true
-														),
-						'stats' 				=> array( 'name' 		=> 'WordPress.com Stats',
-												'requires_connection' 	=> true
-														),
-						'subscriptions' 		=> array( 'name' 		=> 'Subscriptions',
-												'requires_connection' 	=> true
-														),
-						'tiled-gallery' 		=> array( 'name' 		=> 'Tiled Galleries',
-												'requires_connection' 	=> false
-														),
-						'vaultpress' 			=> array( 'name' 		=> 'VaultPress',
-												'requires_connection' 	=> false
-														),
-						'verification-tools' 	=> array( 'name' 		=> 'Site Verification',
-												'requires_connection' 	=> false
-														),
-						'videopress' 			=> array( 'name' 		=> 'VideoPress',
-												'requires_connection' 	=> true
-														),
-						'widget-visibility' 	=> array( 'name' 		=> 'Widget Visibility',
-												'requires_connection' 	=> false
-														),
-						'widgets' 				=> array( 'name' 		=> 'Extra Sidebar Widgets',
-												'requires_connection' 	=> false
-														)
+					'after-the-deadline' 	=> array( 'name' 	=> 'Spelling and Grammar',
+								'requires_connection' 	=> true ),
+					'carousel' 		=> array( 'name' 	=> 'Carousel',
+								'requires_connection' 	=> false ),
+					'comments' 		=> array( 'name' 	=> 'Jetpack Comments',
+								'requires_connection' 	=> true ),
+					'contact-form' 		=> array( 'name' 	=> 'Contact Form',
+								'requires_connection' 	=> false ),
+					'custom-content-types' 	=> array( 'name' 	=> 'Custom Content Types',
+								'requires_connection' 	=> false ),
+					'custom-css' 		=> array( 'name' 	=> 'Custom CSS',
+								'requires_connection' 	=> false ),
+					'enhanced-distribution'	=> array( 'name' 	=> 'Enhanced Distribution',
+								'requires_connection'	 => true ),
+					'gravatar-hovercards' 	=> array( 'name' 	=> 'Gravatar Hovercards',
+								'requires_connection' 	=> false ),
+					'infinite-scroll' 	=> array( 'name' 	=> 'Infinite Scroll',
+								'requires_connection' 	=> false ),
+					'json-api' 		=> array( 'name' 	=> 'JSON API',
+								'requires_connection' 	=> true ),
+					'latex' 		=> array( 'name' 	=> 'Beautiful Math',
+								'requires_connection' 	=> false ),
+					'likes' 		=> array( 'name' 	=> 'Likes',
+								'requires_connection' 	=> true ),
+					'manage' 		=> array( 'name' 	=> 'Manage',
+								'requires_connection' 	=> true ),
+					'markdown' 		=> array( 'name' 	=> 'Markdown',
+								'requires_connection' 	=> false ),
+					'minileven' 		=> array( 'name' 	=> 'Mobile Theme',
+								'requires_connection' 	=> false ),
+					'monitor' 		=> array( 'name' 	=> 'Monitor',
+								'requires_connection' 	=> true ),
+					'notes' 		=> array( 'name' 	=> 'Notifications',
+								'requires_connection' 	=> true ),
+					'omnisearch' 		=> array( 'name' 	=> 'Omnisearch',
+								'requires_connection' 	=> false ),
+					'photon' 		=> array( 'name' 	=> 'Photon',
+								'requires_connection' 	=> true ),
+					'post-by-email' 	=> array( 'name' 	=> 'Post by Email',
+								'requires_connection' 	=> true ),
+					'protect' 		=> array( 'name' 	=> 'Protect',
+								'requires_connection' 	=> true ),
+					'publicize' 		=> array( 'name' 	=> 'Publicize',
+								'requires_connection' 	=> true ),
+					'related-posts' 	=> array( 'name' 	=> 'Related Posts',
+								'requires_connection' 	=> true ),
+					'sharedaddy' 		=> array( 'name' 	=> 'Sharing',
+								'requires_connection' 	=> false ),
+					'shortcodes' 		=> array( 'name' 	=> 'Shortcode Embeds',
+								'requires_connection' 	=> false ),
+					'shortlinks' 		=> array( 'name' 	=> 'WP.me Shortlinks',
+								'requires_connection' 	=> true ),
+					'site-icon' 		=> array( 'name' 	=> 'Site Icon',
+								'requires_connection' 	=> false ),
+					'sitemaps' 		=> array( 'name' 	=> 'Sitemaps',
+								'requires_connection' 	=> false ),
+					'sso' 			=> array( 'name' 	=> 'Jetpack Single Sign On',
+								'requires_connection' 	=> true ),
+					'stats' 		=> array( 'name' 	=> 'WordPress.com Stats',
+								'requires_connection' 	=> true ),
+					'subscriptions' 	=> array( 'name' 	=> 'Subscriptions',
+								'requires_connection' 	=> true ),
+					'tiled-gallery' 	=> array( 'name' 	=> 'Tiled Galleries',
+								'requires_connection' 	=> false ),
+					'vaultpress' 		=> array( 'name' 	=> 'VaultPress',
+								'requires_connection' 	=> false ),
+					'verification-tools' 	=> array( 'name' 	=> 'Site Verification',
+								'requires_connection' 	=> false ),
+					'videopress' 		=> array( 'name' 	=> 'VideoPress',
+								'requires_connection' 	=> true ),
+					'widget-visibility' 	=> array( 'name' 	=> 'Widget Visibility',
+								'requires_connection' 	=> false ),
+					'widgets' 		=> array( 'name' 	=> 'Extra Sidebar Widgets',
+								'requires_connection' 	=> false )
 					);
 
 	/**
 	 * Know modules array with dashicons
+	 * https://developer.wordpress.org/resource/dashicons/
+	 * TODO switch to http://genericons.com/
+	 * 
 	 * @since 0.3
 	 * @access  private
 	 * @var array 
 	 */
 	private static $known_modules_icons = array(
 						'after-the-deadline' 	=> 'edit',
-						'carousel' 				=> 'camera',
-						'comments' 				=> 'format-chat',
-						'contact-form' 			=> 'feedback',
+						'carousel' 		=> 'camera',
+						'comments' 		=> 'format-chat',
+						'contact-form' 		=> 'feedback',
 						'custom-content-types' 	=> 'media-default',
-						'custom-css' 			=> 'admin-appearance',
+						'custom-css' 		=> 'admin-appearance',
 						'enhanced-distribution'	=> 'share',
 						'gravatar-hovercards' 	=> 'id', // not available
-						'infinite-scroll' 		=> 'star-filled',
-						'json-api' 				=> 'share-alt',
-						'latex' 				=> 'star-filled',
-						'likes' 				=> 'star-filled',
-						'manage' 				=> 'wordpress-alt',
-						'markdown' 				=> 'editor-code',
-						'minileven' 			=> 'smartphone',
-						'monitor' 				=> 'flag',
-						'notes' 				=> 'admin-comments',
-						'omnisearch' 			=> 'search',
-						'photon' 				=> 'visibility',
-						'post-by-email' 		=> 'email',
-						'protect' 				=> 'lock',
-						'publicize' 			=> 'share',
-						'related-posts' 		=> 'update',
-						'sharedaddy' 			=> 'share-alt',
-						'shortcodes' 			=> 'text',
-						'shortlinks' 			=> 'admin-links',
-						'site-icon' 			=> 'admin-site',
-						'sso' 					=> 'wordpress-alt',
-						'stats' 				=> 'wordpress-alt',
-						'subscriptions' 		=> 'email',
-						'tiled-gallery' 		=> 'schedule', // not available. maybe tagcloud ?
-						'vaultpress' 			=> 'shield-alt', // not availabe
+						'infinite-scroll' 	=> 'star-filled',
+						'json-api' 		=> 'share-alt',
+						'latex' 		=> 'star-filled',
+						'likes' 		=> 'star-filled',
+						'manage' 		=> 'wordpress-alt',
+						'markdown' 		=> 'editor-code',
+						'minileven' 		=> 'smartphone',
+						'monitor' 		=> 'flag',
+						'notes' 		=> 'admin-comments',
+						'omnisearch' 		=> 'search',
+						'photon' 		=> 'visibility',
+						'post-by-email' 	=> 'email',
+						'protect' 		=> 'lock',
+						'publicize' 		=> 'share',
+						'related-posts' 	=> 'update',
+						'sharedaddy' 		=> 'share-alt',
+						'shortcodes' 		=> 'text',
+						'shortlinks' 		=> 'admin-links',
+						'site-icon' 		=> 'admin-site',
+						'sitemaps' 		=> 'networking',
+						'sso' 			=> 'wordpress-alt',
+						'stats' 		=> 'wordpress-alt',
+						'subscriptions' 	=> 'email',
+						'tiled-gallery' 	=> 'layout',
+						'vaultpress' 		=> 'shield-alt', // not availabe
 						'verification-tools' 	=> 'clipboard', // maybe yes
-						'videopress' 			=> 'controls-play',
+						'videopress' 		=> 'controls-play',
 						'widget-visibility' 	=> 'welcome-widgets-menus',
-						'widgets' 				=> 'welcome-widgets-menus'
+						'widgets' 		=> 'welcome-widgets-menus'
 					);
 
 	/**
@@ -254,9 +224,11 @@ class Jetpack_Module_Control {
 	 */	
 	 
 	private function get_available_modules() {
+		// TODO : consider removing connection dependent modules when 'jetpack_mc_development_mode' is ON
+
 		if ( null === self::$modules ) {
 			if ( class_exists('Jetpack') ) {
-				//remove_filter( 'jetpack_get_available_modules', array($this, 'blacklist') ); // remove filter useless here because of bug in Jetpack
+				remove_filter( 'jetpack_get_available_modules', array($this, 'blacklist') );
 				$modules = array();
 				foreach ( Jetpack::get_available_modules() as $slug ) {
 					$module = Jetpack::get_module( $slug );
@@ -264,7 +236,7 @@ class Jetpack_Module_Control {
 						$modules[$slug] = $module;
 				}
 				self::$modules = $modules;
-				//add_filter( 'jetpack_get_available_modules', array($this, 'blacklist') ); 
+				add_filter( 'jetpack_get_available_modules', array($this, 'blacklist') ); 
 			} else {
 				self::$modules = self::$known_modules;
 			}
@@ -304,18 +276,32 @@ class Jetpack_Module_Control {
 	 
 	public function manual_control_settings() {		
 
-		$cws_manual_control = class_exists('CWS_Manual_Control_for_Jetpack_Plugin') ? true : false;
-		$option = $cws_manual_control ? '1' : get_site_option('jetpack_mc_manual_control');	
-		$disabled = $cws_manual_control || ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) ? true : false;
+		if ( is_network_admin() ) {
+			// we're in network admin: retrieve network settings
+			$disabled = is_plugin_active_for_network('manual-control/manual-control.php');
+			$option = $disabled ? '1' : get_site_option('jetpack_mc_manual_control');	
+		} else {
+			// we're in site admin
+			if ( is_plugin_active('manual-control/manual-control.php') ) {
+				$option = '1';
+				$disabled = true;
+			} else {
+				// retrieve site setting
+				$option = get_option('jetpack_mc_manual_control');
+				// fall back on network settings
+				if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_manual_control');	
+				$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
+			}
+		}
 
 		?>
 		<label>
 			<input type='checkbox' name='jetpack_mc_manual_control' value='1' 
 			<?php checked( $option, '1' ); ?> 
 			<?php disabled( $disabled ); ?>> 
-			<?php _e('Prevent the Jetpack plugin from auto-activating (new) modules.','jetpack-mc'); ?>
+			<?php _e('Prevent Jetpack from auto-activating (new) modules','jetpack-mc'); ?>
 		</label>
-		<p class="description"><?php echo sprintf( __('Note: The module %s will always be auto-activated.','jetpack-mc'), _x('Protect','Module Name','jetpack') ); ?></p>
+		<p class="description"><?php echo sprintf( __('Note: The module %s is excepted from this rule.','jetpack-mc'), _x('Protect','Module Name','jetpack') ); ?></p>
 		<?php
 
 	} // END manual_control_settings()
@@ -331,7 +317,11 @@ class Jetpack_Module_Control {
 	 
 	public function manual_control( $modules ) {
 		
-		return get_site_option('jetpack_mc_manual_control', false) ? array() : $modules;
+		$option = get_option('jetpack_mc_manual_control');	
+		// if false, fall back on network settings
+		if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_manual_control');	
+
+		return !empty($option) ? array() : $modules;
 
 	} // END manual_control()
 
@@ -351,16 +341,36 @@ class Jetpack_Module_Control {
 	 
 	public function development_mode_settings() {		
 		
-		$forced = is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php') || ( defined('JETPACK_DEV_DEBUG') && JETPACK_DEV_DEBUG ) ? true : false;
-		$option = $forced ? '1' : get_site_option('jetpack_mc_development_mode');	
-		$disabled = $forced || ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) ? true : false;
+		if ( is_network_admin() ) {
+			// we're in network admin
+			if ( is_plugin_active_for_network('slimjetpack/slimjetpack.php') || is_plugin_active_for_network('unplug-jetpack/unplug-jetpack.php') ) {
+				$option = '1';
+				$disabled = true;
+			} else {
+				// retrieve network settings
+				$option = get_site_option('jetpack_mc_development_mode');	
+				$disabled = false;
+			}
+		} else {
+			// we're in site admin 
+			if ( is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php') ) {
+				$option = '1';
+				$disabled = true;
+			} else {
+				//retrieve site setting
+				$option = get_option('jetpack_mc_development_mode');	
+				// fall back on network settings
+				if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_development_mode');	
+				$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
+			}
+		}
 
 		?>
 		<label>
 			<input type='checkbox' name='jetpack_mc_development_mode' value='1' 
 			<?php checked( $option, '1' ); ?> 
 			<?php disabled( $disabled ); ?>> 
-			<?php _e('Allow activating Jetpack modules without a WordPress.com connection.','jetpack-mc'); ?>
+			<?php _e('Use Jetpack modules without a WordPress.com connection','jetpack-mc'); ?>
 		</label>
 		<p class="description"><?php _e('By forcing Jetpack into development mode, modules are used without a WordPress.com account. All modules that require a WordPress.com connection will be unavailable. These modules are marked with an asterisk (*) below. The admin message about Jetpack running in development mode will be hidden.','jetpack-mc'); ?></p>
 		<?php
@@ -377,7 +387,11 @@ class Jetpack_Module_Control {
 	 
 	public function development_mode() {
 		
-		return get_site_option('jetpack_mc_development_mode', false) ? true : false;
+		$option = get_option('jetpack_mc_development_mode');	
+		// if false, fall back on network settings
+		if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_development_mode');	
+
+		return !empty($option) ? true : false;
 
 	} // END development_mode()
 
@@ -394,22 +408,25 @@ class Jetpack_Module_Control {
 	 
 	private function no_manage_notice() {
 		
-		$blacklist = get_site_option('jetpack_mc_blacklist', array() );
+		$blacklist = get_option('jetpack_mc_blacklist');
+		
+		// fall back on network setting
+		if ( $blacklist === false && is_multisite() ) $blacklist = get_site_option('jetpack_mc_blacklist');
 
-		if ( in_array('manage', (array)$blacklist ) )
+		if ( is_array( $blacklist ) && in_array( 'manage', $blacklist ) )
 			add_filter( 'can_display_jetpack_manage_notice', '__return_false' );
 
 	} // END no_manage_notice()
 
 	/**
-	 * Disables Centralized Site Management banner by returning false on can_display_jetpack_manage_notice filter. 
+	 * Disables Centralized Site Management banner by removing show_development_mode_notice from jetpack_notices actions. 
 	 * 
 	 * @since 0.1
 	 * @see add_filter()
 	 */
 	private function no_dev_notice() {
 
-		if ( get_site_option('jetpack_mc_development_mode', false) && class_exists('Jetpack') )
+		if ( class_exists('Jetpack') && ( get_option('jetpack_mc_development_mode') || get_site_option('jetpack_mc_development_mode') ) )
 			remove_action( 'jetpack_notices', array( Jetpack::init(), 'show_development_mode_notice' ) );
 
 	} // END no_dev_notice()
@@ -430,16 +447,25 @@ class Jetpack_Module_Control {
 	 
 	public function blacklist_settings() {	
 		
-		$blacklist = get_site_option( 'jetpack_mc_blacklist', array() );
+		if ( is_network_admin() ) {
+			// in network admin retrieve network settings
+			$blacklist = get_site_option( 'jetpack_mc_blacklist', array() );
+			$disabled = false;
+		} else {
+			// in site admin retrieve site settings
+			$blacklist = get_option( 'jetpack_mc_blacklist' );
+			// fall back on network setting
+			if ( $blacklist === false && is_multisite() ) $blacklist = get_site_option('jetpack_mc_blacklist');
+			$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
+		}
 		
-		$dev_mode = get_site_option( 'jetpack_mc_development_mode' );
+		// blacklist must be an array, if anything else then just make it an empty array
+		if ( !is_array($blacklist) ) $blacklist = array();
 		
 		$modules = $this->get_available_modules();
 		asort($modules);
 
 		$icons = self::$known_modules_icons;
-
-		$lockdown = defined('JETPACK_MC_LOCKDOWN') ? JETPACK_MC_LOCKDOWN : false;
 
 		?>
 		<fieldset><legend class="screen-reader-text"><span><?php _e('Blacklist Modules','jetpack-mc'); ?></span></legend>
@@ -449,8 +475,8 @@ class Jetpack_Module_Control {
 			?>
 			<label>
 				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo $slug; ?>' 
-				<?php checked( in_array($slug,(array)$blacklist), true ); ?> 
-				<?php disabled( $lockdown ); ?>> 
+				<?php checked( in_array( $slug, $blacklist ), true ); ?> 
+				<?php disabled( $disabled ); ?>> 
 				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php _ex( $module['name'], 'Module Name', 'jetpack' ) ?>
 			</label><?php echo !empty($module['requires_connection']) && true === $module['requires_connection'] ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a WordPress.com connection','jetpack-mc') . '">*</a>' : ''; ?><br>
 			<?php
@@ -474,13 +500,14 @@ class Jetpack_Module_Control {
 	 
 	public function blacklist ( $modules ) {
 		
-		$blacklist = get_site_option('jetpack_mc_blacklist');	
+		$blacklist = get_option('jetpack_mc_blacklist');	
+		
+		// fall back on network setting
+		if ( $blacklist === false && is_multisite() ) $blacklist = get_site_option('jetpack_mc_blacklist');
 
-		foreach ( (array)$blacklist as $mod ) {
-			if ( isset( $modules[$mod] ) ) {
+		foreach ( (array)$blacklist as $mod )
+			if ( isset( $modules[$mod] ) )
 				unset( $modules[$mod] );
-			}
-		}
 
 		return $modules;
 
@@ -503,44 +530,41 @@ class Jetpack_Module_Control {
 		$this->no_dev_notice();
 
 		if ( is_plugin_active_for_network( $this->plugin_basename() ) ) {
-
-			add_filter( 'network_admin_plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link') );
-
+			// Check for network activation, else these will also take effect when 
+			// plugin is activated on the primary site alone.
+			// TODO : see if you can actually use this scenario where plugin is activatied on site 1 and
+			// network options can be set to serve as default settings for other site activations !
+			
 			// Add settings to Network Settings
 			// thanks to http://zao.is/2013/07/adding-settings-to-network-settings-for-wordpress-multisite/
-			if ( is_network_admin() ) {
-				add_filter( 'wpmu_options', array( $this, 'show_network_settings' ) );
-				if ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) {
-					// do not add action to save network settings
-				} else {
-					add_action( 'update_wpmu_options', array( $this, 'save_network_settings' ) );
-				}
-			}
-
-		} else {
+			add_filter( 'wpmu_options', array( $this, 'show_network_settings' ) );
+			add_action( 'update_wpmu_options', array( $this, 'save_network_settings' ) );
 			
-			add_filter( 'plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link') );
-
-			// Do regular register/add_settings stuff in 'general' settings on options-general.php 
-			$settings = 'general';
-
-			add_settings_section('jetpack-mc', '<a name="jetpack-mc"></a>' . __('Jetpack Module Control','jetpack-mc'), array($this, 'add_settings_section'), $settings);
-
-			// register settings
-			if ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) {
-				// do not register settings to prevent them being updated
-			} else {
-				register_setting( $settings, 'jetpack_mc_manual_control' ); // sanitize_callback 'boolval' ?
-				register_setting( $settings, 'jetpack_mc_development_mode' ); // sanitize_callback 'boolval' ?
-				register_setting( $settings, 'jetpack_mc_blacklist', 'array_values' );
-			}
-			
-			// add settings fields
-			add_settings_field( 'jetpack_mc_manual_control', __('Manual Control','jetpack-mc'), array($this, 'manual_control_settings'), $settings, 'jetpack-mc' ); // array('label_for' => 'elementid')
-			add_settings_field( 'jetpack_mc_development_mode', __('Development Mode','jetpack-mc'), array($this, 'development_mode_settings'), $settings, 'jetpack-mc' ); // array('label_for' => 'elementid')
-			add_settings_field( 'jetpack_mc_blacklist', __('Blacklist Modules','jetpack-mc'), array($this, 'blacklist_settings'), $settings, 'jetpack-mc' );
-
+			// Plugin action links
+			add_filter( 'network_admin_plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link') );
 		}
+
+		// Plugin action links
+		add_filter( 'plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link') );
+
+		// Do regular register/add_settings stuff in 'general' settings on options-general.php 
+		$settings = 'general';
+
+		add_settings_section('jetpack-mc', '<a name="jetpack-mc"></a>' . __('Jetpack Module Control','jetpack-mc'), array($this, 'add_settings_section'), $settings);
+
+		// register settings
+		if ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) {
+			// do not register site settings to prevent them being updated
+		} else {
+			register_setting( $settings, 'jetpack_mc_manual_control' ); // sanitize_callback 'boolval' ?
+			register_setting( $settings, 'jetpack_mc_development_mode' ); // sanitize_callback 'boolval' ?
+			register_setting( $settings, 'jetpack_mc_blacklist', 'array_values' );
+		}
+			
+		// add settings fields
+		add_settings_field( 'jetpack_mc_manual_control', __('Manual Control','jetpack-mc'), array($this, 'manual_control_settings'), $settings, 'jetpack-mc' ); // array('label_for' => 'elementid')
+		add_settings_field( 'jetpack_mc_development_mode', __('Development Mode','jetpack-mc'), array($this, 'development_mode_settings'), $settings, 'jetpack-mc' ); // array('label_for' => 'elementid')
+		add_settings_field( 'jetpack_mc_blacklist', __('Blacklist Modules','jetpack-mc'), array($this, 'blacklist_settings'), $settings, 'jetpack-mc' );
 
 	}
 
@@ -624,13 +648,18 @@ class Jetpack_Module_Control {
 				. $this->version
 				. '&no_shipping=0&tax=0&charset=UTF%2d8&currency_code=EUR" title="'
 				. __('Donate to keep plugin development going!','jetpack-mc')
-				. '"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" style="border:none;float:right;margin:5px 0 0 10px" alt="'
+				. '" target="_blank"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" style="border:none;float:right;margin:5px 0 0 10px" alt="'
 				. __('Donate to keep plugin development going!','jetpack-mc') . '" width="92" height="26" /></a>'
 				. sprintf(__('The options in this section are provided by %s.','jetpack-mc'),'<strong><a href="http://status301.net/wordpress-plugins/jetpack-module-control/">'
 				. __('Jetpack Module Control','jetpack-mc') . ' ' . $this->version . '</a></strong>') . ' '
-				. __('This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.','jetpack-mc') . ' '
-				. sprintf(__('These settings can be locked down by adding %s to your wp-config.php file.','jetpack-mc'),'<code>define(\'JETPACK_MC_LOCKDOWN\', true);</code>')
-			. '</p>';
+				. __('This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.','jetpack-mc') . ' ';
+
+		if ( !is_multisite() )
+			echo sprintf(__('These settings can be locked down by adding %s to your wp-config.php file.','jetpack-mc'),'<code>define(\'JETPACK_MC_LOCKDOWN\', true);</code>');
+		else if ( !is_network_admin() )
+				echo '<br><em>' . __('These settings are only visible to you as Super Admin and allow overriding the network settings on this site only.','jetpack-mc') . '</em>';
+
+		echo '</p>';
 
 	} // END add_setting_section()
  
@@ -660,7 +689,7 @@ class Jetpack_Module_Control {
 	 * We need to add our jetpack_get_available_modules filter 
 	 * AFTER running get_available_modules() because of bug in Jetpack
 	 * https://github.com/Automattic/jetpack/issues/2026
-	 * https://github.com/Automattic/jetpack/pull/2027
+	 * https://github.com/Automattic/jetpack/pull/2027 >> request accepted and fixed
 	 *
 	 * @since 0.1
 	 */
@@ -672,8 +701,8 @@ class Jetpack_Module_Control {
 			load_plugin_textdomain( 'jetpack-mc', false, dirname( $this->plugin_basename() ) . '/languages/' );
 
 			// populate jetpack modules list before filter is added 
-			if ( in_array( $pagenow, array( 'options-general.php', 'settings.php' ) ) )
-				$this->get_available_modules();
+/*			if ( in_array( $pagenow, array( 'options-general.php', 'settings.php' ) ) )
+				$this->get_available_modules();*/
 		}
 
 		add_filter( 'jetpack_get_default_modules', array( $this, 'manual_control' ), 99 );
