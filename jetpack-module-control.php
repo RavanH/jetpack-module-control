@@ -93,7 +93,7 @@ class Jetpack_Module_Control {
 					'contact-form' 		=> array( 'name' 	=> 'Contact Form',
 								'requires_connection' 	=> false ),
 					'custom-content-types' 	=> array( 'name' 	=> 'Custom Content Types',
-								'requires_connection' 	=> false ,
+								'requires_connection' 	=> false ),
 					'custom-css' 		=> array( 'name' 	=> 'Custom CSS',
 								'requires_connection' 	=> false ),
 					'enhanced-distribution'	=> array( 'name' 	=> 'Enhanced Distribution',
