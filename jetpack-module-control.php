@@ -84,159 +84,126 @@ class Jetpack_Module_Control {
 	 * @var array 
 	 */
 	private static $known_modules = array(
-						'after-the-deadline' 	=> array( 'name' 		=> 'Spelling and Grammar',
-												'requires_connection' 	=> true
-														),
-						'carousel' 				=> array( 'name' 		=> 'Carousel',
-												'requires_connection' 	=> false
-														),
-						'comments' 				=> array( 'name' 		=> 'Jetpack Comments',
-												'requires_connection' 	=> true
-														),
-						'contact-form' 			=> array( 'name' 		=> 'Contact Form',
-												'requires_connection' 	=> false
-														),
-						'custom-content-types' 	=> array( 'name' 		=> 'Custom Content Types',
-												'requires_connection' 	=> false
-														),
-						'custom-css' 			=> array( 'name' 		=> 'Custom CSS',
-												'requires_connection' 	=> false
-														),
-						'enhanced-distribution'	=> array( 'name' 		=> 'Enhanced Distribution',
-												'requires_connection'	 => true
-														),
-						'gravatar-hovercards' 	=> array( 'name' 		=> 'Gravatar Hovercards',
-												'requires_connection' 	=> false
-														),
-						'infinite-scroll' 		=> array( 'name' 		=> 'Infinite Scroll',
-												'requires_connection' 	=> false
-														),
-						'json-api' 				=> array( 'name' 		=> 'JSON API',
-												'requires_connection' 	=> true
-														),
-						'latex' 				=> array( 'name' 		=> 'Beautiful Math',
-												'requires_connection' 	=> false
-														),
-						'likes' 				=> array( 'name' 		=> 'Likes',
-												'requires_connection' 	=> true
-														),
-						'manage' 				=> array( 'name' 		=> 'Manage',
-												'requires_connection' 	=> true
-														),
-						'markdown' 				=> array( 'name' 		=> 'Markdown',
-												'requires_connection' 	=> false
-														),
-						'minileven' 			=> array( 'name' 		=> 'Mobile Theme',
-												'requires_connection' 	=> false
-														),
-						'monitor' 				=> array( 'name' 		=> 'Monitor',
-												'requires_connection' 	=> true
-														),
-						'notes' 				=> array( 'name' 		=> 'Notifications',
-												'requires_connection' 	=> true
-														),
-						'omnisearch' 			=> array( 'name' 		=> 'Omnisearch',
-												'requires_connection' 	=> false
-														),
-						'photon' 				=> array( 'name' 		=> 'Photon',
-												'requires_connection' 	=> true
-														),
-						'post-by-email' 		=> array( 'name' 		=> 'Post by Email',
-												'requires_connection' 	=> true
-														),
-						'protect' 				=> array( 'name' 		=> 'Protect',
-												'requires_connection' 	=> true
-														),
-						'publicize' 			=> array( 'name' 		=> 'Publicize',
-												'requires_connection' 	=> true
-														),
-						'related-posts' 		=> array( 'name' 		=> 'Related Posts',
-												'requires_connection' 	=> true
-														),
-						'sharedaddy' 			=> array( 'name' 		=> 'Sharing',
-												'requires_connection' 	=> false
-														),
-						'shortcodes' 			=> array( 'name' 		=> 'Shortcode Embeds',
-												'requires_connection' 	=> false
-														),
-						'shortlinks' 			=> array( 'name' 		=> 'WP.me Shortlinks',
-												'requires_connection' 	=> true
-														),
-						'site-icon' 			=> array( 'name' 		=> 'Site Icon',
-												'requires_connection' 	=> false
-														),
-						'sso' 					=> array( 'name' 		=> 'Jetpack Single Sign On',
-												'requires_connection' 	=> true
-														),
-						'stats' 				=> array( 'name' 		=> 'WordPress.com Stats',
-												'requires_connection' 	=> true
-														),
-						'subscriptions' 		=> array( 'name' 		=> 'Subscriptions',
-												'requires_connection' 	=> true
-														),
-						'tiled-gallery' 		=> array( 'name' 		=> 'Tiled Galleries',
-												'requires_connection' 	=> false
-														),
-						'vaultpress' 			=> array( 'name' 		=> 'VaultPress',
-												'requires_connection' 	=> false
-														),
-						'verification-tools' 	=> array( 'name' 		=> 'Site Verification',
-												'requires_connection' 	=> false
-														),
-						'videopress' 			=> array( 'name' 		=> 'VideoPress',
-												'requires_connection' 	=> true
-														),
-						'widget-visibility' 	=> array( 'name' 		=> 'Widget Visibility',
-												'requires_connection' 	=> false
-														),
-						'widgets' 				=> array( 'name' 		=> 'Extra Sidebar Widgets',
-												'requires_connection' 	=> false
-														)
+						'after-the-deadline' 	=> array( 'name' 	=> 'Spelling and Grammar',
+									'requires_connection' 	=> true ),
+						'carousel' 		=> array( 'name' 	=> 'Carousel',
+									'requires_connection' 	=> false ),
+						'comments' 		=> array( 'name' 	=> 'Jetpack Comments',
+									'requires_connection' 	=> true ),
+						'contact-form' 		=> array( 'name' 	=> 'Contact Form',
+									'requires_connection' 	=> false ),
+						'custom-content-types' 	=> array( 'name' 	=> 'Custom Content Types',
+									'requires_connection' 	=> false ,
+						'custom-css' 		=> array( 'name' 	=> 'Custom CSS',
+									'requires_connection' 	=> false ),
+						'enhanced-distribution'	=> array( 'name' 	=> 'Enhanced Distribution',
+									'requires_connection'	 => true ),
+						'gravatar-hovercards' 	=> array( 'name' 	=> 'Gravatar Hovercards',
+									'requires_connection' 	=> false ),
+						'infinite-scroll' 	=> array( 'name' 	=> 'Infinite Scroll',
+									'requires_connection' 	=> false ),
+						'json-api' 		=> array( 'name' 	=> 'JSON API',
+									'requires_connection' 	=> true ),
+						'latex' 		=> array( 'name' 	=> 'Beautiful Math',
+									'requires_connection' 	=> false ),
+						'likes' 		=> array( 'name' 	=> 'Likes',
+									'requires_connection' 	=> true ),
+						'manage' 		=> array( 'name' 	=> 'Manage',
+									'requires_connection' 	=> true ),
+						'markdown' 		=> array( 'name' 	=> 'Markdown',
+									'requires_connection' 	=> false ),
+						'minileven' 		=> array( 'name' 	=> 'Mobile Theme',
+									'requires_connection' 	=> false ),
+						'monitor' 		=> array( 'name' 	=> 'Monitor',
+									'requires_connection' 	=> true ),
+						'notes' 		=> array( 'name' 	=> 'Notifications',
+									'requires_connection' 	=> true ),
+						'omnisearch' 		=> array( 'name' 	=> 'Omnisearch',
+									'requires_connection' 	=> false ),
+						'photon' 		=> array( 'name' 	=> 'Photon',
+									'requires_connection' 	=> true ),
+						'post-by-email' 	=> array( 'name' 	=> 'Post by Email',
+									'requires_connection' 	=> true ),
+						'protect' 		=> array( 'name' 	=> 'Protect',
+									'requires_connection' 	=> true ),
+						'publicize' 		=> array( 'name' 	=> 'Publicize',
+									'requires_connection' 	=> true ),
+						'related-posts' 	=> array( 'name' 	=> 'Related Posts',
+									'requires_connection' 	=> true ),
+						'sharedaddy' 		=> array( 'name' 	=> 'Sharing',
+									'requires_connection' 	=> false ),
+						'shortcodes' 		=> array( 'name' 	=> 'Shortcode Embeds',
+									'requires_connection' 	=> false ),
+						'shortlinks' 		=> array( 'name' 	=> 'WP.me Shortlinks',
+									'requires_connection' 	=> true ),
+						'sitemaps' 		=> array( 'name' 	=> 'Sitemaps',
+									'requires_connection' 	=> false ),
+						'sso' 			=> array( 'name' 	=> 'Jetpack Single Sign On',
+									'requires_connection' 	=> true ),
+						'stats' 		=> array( 'name' 	=> 'WordPress.com Stats',
+									'requires_connection' 	=> true ),
+						'subscriptions' 	=> array( 'name' 	=> 'Subscriptions',
+									'requires_connection' 	=> true ),
+						'tiled-gallery' 	=> array( 'name' 	=> 'Tiled Galleries',
+									'requires_connection' 	=> false ),
+						'vaultpress' 		=> array( 'name' 	=> 'VaultPress',
+									'requires_connection' 	=> false ),
+						'verification-tools' 	=> array( 'name' 	=> 'Site Verification',
+									'requires_connection' 	=> false ),
+						'videopress' 		=> array( 'name' 	=> 'VideoPress',
+									'requires_connection' 	=> true ),
+						'widget-visibility' 	=> array( 'name' 	=> 'Widget Visibility',
+									'requires_connection' 	=> false ),
+						'widgets' 		=> array( 'name' 	=> 'Extra Sidebar Widgets',
+									'requires_connection' 	=> false )
 					);
 
 	/**
 	 * Know modules array with dashicons
+	 * https://developer.wordpress.org/resource/dashicons/
+	 * TODO switch to http://genericons.com/
+	 * 
 	 * @since 0.3
 	 * @access  private
 	 * @var array 
 	 */
 	private static $known_modules_icons = array(
 						'after-the-deadline' 	=> 'edit',
-						'carousel' 				=> 'camera',
-						'comments' 				=> 'format-chat',
-						'contact-form' 			=> 'feedback',
+						'carousel' 		=> 'camera',
+						'comments' 		=> 'format-chat',
+						'contact-form' 		=> 'feedback',
 						'custom-content-types' 	=> 'media-default',
-						'custom-css' 			=> 'admin-appearance',
+						'custom-css' 		=> 'admin-appearance',
 						'enhanced-distribution'	=> 'share',
 						'gravatar-hovercards' 	=> 'id', // not available
-						'infinite-scroll' 		=> 'star-filled',
-						'json-api' 				=> 'share-alt',
-						'latex' 				=> 'star-filled',
-						'likes' 				=> 'star-filled',
-						'manage' 				=> 'wordpress-alt',
-						'markdown' 				=> 'editor-code',
-						'minileven' 			=> 'smartphone',
-						'monitor' 				=> 'flag',
-						'notes' 				=> 'admin-comments',
-						'omnisearch' 			=> 'search',
-						'photon' 				=> 'visibility',
-						'post-by-email' 		=> 'email',
-						'protect' 				=> 'lock',
-						'publicize' 			=> 'share',
-						'related-posts' 		=> 'update',
-						'sharedaddy' 			=> 'share-alt',
-						'shortcodes' 			=> 'text',
-						'shortlinks' 			=> 'admin-links',
-						'site-icon' 			=> 'admin-site',
-						'sso' 					=> 'wordpress-alt',
-						'stats' 				=> 'wordpress-alt',
-						'subscriptions' 		=> 'email',
-						'tiled-gallery' 		=> 'schedule', // not available. maybe tagcloud ?
-						'vaultpress' 			=> 'shield-alt', // not availabe
+						'infinite-scroll' 	=> 'star-filled',
+						'json-api' 		=> 'share-alt',
+						'latex' 		=> 'star-filled',
+						'likes' 		=> 'star-filled',
+						'manage' 		=> 'wordpress-alt',
+						'markdown' 		=> 'editor-code',
+						'minileven' 		=> 'smartphone',
+						'monitor' 		=> 'flag',
+						'notes' 		=> 'admin-comments',
+						'omnisearch' 		=> 'search',
+						'photon' 		=> 'visibility',
+						'post-by-email' 	=> 'email',
+						'protect' 		=> 'lock',
+						'publicize' 		=> 'share',
+						'related-posts' 	=> 'update',
+						'sharedaddy' 		=> 'share-alt',
+						'shortcodes' 		=> 'text',
+						'shortlinks' 		=> 'admin-links',
+						'sitemaps' 		=> 'networking',
+						'sso' 			=> 'wordpress-alt',
+						'stats' 		=> 'wordpress-alt',
+						'subscriptions' 	=> 'email',
+						'tiled-gallery' 	=> 'layout',
+						'vaultpress' 		=> 'shield-alt', // not availabe
 						'verification-tools' 	=> 'clipboard', // maybe yes
-						'videopress' 			=> 'controls-play',
+						'videopress' 		=> 'controls-play',
 						'widget-visibility' 	=> 'welcome-widgets-menus',
-						'widgets' 				=> 'welcome-widgets-menus'
+						'widgets' 		=> 'welcome-widgets-menus'
 					);
 
 	/**
