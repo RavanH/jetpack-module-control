@@ -221,8 +221,7 @@ class Jetpack_Module_Control {
 	 * Return Jetpack available modules
 	 * @since 0.1
 	 * @return array
-	 */	
-	 
+	 */
 	private function get_available_modules() {
 		// TODO : consider removing connection dependent modules when 'jetpack_mc_development_mode' is ON
 
@@ -250,8 +249,7 @@ class Jetpack_Module_Control {
 	 * @since 0.1
 	 * 
 	 * @return string Plugin basename
-	 */	
-	 
+	 */
 	private function plugin_basename() {
 		if ( null === self::$plugin_basename ) {
 			self::$plugin_basename = plugin_basename( __FILE__ );
@@ -272,8 +270,7 @@ class Jetpack_Module_Control {
 	 * @uses jetpack_mc_manual_control network option
 	 * @echo Html Checkbox input field for jetpack_mc_manual_control option
 	 * @return void
-	 */	
-	 
+	 */
 	public function manual_control_settings() {		
 
 		if ( is_network_admin() ) {
@@ -314,7 +311,6 @@ class Jetpack_Module_Control {
 	 * @since 0.1
 	 * @see add_filter()
 	 */
-	 
 	public function manual_control( $modules ) {
 		
 		$option = get_option('jetpack_mc_manual_control');	
@@ -337,8 +333,7 @@ class Jetpack_Module_Control {
 	 * 
 	 * @echo Html Checkbox input field for jetpack_mc_development_mode option
 	 * @return void
-	 */	
-	 
+	 */
 	public function development_mode_settings() {		
 		
 		if ( is_network_admin() ) {
@@ -384,16 +379,15 @@ class Jetpack_Module_Control {
 	 * @since 1.0
 	 * @see add_filter()
 	 */
-	 
 	public function development_mode() {
-		
 		$option = get_option('jetpack_mc_development_mode');	
 		// if false, fall back on network settings
-		if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_development_mode');	
+		if ( $option === false && is_multisite() ) {
+			$option = get_site_option('jetpack_mc_development_mode');
+		}
 
 		return !empty($option) ? true : false;
-
-	} // END development_mode()
+	}
 
 	/**
 	 * ADMIN NOTICES
@@ -405,18 +399,16 @@ class Jetpack_Module_Control {
 	 * @since 0.1
 	 * @see add_filter()
 	 */
-	 
 	private function no_manage_notice() {
-		
 		$blacklist = get_option('jetpack_mc_blacklist');
 		
 		// fall back on network setting
 		if ( $blacklist === false && is_multisite() ) $blacklist = get_site_option('jetpack_mc_blacklist');
 
-		if ( is_array( $blacklist ) && in_array( 'manage', $blacklist ) )
+		if ( is_array( $blacklist ) && in_array( 'manage', $blacklist ) ) {
 			add_filter( 'can_display_jetpack_manage_notice', '__return_false' );
-
-	} // END no_manage_notice()
+		}
+	}
 
 	/**
 	 * Disables Centralized Site Management banner by removing show_development_mode_notice from jetpack_notices actions. 
@@ -425,11 +417,10 @@ class Jetpack_Module_Control {
 	 * @see add_filter()
 	 */
 	private function no_dev_notice() {
-
-		if ( class_exists('Jetpack') && ( get_option('jetpack_mc_development_mode') || get_site_option('jetpack_mc_development_mode') ) )
+		if ( class_exists('Jetpack') && ( get_option('jetpack_mc_development_mode') || get_site_option('jetpack_mc_development_mode') ) ) {
 			remove_action( 'jetpack_notices', array( Jetpack::init(), 'show_development_mode_notice' ) );
-
-	} // END no_dev_notice()
+		}
+	}
 
 	/**
 	 * BLACKLIST
@@ -444,7 +435,6 @@ class Jetpack_Module_Control {
 	 * @uses jetpack_mc_blacklist network option
 	 * @echo Html Checkbox input field table for jetpack_mc_blacklist option
 	 */
-	 
 	public function blacklist_settings() {	
 		
 		if ( is_network_admin() ) {
@@ -497,7 +487,6 @@ class Jetpack_Module_Control {
 	 * 
 	 * @return Array Allowed modules after unsetting blacklisted modules from all modules array
 	 */
-	 
 	public function blacklist ( $modules ) {
 		
 		$blacklist = get_option('jetpack_mc_blacklist');	
@@ -511,7 +500,7 @@ class Jetpack_Module_Control {
 
 		return $modules;
 
-	} // END blacklist()
+	}
 
 	/**
 	 * ADMIN
@@ -522,7 +511,6 @@ class Jetpack_Module_Control {
 	 * 
 	 * @since 0.1
 	 */
-
 	public function admin_init(){
 	
 		$this->no_manage_notice();
@@ -576,10 +564,10 @@ class Jetpack_Module_Control {
 	public function save_network_settings() {
 
 		$posted_settings = array(
-								'jetpack_mc_manual_control' => '',
-								'jetpack_mc_development_mode' => '',
-								'jetpack_mc_blacklist' => ''
-								);
+					'jetpack_mc_manual_control' => '',
+					'jetpack_mc_development_mode' => '',
+					'jetpack_mc_blacklist' => ''
+					);
 
 		isset( $_POST['jetpack_mc_manual_control'] ) && $posted_settings['jetpack_mc_manual_control'] = '1';
 
@@ -587,8 +575,9 @@ class Jetpack_Module_Control {
 
 		isset( $_POST['jetpack_mc_blacklist'] ) && is_array( $_POST['jetpack_mc_blacklist'] ) && $posted_settings['jetpack_mc_blacklist'] = array_values( $_POST['jetpack_mc_blacklist'] );
 
-		foreach( $posted_settings as $name => $value )
+		foreach( $posted_settings as $name => $value ) {
 			update_site_option( $name, $value );
+		}
 
 	}
 
@@ -597,12 +586,11 @@ class Jetpack_Module_Control {
 	 * 
 	 * @since 0.2
 	 */
-    public function show_network_settings() {
-        
+	public function show_network_settings() {
 		?>
 		<h3><a name="jetpack-mc"></a><?php _e('Jetpack Module Control','jetpack-mc'); ?></h3>
 		<?php
-        $this->add_settings_section('');
+        	$this->add_settings_section('');
 		?>
 		<table class="form-table">
 			<tbody>
@@ -631,9 +619,9 @@ class Jetpack_Module_Control {
 					</td>
 				</tr>
 			</tbody>
-        </table>
-        <?php
-    }
+        	</table>
+        	<?php
+	}
  
  	/** 
 	 * Echos a settings section header
@@ -660,8 +648,7 @@ class Jetpack_Module_Control {
 				echo '<br><em>' . __('These settings are only visible to you as Super Admin and allow overriding the network settings on this site only.','jetpack-mc') . '</em>';
 
 		echo '</p>';
-
-	} // END add_setting_section()
+	}
  
 	/**
 	 * Adds an action link on the Plugins page
@@ -686,9 +673,6 @@ class Jetpack_Module_Control {
 	/**
 	 * Routines to execute on plugins_loaded
 	 * 
-	 * We need to add our jetpack_get_available_modules filter 
-	 * AFTER running get_available_modules() because of bug in Jetpack
-	 * https://github.com/Automattic/jetpack/issues/2026
 	 * https://github.com/Automattic/jetpack/pull/2027 >> request accepted and fixed
 	 *
 	 * @since 0.1
@@ -699,10 +683,6 @@ class Jetpack_Module_Control {
 		// only need translations on admin page
 		if ( is_admin() ) {			
 			load_plugin_textdomain( 'jetpack-mc', false, dirname( $this->plugin_basename() ) . '/languages/' );
-
-			// populate jetpack modules list before filter is added 
-/*			if ( in_array( $pagenow, array( 'options-general.php', 'settings.php' ) ) )
-				$this->get_available_modules();*/
 		}
 
 		add_filter( 'jetpack_get_default_modules', array( $this, 'manual_control' ), 99 );
@@ -722,7 +702,7 @@ class Jetpack_Module_Control {
 			self::$instance = new self();
 		}
 		return self::$instance;
-	} // End instance ()
+	}
 
 	/**
 	 * Constructor
