@@ -18,22 +18,23 @@ Your Jetpack, Controlled.
 1. Blacklist / remove individual Jetpack modules.
 1. Prevent module auto-activation on connection or after an upgrade.
 1. Allow activation of certain Jetpack modules without a WordPress.com connection.
-1. Single site and Multisite compatible
+1. Single site and Multisite compatible.
 
 = Examples =
 
-In most use cases, a carefully considered combination of Jetpack modules can be a really good thing. But not always is much consideration being done beforehand. Or site admins just don't know all the implications... 
+In most use cases, a carefully considered combination of Jetpack modules can be a really good thing. But not always is much consideration being done beforehand. Or site admins just don't know all the implications...
 
 - Maybe your Nginx web server uses FastCGI caching, making it incompatible with the Mobile Theme module? Blacklist that module to prevent any admin from activating it.
-- You already have a lightbox provided by your theme or another plugin? Then blacklist the Carousel module to prevent accidental activation.
-- Or you're running a Multisite and do not want any admins monitoring uptime with the Monitor module just to call you every time their site is briefly inaccessible? Or you offer your own backup service and do not care much for VaultPress competition?
-- The sites in your network are managed by minors who are not allowed to sign up for an account at WordPress.com? Then use the Jetpack Development Mode option to allow usage of modules that do not require a connection.
+- Do you already a lightbox provided by your theme or another plugin? Then blacklist the Carousel module to prevent accidental activation.
+- Or you're running a Multisite and do not want any admins monitoring uptime with the Monitor module just to call you every time their site is briefly inaccessible?
+- Or you offer your own backup service and do not care much for VaultPress competition?
+- You're running a school network and (some) sites are managed by minors who are not allowed to sign up for an account at WordPress.com? Then use the Jetpack Development Mode option to allow usage of modules that do not require a connection.
 
 Any one of Jetpack's modules can bring overlapping or even conflicting functionality. In such cases, being able to prevent (accidental) activation is a good thing.
 
 = Single site and Multisite =
 
-Athough the original idea arose on a multisite installation, Jetpack Module Control is developed for both single and multisite installations. 
+Athough the original idea arose on a multisite installation, Jetpack Module Control is developed for both single and multisite installations.
 
 On **multisite**, it can only be network activated and controls Jetpack on all sites. Jetpack itself can, but does not need to be, network activated.
 
@@ -41,7 +42,9 @@ For **single site** installations, plugin settings can be locked down by adding 
 
 = Development =
 
-The project can be forked and or contributed to on [Github](https://github.com/RavanH/jetpack-module-control). All contributions -- be it in the form of feature requests, bugreports or code -- are welcome!
+The project can be forked and or contributed to on [Github](https://github.com/RavanH/jetpack-module-control).
+
+All contributions -- be it in the form of feature requests, bug reports, translations or code -- are welcome!
 
 = Translations =
 
