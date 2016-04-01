@@ -10,8 +10,6 @@ Pull requests, bug reports or feature requests are always welcome!
 
 ## Wishlist
 
-Optionally allow Development Mode per site https://github.com/RavanH/jetpack-module-control/issues/4
-
 More options beside blacklist: select which to auto-activate, which to show in featured, jumpstart...
 
 Consider if an option to "force_deactivate" as described on https://github.com/Automattic/jetpack/issues/1452 could be useful for multisite.
