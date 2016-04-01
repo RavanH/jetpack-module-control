@@ -1,0 +1,97 @@
+# Copyright (C) 2010 Easy FancyBox
+# This file is distributed under the same license as the Easy FancyBox package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Jetpack Module Control\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-09-29 00:57+0100\n"
+"PO-Revision-Date: 2015-09-29 01:16+0100\n"
+"Last-Translator: RavanH <ravanhagen@gmail.com>\n"
+"Language-Team:  <ravanhagen@gmail.com>\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e;_n\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 1.7.5\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: ../jetpack-module-control.php:326
+msgid "Prevent Jetpack from auto-activating (new) modules"
+msgstr "Empêche Jetpack à activer des (nouveaux) modules automatiquement"
+
+#: ../jetpack-module-control.php:328
+#, php-format
+msgid "Note: The module %s is excepted from this rule."
+msgstr "Attention: le module %s est exclu de cette règle."
+
+#: ../jetpack-module-control.php:383
+msgid "Use Jetpack modules without a WordPress.com connection"
+msgstr "Utilise des modules Jetpack sans connexion à WordPress.com"
+
+#: ../jetpack-module-control.php:385
+msgid ""
+"By forcing Jetpack into development mode, modules are used without a "
+"WordPress.com account. All modules that require a WordPress.com connection "
+"will be unavailable. These modules are marked with an asterisk (*) below. "
+"The admin message about Jetpack running in development mode will be hidden."
+msgstr ""
+
+#: ../jetpack-module-control.php:471 ../jetpack-module-control.php:568
+#: ../jetpack-module-control.php:629
+msgid "Blacklist Modules"
+msgstr "Liste Noire"
+
+#: ../jetpack-module-control.php:481
+msgid "Requires a WordPress.com connection"
+msgstr "Nécessite une connexion WordPress.com"
+
+#: ../jetpack-module-control.php:485
+msgid ""
+"*) Modules marked with an asterisk require a WordPress.com connection. They "
+"will be unavailable if Jetpack is forced into development mode."
+msgstr ""
+
+#: ../jetpack-module-control.php:554 ../jetpack-module-control.php:606
+#: ../jetpack-module-control.php:657
+msgid "Jetpack Module Control"
+msgstr "Commande des Modules Jetpack"
+
+#: ../jetpack-module-control.php:566 ../jetpack-module-control.php:613
+msgid "Manual Control"
+msgstr "Commande Manuelle"
+
+#: ../jetpack-module-control.php:567 ../jetpack-module-control.php:621
+msgid "Development Mode"
+msgstr "Mode de Développement"
+
+#: ../jetpack-module-control.php:653 ../jetpack-module-control.php:655
+msgid "Donate to keep plugin development going!"
+msgstr "Veuillez contribuer au dévéloppement de l'extension!"
+
+#: ../jetpack-module-control.php:656
+#, php-format
+msgid "The options in this section are provided by %s."
+msgstr "Les réglages dans cette section sont fourni par %s."
+
+#: ../jetpack-module-control.php:658
+msgid ""
+"This plugin brings additional control over Jetpack modules. You can "
+"blacklist / remove individual modules, prevent auto-activation or allow "
+"activation without a WordPress.com account."
+msgstr ""
+
+#: ../jetpack-module-control.php:661
+#, php-format
+msgid ""
+"These settings can be locked down by adding %s to your wp-config.php file."
+msgstr ""
+"Ces réglages peuvent être verrouillé par l'ajout de %s à votre fichier wp-"
+"config.php."
+
+#: ../jetpack-module-control.php:663
+msgid ""
+"These settings are only visible to you as Super Admin and allow overriding "
+"the network settings on this site only."
+msgstr ""
