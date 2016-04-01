@@ -9,39 +9,39 @@
  * Text Domain: jetpack-mc
  * Domain Path: /languages/
  * License: GPL2+
- * Version: 1.4
+ * Version: 1.4.1
  */
 
 /*
  * ROADMAP
- * 
+ *
  * version 2.0
- * Replace "Prevent the Jetpack plugin from auto-activating (new) modules" with 
+ * Replace "Prevent the Jetpack plugin from auto-activating (new) modules" with
  * finer grained "Select which modules to auto-activate"
  * see http://jeremy.hu/customize-the-list-of-modules-available-in-jetpack/
  * 	function jeherve_auto_activate_stats() {
 		return array( 'stats' );
 	}
 	add_filter( 'jetpack_get_default_modules', 'jeherve_auto_activate_stats' );
- * 
+ *
  * TO CONSIDER
- * 
+ *
  * Make blacklist or whitelist optional
- * 
+ *
  * Option to disable JUMPSTART with "Jetpack_Options::update_option( 'jumpstart', 'jumpstart_dismissed' );" ??
- * or do we need to go through apply_filters( 'jetpack_module_feature' ... 
+ * or do we need to go through apply_filters( 'jetpack_module_feature' ...
  * If we want to be able to select which modules should appear in Jumpstart later!
- * 
+ *
  * Can we disable Debug link in the footer menu? No...
- * 
+ *
  * Option to "force_deactivate" (same as blacklist?) as described on https://github.com/Automattic/jetpack/issues/1452
- * 
+ *
  */
 
 
 /**
  * Jetpack Module Control Class
- * 
+ *
  * since 0.1
  */
 class Jetpack_Module_Control {
@@ -65,15 +65,15 @@ class Jetpack_Module_Control {
 	/**
 	 * Current plugin version.
 	 * @since 0.1
-	 * @var string 
+	 * @var string
 	 */
-	public $version = '1.4';
-	
+	public $version = '1.4.1';
+
 	/**
 	 * Available modules array
 	 * @since 0.1
 	 * @access  private
-	 * @var array 
+	 * @var array
 	 */
 	private static $modules = null;
 
@@ -81,7 +81,7 @@ class Jetpack_Module_Control {
 	 * Know modules array with names
 	 * @since 0.2
 	 * @access  private
-	 * @var array 
+	 * @var array
 	 */
 	private static $known_modules = array(
 					'after-the-deadline' 	=> array( 'name' 	=> 'Spelling and Grammar',
@@ -164,10 +164,10 @@ class Jetpack_Module_Control {
 	 * Know modules array with dashicons
 	 * https://developer.wordpress.org/resource/dashicons/
 	 * TODO switch to http://genericons.com/
-	 * 
+	 *
 	 * @since 0.3
 	 * @access  private
-	 * @var array 
+	 * @var array
 	 */
 	private static $known_modules_icons = array(
 						'after-the-deadline' 	=> 'edit',
@@ -213,7 +213,7 @@ class Jetpack_Module_Control {
 	 * Default dashicon
 	 * @since 1.0
 	 * @access  private
-	 * @var string 
+	 * @var string
 	 */
 	private static $default_icon = 'star-empty';
 
@@ -235,19 +235,19 @@ class Jetpack_Module_Control {
 						$modules[$slug] = $module;
 				}
 				self::$modules = $modules;
-				add_filter( 'jetpack_get_available_modules', array($this, 'blacklist') ); 
+				add_filter( 'jetpack_get_available_modules', array($this, 'blacklist') );
 			} else {
 				self::$modules = self::$known_modules;
 			}
 		}
 		return self::$modules;
 	}
-	
+
 	/**
 	 * Return plugin basename
-	 * 
+	 *
 	 * @since 0.1
-	 * 
+	 *
 	 * @return string Plugin basename
 	 */
 	private function plugin_basename() {
@@ -256,27 +256,27 @@ class Jetpack_Module_Control {
 		}
 		return self::$plugin_basename;
 	}
-	
+
 	/**
 	 * MANUAL CONTROL
 	 */
-	    	
+
 	/**
 	 * Adds the Manual Control option
-	 * 
+	 *
 	 * @since 0.1
 	 * @see get_site_option(), checked(), disabled()
-	 * 
+	 *
 	 * @uses jetpack_mc_manual_control network option
 	 * @echo Html Checkbox input field for jetpack_mc_manual_control option
 	 * @return void
 	 */
-	public function manual_control_settings() {		
+	public function manual_control_settings() {
 
 		if ( is_network_admin() ) {
 			// we're in network admin: retrieve network settings
 			$disabled = is_plugin_active_for_network('manual-control/manual-control.php');
-			$option = $disabled ? '1' : get_site_option('jetpack_mc_manual_control');	
+			$option = $disabled ? '1' : get_site_option('jetpack_mc_manual_control');
 		} else {
 			// we're in site admin
 			if ( is_plugin_active('manual-control/manual-control.php') ) {
@@ -286,16 +286,16 @@ class Jetpack_Module_Control {
 				// retrieve site setting
 				$option = get_option('jetpack_mc_manual_control');
 				// fall back on network settings
-				if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_manual_control');	
+				if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_manual_control');
 				$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
 			}
 		}
 
 		?>
 		<label>
-			<input type='checkbox' name='jetpack_mc_manual_control' value='1' 
-			<?php checked( $option, '1' ); ?> 
-			<?php disabled( $disabled ); ?>> 
+			<input type='checkbox' name='jetpack_mc_manual_control' value='1'
+			<?php checked( $option, '1' ); ?>
+			<?php disabled( $disabled ); ?>>
 			<?php _e('Prevent Jetpack from auto-activating (new) modules','jetpack-mc'); ?>
 		</label>
 		<p class="description"><?php echo sprintf( __('Note: The module %s is excepted from this rule.','jetpack-mc'), _x('Protect','Module Name','jetpack') ); ?></p>
@@ -304,18 +304,18 @@ class Jetpack_Module_Control {
 	} // END manual_control_settings()
 
 	/**
-	 * Activates Manual Control by returning an empty array on module auto-activation. 
+	 * Activates Manual Control by returning an empty array on module auto-activation.
 	 * First modelled after Manual Control for Jetpack by Mark Jaquith http://coveredwebservices.com/
 	 * To be converted to allow selected modules instead of all or none.
-	 * 
+	 *
 	 * @since 0.1
 	 * @see add_filter()
 	 */
 	public function manual_control( $modules ) {
-		
-		$option = get_option('jetpack_mc_manual_control');	
+
+		$option = get_option('jetpack_mc_manual_control');
 		// if false, fall back on network settings
-		if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_manual_control');	
+		if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_manual_control');
 
 		return !empty($option) ? array() : $modules;
 
@@ -324,18 +324,18 @@ class Jetpack_Module_Control {
 	/**
 	 * DEVELOPMENT MODE
 	 */
-	    	
+
 	/**
 	 * Adds the Jetpack Without WordPress.com option
-	 * 
+	 *
 	 * @since 1.0
 	 * @see get_site_option(), checked(), disabled()
-	 * 
+	 *
 	 * @echo Html Checkbox input field for jetpack_mc_development_mode option
 	 * @return void
 	 */
-	public function development_mode_settings() {		
-		
+	public function development_mode_settings() {
+
 		if ( is_network_admin() ) {
 			// we're in network admin
 			if ( is_plugin_active_for_network('slimjetpack/slimjetpack.php') || is_plugin_active_for_network('unplug-jetpack/unplug-jetpack.php') ) {
@@ -343,28 +343,28 @@ class Jetpack_Module_Control {
 				$disabled = true;
 			} else {
 				// retrieve network settings
-				$option = get_site_option('jetpack_mc_development_mode');	
+				$option = get_site_option('jetpack_mc_development_mode');
 				$disabled = false;
 			}
 		} else {
-			// we're in site admin 
+			// we're in site admin
 			if ( is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php') ) {
 				$option = '1';
 				$disabled = true;
 			} else {
 				//retrieve site setting
-				$option = get_option('jetpack_mc_development_mode');	
+				$option = get_option('jetpack_mc_development_mode');
 				// fall back on network settings
-				if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_development_mode');	
+				if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_development_mode');
 				$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
 			}
 		}
 
 		?>
 		<label>
-			<input type='checkbox' name='jetpack_mc_development_mode' value='1' 
-			<?php checked( $option, '1' ); ?> 
-			<?php disabled( $disabled ); ?>> 
+			<input type='checkbox' name='jetpack_mc_development_mode' value='1'
+			<?php checked( $option, '1' ); ?>
+			<?php disabled( $disabled ); ?>>
 			<?php _e('Use Jetpack modules without a WordPress.com connection','jetpack-mc'); ?>
 		</label>
 		<p class="description"><?php _e('By forcing Jetpack into development mode, modules are used without a WordPress.com account. All modules that require a WordPress.com connection will be unavailable. These modules are marked with an asterisk (*) below. The admin message about Jetpack running in development mode will be hidden.','jetpack-mc'); ?></p>
@@ -373,14 +373,14 @@ class Jetpack_Module_Control {
 	} // END development_mode_settings()
 
 	/**
-	 * Activates Development Mode by returning true on jetpack_development_mode filter. 
+	 * Activates Development Mode by returning true on jetpack_development_mode filter.
 	 * Based on http://jeremy.hu/customize-the-list-of-modules-available-in-jetpack/
-	 * 
+	 *
 	 * @since 1.0
 	 * @see add_filter()
 	 */
 	public function development_mode() {
-		$option = get_option('jetpack_mc_development_mode');	
+		$option = get_option('jetpack_mc_development_mode');
 		// if false, fall back on network settings
 		if ( $option === false && is_multisite() ) {
 			$option = get_site_option('jetpack_mc_development_mode');
@@ -394,14 +394,14 @@ class Jetpack_Module_Control {
 	 */
 
 	/**
-	 * Disables Centralized Site Management banner by returning false on can_display_jetpack_manage_notice filter. 
-	 * 
+	 * Disables Centralized Site Management banner by returning false on can_display_jetpack_manage_notice filter.
+	 *
 	 * @since 0.1
 	 * @see add_filter()
 	 */
 	private function no_manage_notice() {
 		$blacklist = get_option('jetpack_mc_blacklist');
-		
+
 		// fall back on network setting
 		if ( $blacklist === false && is_multisite() ) $blacklist = get_site_option('jetpack_mc_blacklist');
 
@@ -411,8 +411,8 @@ class Jetpack_Module_Control {
 	}
 
 	/**
-	 * Disables Centralized Site Management banner by removing show_development_mode_notice from jetpack_notices actions. 
-	 * 
+	 * Disables Centralized Site Management banner by removing show_development_mode_notice from jetpack_notices actions.
+	 *
 	 * @since 0.1
 	 * @see add_filter()
 	 */
@@ -425,18 +425,18 @@ class Jetpack_Module_Control {
 	/**
 	 * BLACKLIST
 	 */
-	
+
 	/**
 	 * Adds a checkmark list of modules to blacklist
-	 * 
+	 *
 	 * @since 0.1
 	 * @see get_site_option(), checked()
-	 * 
+	 *
 	 * @uses jetpack_mc_blacklist network option
 	 * @echo Html Checkbox input field table for jetpack_mc_blacklist option
 	 */
-	public function blacklist_settings() {	
-		
+	public function blacklist_settings() {
+
 		if ( is_network_admin() ) {
 			// in network admin retrieve network settings
 			$blacklist = get_site_option( 'jetpack_mc_blacklist', array() );
@@ -448,10 +448,10 @@ class Jetpack_Module_Control {
 			if ( $blacklist === false && is_multisite() ) $blacklist = get_site_option('jetpack_mc_blacklist');
 			$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
 		}
-		
+
 		// blacklist must be an array, if anything else then just make it an empty array
 		if ( !is_array($blacklist) ) $blacklist = array();
-		
+
 		$modules = $this->get_available_modules();
 		asort($modules);
 
@@ -464,9 +464,9 @@ class Jetpack_Module_Control {
 			$icon = isset($icons[$slug]) ? $icons[$slug] : self::$default_icon;
 			?>
 			<label>
-				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo $slug; ?>' 
-				<?php checked( in_array( $slug, $blacklist ), true ); ?> 
-				<?php disabled( $disabled ); ?>> 
+				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo $slug; ?>'
+				<?php checked( in_array( $slug, $blacklist ), true ); ?>
+				<?php disabled( $disabled ); ?>>
 				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php _ex( $module['name'], 'Module Name', 'jetpack' ) ?>
 			</label><?php echo !empty($module['requires_connection']) && true === $module['requires_connection'] ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a WordPress.com connection','jetpack-mc') . '">*</a>' : ''; ?><br>
 			<?php
@@ -481,16 +481,16 @@ class Jetpack_Module_Control {
 	/**
 	 * Blacklist Jetpack modules
 	 * Modelled after ParhamG's blacklist_jetpack_modules.php https://gist.github.com/ParhamG/6494979
-	 * 
+	 *
 	 * @since 0.1
-	 * @param $modules 
-	 * 
+	 * @param $modules
+	 *
 	 * @return Array Allowed modules after unsetting blacklisted modules from all modules array
 	 */
 	public function blacklist ( $modules ) {
-		
-		$blacklist = get_option('jetpack_mc_blacklist');	
-		
+
+		$blacklist = get_option('jetpack_mc_blacklist');
+
 		// fall back on network setting
 		if ( $blacklist === false && is_multisite() ) $blacklist = get_site_option('jetpack_mc_blacklist');
 
@@ -506,28 +506,28 @@ class Jetpack_Module_Control {
 	 * ADMIN
 	 */
 
-	/** 
+	/**
 	 * Initiate plugins admin stuff
-	 * 
+	 *
 	 * @since 0.1
 	 */
 	public function admin_init(){
-	
+
 		$this->no_manage_notice();
 
 		$this->no_dev_notice();
 
 		if ( is_plugin_active_for_network( $this->plugin_basename() ) ) {
-			// Check for network activation, else these will also take effect when 
+			// Check for network activation, else these will also take effect when
 			// plugin is activated on the primary site alone.
 			// TODO : see if you can actually use this scenario where plugin is activatied on site 1 and
 			// network options can be set to serve as default settings for other site activations !
-			
+
 			// Add settings to Network Settings
 			// thanks to http://zao.is/2013/07/adding-settings-to-network-settings-for-wordpress-multisite/
 			add_filter( 'wpmu_options', array( $this, 'show_network_settings' ) );
 			add_action( 'update_wpmu_options', array( $this, 'save_network_settings' ) );
-			
+
 			// Plugin action links
 			add_filter( 'network_admin_plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link') );
 		}
@@ -535,7 +535,7 @@ class Jetpack_Module_Control {
 		// Plugin action links
 		add_filter( 'plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link') );
 
-		// Do regular register/add_settings stuff in 'general' settings on options-general.php 
+		// Do regular register/add_settings stuff in 'general' settings on options-general.php
 		$settings = 'general';
 
 		add_settings_section('jetpack-mc', '<a name="jetpack-mc"></a>' . __('Jetpack Module Control','jetpack-mc'), array($this, 'add_settings_section'), $settings);
@@ -548,7 +548,7 @@ class Jetpack_Module_Control {
 			register_setting( $settings, 'jetpack_mc_development_mode' ); // sanitize_callback 'boolval' ?
 			register_setting( $settings, 'jetpack_mc_blacklist', 'array_values' );
 		}
-			
+
 		// add settings fields
 		add_settings_field( 'jetpack_mc_manual_control', __('Manual Control','jetpack-mc'), array($this, 'manual_control_settings'), $settings, 'jetpack-mc' ); // array('label_for' => 'elementid')
 		add_settings_field( 'jetpack_mc_development_mode', __('Development Mode','jetpack-mc'), array($this, 'development_mode_settings'), $settings, 'jetpack-mc' ); // array('label_for' => 'elementid')
@@ -557,8 +557,8 @@ class Jetpack_Module_Control {
 	}
 
 	/**
-	 * Saves the network settings 
-	 * 
+	 * Saves the network settings
+	 *
 	 * @since 0.2
 	 */
 	public function save_network_settings() {
@@ -582,8 +582,8 @@ class Jetpack_Module_Control {
 	}
 
 	/**
-	 * Prints the network settings 
-	 * 
+	 * Prints the network settings
+	 *
 	 * @since 0.2
 	 */
 	public function show_network_settings() {
@@ -622,12 +622,12 @@ class Jetpack_Module_Control {
         	</table>
         	<?php
 	}
- 
- 	/** 
+
+ 	/**
 	 * Echos a settings section header
-	 * 
+	 *
 	 * @since 0.1
-	 * 
+	 *
 	 * @param $option (unused)
 	 * @echo Html
 	 */
@@ -649,19 +649,19 @@ class Jetpack_Module_Control {
 
 		echo '</p>';
 	}
- 
+
 	/**
 	 * Adds an action link on the Plugins page
-	 * 
+	 *
 	 * @since 0.1
 	 * @see is_plugin_active_for_network(), admin_url(), network_admin_url()
-	 * 
+	 *
 	 * @param array $links Plugin de/activation and deletion links
 	 * @return array Plugin links plus Settings link
 	 */
 	public function add_action_link( $links ) {
-		$settings_link = is_plugin_active_for_network( $this->plugin_basename() ) ? 
-			'<a href="' . network_admin_url('settings.php#jetpack-mc') . '">' . translate('Network Settings') . '</a>' : 
+		$settings_link = is_plugin_active_for_network( $this->plugin_basename() ) ?
+			'<a href="' . network_admin_url('settings.php#jetpack-mc') . '">' . translate('Network Settings') . '</a>' :
 			'<a href="' . admin_url('options-general.php#jetpack-mc') . '">' . translate('Settings') . '</a>';
 		return array_merge(
 			array( 'settings' => $settings_link ),
@@ -672,7 +672,7 @@ class Jetpack_Module_Control {
 
 	/**
 	 * Routines to execute on plugins_loaded
-	 * 
+	 *
 	 * https://github.com/Automattic/jetpack/pull/2027 >> request accepted and fixed
 	 *
 	 * @since 0.1
@@ -681,7 +681,7 @@ class Jetpack_Module_Control {
 		global $pagenow;
 
 		// only need translations on admin page
-		if ( is_admin() ) {			
+		if ( is_admin() ) {
 			load_plugin_textdomain( 'jetpack-mc', false, dirname( $this->plugin_basename() ) . '/languages/' );
 		}
 
@@ -709,7 +709,7 @@ class Jetpack_Module_Control {
 	 *
 	 * @since  0.1
 	 */
-	private function __construct() { 
+	private function __construct() {
 		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 0 );
 		add_action( 'admin_init', array($this,'admin_init'), 11 );
 	}

@@ -1,7 +1,7 @@
 === Module Control for Jetpack ===
 Contributors: RavanH
 Tags: Jetpack, jet pack, jetpack light, manual control, blacklist, blacklist jepack modules, slim jetpack
-Stable tag: 1.4
+Stable tag: 1.4.1
 Requires at least: 4.0
 Tested up to: 4.5
 License: GPLv3 or later
@@ -70,10 +70,15 @@ Please [contact me](http://status301.net/contact-en/) to submit your translation
 
 == Upgrade Notice ==
 
-= 1.4 =
-Allow per site settings by Super Admin. Jetpack 3.9+ compatibility.
+= 1.4.1 =
+Allow per site settings by Super Admin. Jetpack 3.9+ compatibility. Added translations.
 
 == Changelog ==
+
+= 1.4.1 =
+Date: 2016/04/01
+
+* Added FR/NL translation files
 
 = 1.4 =
 Date: 2016/03/29
