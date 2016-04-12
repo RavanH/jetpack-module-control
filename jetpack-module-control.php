@@ -298,7 +298,7 @@ class Jetpack_Module_Control {
 			<?php disabled( $disabled ); ?>>
 			<?php _e('Prevent Jetpack from auto-activating (new) modules','jetpack-mc'); ?>
 		</label>
-		<p class="description"><?php echo sprintf( __('Note: The module %s is excepted from this rule.','jetpack-mc'), _x('Protect','Module Name','jetpack') ); ?></p>
+		<p class="description"><?php echo sprintf( __('Note: The module %s is excepted from this rule.','jetpack-mc'), translate_with_gettext_context('Protect','Module Name','jetpack') ); ?></p>
 		<?php
 
 	} // END manual_control_settings()
@@ -467,7 +467,7 @@ class Jetpack_Module_Control {
 				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo $slug; ?>'
 				<?php checked( in_array( $slug, $blacklist ), true ); ?>
 				<?php disabled( $disabled ); ?>>
-				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php _ex( $module['name'], 'Module Name', 'jetpack' ) ?>
+				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo translate_with_gettext_context( $module['name'], 'Module Name', 'jetpack' ) ?>
 			</label><?php echo !empty($module['requires_connection']) && true === $module['requires_connection'] ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a WordPress.com connection','jetpack-mc') . '">*</a>' : ''; ?><br>
 			<?php
 		}
