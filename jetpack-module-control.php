@@ -9,7 +9,7 @@
  * Text Domain: jetpack-module-control
  * Domain Path: /languages
  * License: GPL2+
- * Version: 1.4.1
+ * Version: 1.4.2
  */
 
 /*
