@@ -6,8 +6,8 @@
  * Author: RavanH
  * Author URI: http://status301.net/
  * Network: true
- * Text Domain: jetpack-mc
- * Domain Path: /languages/
+ * Text Domain: jetpack-module-control
+ * Domain Path: /languages
  * License: GPL2+
  * Version: 1.4.1
  */
@@ -296,9 +296,9 @@ class Jetpack_Module_Control {
 			<input type='checkbox' name='jetpack_mc_manual_control' value='1'
 			<?php checked( $option, '1' ); ?>
 			<?php disabled( $disabled ); ?>>
-			<?php _e('Prevent Jetpack from auto-activating (new) modules','jetpack-mc'); ?>
+			<?php _e('Prevent Jetpack from auto-activating (new) modules','jetpack-module-control'); ?>
 		</label>
-		<p class="description"><?php echo sprintf( __('Note: The module %s is excepted from this rule.','jetpack-mc'), translate_with_gettext_context('Protect','Module Name','jetpack') ); ?></p>
+		<p class="description"><?php echo sprintf( __('Note: The module %s is excepted from this rule.','jetpack-module-control'), translate_with_gettext_context('Protect','Module Name','jetpack') ); ?></p>
 		<?php
 
 	} // END manual_control_settings()
@@ -365,9 +365,9 @@ class Jetpack_Module_Control {
 			<input type='checkbox' name='jetpack_mc_development_mode' value='1'
 			<?php checked( $option, '1' ); ?>
 			<?php disabled( $disabled ); ?>>
-			<?php _e('Use Jetpack modules without a WordPress.com connection','jetpack-mc'); ?>
+			<?php _e('Use Jetpack modules without a WordPress.com connection','jetpack-module-control'); ?>
 		</label>
-		<p class="description"><?php _e('By forcing Jetpack into development mode, modules are used without a WordPress.com account. All modules that require a WordPress.com connection will be unavailable. These modules are marked with an asterisk (*) below. The admin message about Jetpack running in development mode will be hidden.','jetpack-mc'); ?></p>
+		<p class="description"><?php _e('By forcing Jetpack into development mode, modules are used without a WordPress.com account. All modules that require a WordPress.com connection will be unavailable. These modules are marked with an asterisk (*) below. The admin message about Jetpack running in development mode will be hidden.','jetpack-module-control'); ?></p>
 		<?php
 
 	} // END development_mode_settings()
@@ -458,7 +458,7 @@ class Jetpack_Module_Control {
 		$icons = self::$known_modules_icons;
 
 		?>
-		<fieldset><legend class="screen-reader-text"><span><?php _e('Blacklist Modules','jetpack-mc'); ?></span></legend>
+		<fieldset><legend class="screen-reader-text"><span><?php _e('Blacklist Modules','jetpack-module-control'); ?></span></legend>
 		<?php
 		foreach ( $modules as $slug => $module ) {
 			$icon = isset($icons[$slug]) ? $icons[$slug] : self::$default_icon;
@@ -468,11 +468,11 @@ class Jetpack_Module_Control {
 				<?php checked( in_array( $slug, $blacklist ), true ); ?>
 				<?php disabled( $disabled ); ?>>
 				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo translate_with_gettext_context( $module['name'], 'Module Name', 'jetpack' ) ?>
-			</label><?php echo !empty($module['requires_connection']) && true === $module['requires_connection'] ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a WordPress.com connection','jetpack-mc') . '">*</a>' : ''; ?><br>
+			</label><?php echo !empty($module['requires_connection']) && true === $module['requires_connection'] ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a WordPress.com connection','jetpack-module-control') . '">*</a>' : ''; ?><br>
 			<?php
 		}
 		?>
-		<aside role="note" id="jmc-note-1"><p class="description"><?php _e('*) Modules marked with an asterisk require a WordPress.com connection. They will be unavailable if Jetpack is forced into development mode.','jetpack-mc'); ?></p></aside>
+		<aside role="note" id="jmc-note-1"><p class="description"><?php _e('*) Modules marked with an asterisk require a WordPress.com connection. They will be unavailable if Jetpack is forced into development mode.','jetpack-module-control'); ?></p></aside>
 		</fieldset>
 		<?php
 
@@ -538,7 +538,7 @@ class Jetpack_Module_Control {
 		// Do regular register/add_settings stuff in 'general' settings on options-general.php
 		$settings = 'general';
 
-		add_settings_section('jetpack-mc', '<a name="jetpack-mc"></a>' . __('Jetpack Module Control','jetpack-mc'), array($this, 'add_settings_section'), $settings);
+		add_settings_section('jetpack-module-control', '<a name="jetpack-mc"></a>' . __('Jetpack Module Control','jetpack-module-control'), array($this, 'add_settings_section'), $settings);
 
 		// register settings
 		if ( defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ) {
@@ -550,9 +550,9 @@ class Jetpack_Module_Control {
 		}
 
 		// add settings fields
-		add_settings_field( 'jetpack_mc_manual_control', __('Manual Control','jetpack-mc'), array($this, 'manual_control_settings'), $settings, 'jetpack-mc' ); // array('label_for' => 'elementid')
-		add_settings_field( 'jetpack_mc_development_mode', __('Development Mode','jetpack-mc'), array($this, 'development_mode_settings'), $settings, 'jetpack-mc' ); // array('label_for' => 'elementid')
-		add_settings_field( 'jetpack_mc_blacklist', __('Blacklist Modules','jetpack-mc'), array($this, 'blacklist_settings'), $settings, 'jetpack-mc' );
+		add_settings_field( 'jetpack_mc_manual_control', __('Manual Control','jetpack-module-control'), array($this, 'manual_control_settings'), $settings, 'jetpack-module-control' ); // array('label_for' => 'elementid')
+		add_settings_field( 'jetpack_mc_development_mode', __('Development Mode','jetpack-module-control'), array($this, 'development_mode_settings'), $settings, 'jetpack-module-control' ); // array('label_for' => 'elementid')
+		add_settings_field( 'jetpack_mc_blacklist', __('Blacklist Modules','jetpack-module-control'), array($this, 'blacklist_settings'), $settings, 'jetpack-module-control' );
 
 	}
 
@@ -588,14 +588,14 @@ class Jetpack_Module_Control {
 	 */
 	public function show_network_settings() {
 		?>
-		<h3><a name="jetpack-mc"></a><?php _e('Jetpack Module Control','jetpack-mc'); ?></h3>
+		<h3><a name="jetpack-mc"></a><?php _e('Jetpack Module Control','jetpack-module-control'); ?></h3>
 		<?php
         	$this->add_settings_section('');
 		?>
 		<table class="form-table">
 			<tbody>
 				<tr>
-					<th scope="row"><?php _e('Manual Control','jetpack-mc'); ?></th>
+					<th scope="row"><?php _e('Manual Control','jetpack-module-control'); ?></th>
 					<td>
 						<?php
 						$this->manual_control_settings();
@@ -603,7 +603,7 @@ class Jetpack_Module_Control {
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php _e('Development Mode','jetpack-mc'); ?></th>
+					<th scope="row"><?php _e('Development Mode','jetpack-module-control'); ?></th>
 					<td>
 						<?php
 						$this->development_mode_settings();
@@ -611,7 +611,7 @@ class Jetpack_Module_Control {
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php _e('Blacklist Modules','jetpack-mc'); ?></th>
+					<th scope="row"><?php _e('Blacklist Modules','jetpack-module-control'); ?></th>
 					<td>
 						<?php
 						$this->blacklist_settings();
@@ -635,17 +635,17 @@ class Jetpack_Module_Control {
 		echo '<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Jetpack%20Module%20Control&item_number='
 				. $this->version
 				. '&no_shipping=0&tax=0&charset=UTF%2d8&currency_code=EUR" title="'
-				. __('Donate to keep plugin development going!','jetpack-mc')
+				. __('Donate to keep plugin development going!','jetpack-module-control')
 				. '" target="_blank"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" style="border:none;float:right;margin:5px 0 0 10px" alt="'
-				. __('Donate to keep plugin development going!','jetpack-mc') . '" width="92" height="26" /></a>'
-				. sprintf(__('The options in this section are provided by %s.','jetpack-mc'),'<strong><a href="http://status301.net/wordpress-plugins/jetpack-module-control/">'
-				. __('Jetpack Module Control','jetpack-mc') . ' ' . $this->version . '</a></strong>') . ' '
-				. __('This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.','jetpack-mc') . ' ';
+				. __('Donate to keep plugin development going!','jetpack-module-control') . '" width="92" height="26" /></a>'
+				. sprintf(__('The options in this section are provided by %s.','jetpack-module-control'),'<strong><a href="http://status301.net/wordpress-plugins/jetpack-module-control/">'
+				. __('Jetpack Module Control','jetpack-module-control') . ' ' . $this->version . '</a></strong>') . ' '
+				. __('This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.','jetpack-module-control') . ' ';
 
 		if ( !is_multisite() )
-			echo sprintf(__('These settings can be locked down by adding %s to your wp-config.php file.','jetpack-mc'),'<code>define(\'JETPACK_MC_LOCKDOWN\', true);</code>');
+			echo sprintf(__('These settings can be locked down by adding %s to your wp-config.php file.','jetpack-module-control'),'<code>define(\'JETPACK_MC_LOCKDOWN\', true);</code>');
 		else if ( !is_network_admin() )
-				echo '<br><em>' . __('These settings are only visible to you as Super Admin and allow overriding the network settings on this site only.','jetpack-mc') . '</em>';
+				echo '<br><em>' . __('These settings are only visible to you as Super Admin and allow overriding the network settings on this site only.','jetpack-module-control') . '</em>';
 
 		echo '</p>';
 	}
@@ -682,7 +682,7 @@ class Jetpack_Module_Control {
 
 		// only need translations on admin page
 		if ( is_admin() ) {
-			load_plugin_textdomain( 'jetpack-mc', false, dirname( $this->plugin_basename() ) . '/languages/' );
+			load_plugin_textdomain( 'jetpack-module-control', false, dirname( $this->plugin_basename() ) . '/languages/' );
 		}
 
 		add_filter( 'jetpack_get_default_modules', array( $this, 'manual_control' ), 99 );
