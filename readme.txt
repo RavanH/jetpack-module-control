@@ -1,5 +1,6 @@
 === Module Control for Jetpack ===
 Contributors: RavanH
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Module%20Control%20for%20Jetpack
 Tags: Jetpack, jet pack, jetpack light, manual control, blacklist, blacklist jetpack modules, slim jetpack
 Stable tag: 1.4.2
 Requires at least: 4.0
@@ -50,11 +51,10 @@ All contributions -- be it in the form of feature requests, bug reports, transla
 
 The package contains a sample jetpack-mc-xx_XX.po file ready for translators.
 
-- **Dutch** * R.A. van Hagen http://status301.net/ (version 1.2)
+- **Dutch** * R.A. van Hagen http://status301.net/ (version 1.4)
 - **French** * R.A. van Hagen http://status301.net/ (version 1.2, incomplete)
 
 Please [contact me](http://status301.net/contact-en/) to submit your translation and get mentioned here :)
-
 
 == Installation ==
 
