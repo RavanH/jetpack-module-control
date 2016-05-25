@@ -264,7 +264,10 @@ class Jetpack_Module_Control {
 	/**
 	 * Adds the sub-site override option
 	 *
-	 * 
+	 * @see get_site_option(), checked(), disabled()
+	 * @uses jetpack_mc_subsite_override network option
+	 * @echo Html Checkbox input field for jetpack_mc_subsite_override option
+	 * @return void
 	 */
 	public function subsite_override_settings() {
 
@@ -284,7 +287,10 @@ class Jetpack_Module_Control {
 	} // END subsite_override_settings()
 
 	/**
-	 * 
+	 * Checks if subsite override is allowed on multisite. 
+	 *
+	 * @uses  get_site_option()
+	 * @return  bool jetpack_mc_subsite_override network option. Always true if single site installation
 	 */
 	public function subsite_override() {
 
