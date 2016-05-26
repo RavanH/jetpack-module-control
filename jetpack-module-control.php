@@ -9,7 +9,7 @@
  * Text Domain: jetpack-module-control
  * Domain Path: /languages
  * License: GPL2+
- * Version: 1.4.2
+ * Version: 1.5-alpha
  */
 
 /*
@@ -67,7 +67,7 @@ class Jetpack_Module_Control {
 	 * @since 0.1
 	 * @var string
 	 */
-	public $version = '1.4.1';
+	public $version = '1.4.9';
 
 	/**
 	 * Available modules array
