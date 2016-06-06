@@ -75,6 +75,9 @@ Text domain name change.
 
 == Changelog ==
 
+= 1.5 =
+* NEW: option to allow site admins override contributed by @harshit_ps https://github.com/RavanH/jetpack-module-control/pull/8
+
 = 1.4.2 =
 Date: 2016/04/14
 
