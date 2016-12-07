@@ -9,7 +9,7 @@
  * Text Domain: jetpack-module-control
  * Domain Path: /languages
  * License: GPL2+
- * Version: 1.5-alpha
+ * Version: 1.5
  */
 
 /*
@@ -67,7 +67,7 @@ class Jetpack_Module_Control {
 	 * @since 0.1
 	 * @var string
 	 */
-	public $version = '1.4.9';
+	public $version = '1.5';
 
 	/**
 	 * Available modules array
@@ -282,12 +282,12 @@ class Jetpack_Module_Control {
 			<?php disabled( $disabled ); ?>>
 			<?php _e('Allow individual site administrators to manage their own settings for Jetpack Module Control','jetpack-module-control'); ?>
 		</label>
-		
+
 		<?php
 	} // END subsite_override_settings()
 
 	/**
-	 * Checks if subsite override is allowed on multisite. 
+	 * Checks if subsite override is allowed on multisite.
 	 *
 	 * @uses  get_site_option()
 	 * @return  bool jetpack_mc_subsite_override network option. Always true if single site installation
@@ -368,7 +368,7 @@ class Jetpack_Module_Control {
 	public function manual_control( $modules ) {
 
 		// check if subsite override allowed
-		if( $this->subsite_override() ) {			
+		if( $this->subsite_override() ) {
 			$option = get_option('jetpack_mc_manual_control');
 		} else {
 			$option = false;
@@ -446,11 +446,11 @@ class Jetpack_Module_Control {
 	public function development_mode() {
 		// check if subsite override allowed
 		if( $this->subsite_override() ) {
-			$option = get_option('jetpack_mc_development_mode');	
+			$option = get_option('jetpack_mc_development_mode');
 		} else {
 			$option = false;
 		}
-		
+
 		// if false, fall back on network settings
 		if ( $option === false && is_multisite() ) {
 			$option = get_site_option('jetpack_mc_development_mode');
@@ -569,9 +569,9 @@ class Jetpack_Module_Control {
 	 * @return Array Allowed modules after unsetting blacklisted modules from all modules array
 	 */
 	public function blacklist ( $modules ) {
-	
+
 		// check if subsite override allowed
-		if( $this->subsite_override() ) {	
+		if( $this->subsite_override() ) {
 			$blacklist = get_option('jetpack_mc_blacklist');
 		} else {
 			$blacklist = false;
@@ -694,7 +694,7 @@ class Jetpack_Module_Control {
 						?>
 					</td>
 				</tr>
-				
+
 				<tr>
 					<th scope="row"><?php _e('Manual Control','jetpack-module-control'); ?></th>
 					<td>

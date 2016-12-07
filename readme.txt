@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravan
 Tags: Jetpack, jet pack, jetpack light, manual control, blacklist, blacklist jetpack modules, slim jetpack
 Stable tag: 1.4.2
 Requires at least: 4.0
-Tested up to: 4.5
+Tested up to: 4.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -70,12 +70,14 @@ Please [contact me](http://status301.net/contact-en/) to submit your translation
 
 == Upgrade Notice ==
 
-= 1.4.2 =
-Text domain name change.
+= 1.5 =
+Allow site admins override, contributed by @harshit_ps
 
 == Changelog ==
 
 = 1.5 =
+Date: 2016/12/07
+
 * NEW: option to allow site admins override contributed by @harshit_ps https://github.com/RavanH/jetpack-module-control/pull/8
 
 = 1.4.2 =
