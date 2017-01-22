@@ -9,7 +9,7 @@
  * Text Domain: jetpack-module-control
  * Domain Path: /languages
  * License: GPL2+
- * Version: 1.5
+ * Version: 1.6-alpha
  */
 
 /*
@@ -84,6 +84,8 @@ class Jetpack_Module_Control {
 	 * @var array
 	 */
 	private static $known_modules = array(
+					'wordads' 		=> array( 'name' 	=> 'Ads',
+								'requires_connection' 	=> true ),
 					'after-the-deadline' 	=> array( 'name' 	=> 'Spelling and Grammar',
 								'requires_connection' 	=> true ),
 					'carousel' 		=> array( 'name' 	=> 'Carousel',
@@ -130,6 +132,8 @@ class Jetpack_Module_Control {
 								'requires_connection' 	=> true ),
 					'related-posts' 	=> array( 'name' 	=> 'Related Posts',
 								'requires_connection' 	=> true ),
+					'seo-tools' 		=> array( 'name' 	=> 'SEO Tools',
+								'requires_connection' 	=> true ),
 					'sharedaddy' 		=> array( 'name' 	=> 'Sharing',
 								'requires_connection' 	=> false ),
 					'shortcodes' 		=> array( 'name' 	=> 'Shortcode Embeds',
@@ -170,6 +174,7 @@ class Jetpack_Module_Control {
 	 * @var array
 	 */
 	private static $known_modules_icons = array(
+						'wordads' 		=> 'megaphone',
 						'after-the-deadline' 	=> 'edit',
 						'carousel' 		=> 'camera',
 						'comments' 		=> 'format-chat',
@@ -193,6 +198,7 @@ class Jetpack_Module_Control {
 						'protect' 		=> 'lock',
 						'publicize' 		=> 'share',
 						'related-posts' 	=> 'update',
+						'seo-tools' 		=> 'chart-bar',
 						'sharedaddy' 		=> 'share-alt',
 						'shortcodes' 		=> 'text',
 						'shortlinks' 		=> 'admin-links',
