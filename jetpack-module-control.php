@@ -640,7 +640,7 @@ class Jetpack_Module_Control {
 			} else {
 				register_setting( $settings, 'jetpack_mc_manual_control' ); // sanitize_callback 'boolval' ?
 				register_setting( $settings, 'jetpack_mc_development_mode' ); // sanitize_callback 'boolval' ?
-				register_setting( $settings, 'jetpack_mc_blacklist', 'array_values' );
+				register_setting( $settings, 'jetpack_mc_blacklist', array($this, 'sanitize_blacklist') );
 			}
 
 			// add settings fields
@@ -649,6 +649,15 @@ class Jetpack_Module_Control {
 			add_settings_field( 'jetpack_mc_blacklist', __('Blacklist Modules','jetpack-module-control'), array($this, 'blacklist_settings'), $settings, 'jetpack-module-control' );
 		}
 
+	}
+	
+	/**
+	 * Sanitizes blacklist array
+	 *
+	 * @since 1.6
+	 */
+	public function sanitize_blacklist( $options ) {	
+		return is_array($options) ? array_values($options) : $options;
 	}
 
 	/**
@@ -671,7 +680,7 @@ class Jetpack_Module_Control {
 
 		isset( $_POST['jetpack_mc_development_mode'] ) && $posted_settings['jetpack_mc_development_mode'] = '1';
 
-		isset( $_POST['jetpack_mc_blacklist'] ) && is_array( $_POST['jetpack_mc_blacklist'] ) && $posted_settings['jetpack_mc_blacklist'] = array_values( $_POST['jetpack_mc_blacklist'] );
+		isset( $_POST['jetpack_mc_blacklist'] ) && $posted_settings['jetpack_mc_blacklist'] = $this->sanitize_blacklist( $_POST['jetpack_mc_blacklist'] );
 
 		foreach( $posted_settings as $name => $value ) {
 			update_site_option( $name, $value );
