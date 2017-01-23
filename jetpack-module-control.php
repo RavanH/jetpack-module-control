@@ -205,7 +205,7 @@ class Jetpack_Module_Control {
 						'site-icon' 		=> 'admin-site',
 						'sitemaps' 		=> 'networking',
 						'sso' 			=> 'wordpress-alt',
-						'stats' 		=> 'wordpress-alt',
+						'stats' 		=> 'chart-area',
 						'subscriptions' 	=> 'email',
 						'tiled-gallery' 	=> 'layout',
 						'vaultpress' 		=> 'shield-alt', // not availabe
