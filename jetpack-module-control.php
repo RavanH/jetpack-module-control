@@ -7,7 +7,6 @@
  * Author URI: https://status301.net/
  * Network: true
  * Text Domain: jetpack-module-control
- * Domain Path: /languages
  * License: GPL2+
  * Version: 1.6
  */
@@ -836,7 +835,7 @@ class Jetpack_Module_Control {
 
 		// only need translations on admin page
 		if ( is_admin() ) {
-			load_plugin_textdomain( 'jetpack-module-control', false, dirname( $this->plugin_basename() ) . '/languages/' );
+			load_plugin_textdomain( 'jetpack-module-control' );
 		}
 
 		add_filter( 'jetpack_get_default_modules', array( $this, 'manual_control' ), 99 );
