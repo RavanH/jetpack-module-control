@@ -80,6 +80,7 @@ Date: 2020/08/19
 
 * Replace jetpack_development_mode with jetpack_offline_mode filter
 * New module icons
+* Shorter list when Offline Mode is activated
 
 = 1.5 =
 Date: 2016/12/07
