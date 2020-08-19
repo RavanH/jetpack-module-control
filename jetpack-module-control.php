@@ -1,15 +1,15 @@
 <?php
 /*
  * Plugin Name: Module Control for Jetpack
- * Plugin URI: http://status301.net/wordpress-plugins/jetpack-module-control/
+ * Plugin URI: https://status301.net/wordpress-plugins/jetpack-module-control/
  * Description: This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.
  * Author: RavanH
- * Author URI: http://status301.net/
+ * Author URI: https://status301.net/
  * Network: true
  * Text Domain: jetpack-module-control
  * Domain Path: /languages
  * License: GPL2+
- * Version: 1.6-alpha
+ * Version: 1.6
  */
 
 /*
@@ -67,7 +67,7 @@ class Jetpack_Module_Control {
 	 * @since 0.1
 	 * @var string
 	 */
-	public $version = '1.5';
+	public $version = '1.6';
 
 	/**
 	 * Available modules array
@@ -167,26 +167,29 @@ class Jetpack_Module_Control {
 	/**
 	 * Know modules array with dashicons
 	 * https://developer.wordpress.org/resource/dashicons/
-	 * TODO switch to http://genericons.com/
 	 *
 	 * @since 0.3
 	 * @access  private
 	 * @var array
 	 */
 	private static $known_modules_icons = array(
-						'wordads' 		=> 'megaphone',
-						'after-the-deadline' 	=> 'edit',
-						'carousel' 		=> 'camera',
-						'comments' 		=> 'format-chat',
-						'contact-form' 		=> 'feedback',
+						'wordads'		=> 'megaphone',
+						'after-the-deadline'	=> 'edit',
+						'carousel'		=> 'camera',
+						'comments'		=> 'format-chat',
+						'contact-form'		=> 'feedback',
+						'copy-post'		=> 'admin-page',
 						'custom-content-types' 	=> 'media-default',
 						'custom-css' 		=> 'admin-appearance',
 						'enhanced-distribution'	=> 'share',
-						'gravatar-hovercards' 	=> 'id', // not available
-						'infinite-scroll' 	=> 'star-filled',
-						'json-api' 		=> 'share-alt',
+						'google-analytics'	=> 'chart-line',
+						'gravatar-hovercards'	=> 'id', // not available
+						'infinite-scroll'		=> 'star-filled',
+						'json-api'		=> 'share-alt',
 						'latex' 		=> 'star-filled',
 						'likes' 		=> 'star-filled',
+						'comment-likes' 		=> 'star-filled',
+						'lazy-images'	=> 'images-alt',
 						'manage' 		=> 'wordpress-alt',
 						'markdown' 		=> 'editor-code',
 						'minileven' 		=> 'smartphone',
@@ -194,10 +197,12 @@ class Jetpack_Module_Control {
 						'notes' 		=> 'admin-comments',
 						'omnisearch' 		=> 'search',
 						'photon' 		=> 'visibility',
+						'photon-cdn' 		=> 'visibility',
 						'post-by-email' 	=> 'email',
 						'protect' 		=> 'lock',
 						'publicize' 		=> 'share',
 						'related-posts' 	=> 'update',
+						'search'	=> 'search',
 						'seo-tools' 		=> 'chart-bar',
 						'sharedaddy' 		=> 'share-alt',
 						'shortcodes' 		=> 'text',
@@ -212,7 +217,9 @@ class Jetpack_Module_Control {
 						'verification-tools' 	=> 'clipboard', // maybe yes
 						'videopress' 		=> 'controls-play',
 						'widget-visibility' 	=> 'welcome-widgets-menus',
-						'widgets' 		=> 'welcome-widgets-menus'
+						'widgets' 		=> 'welcome-widgets-menus',
+						'woocommerce-analytics'	=> 'cart',
+						'masterbar'	=> 'wordpress',
 					);
 
 	/**
@@ -542,13 +549,11 @@ class Jetpack_Module_Control {
 		$modules = $this->get_available_modules();
 		asort($modules);
 
-		$icons = self::$known_modules_icons;
-
 		?>
 		<fieldset><legend class="screen-reader-text"><span><?php _e('Blacklist Modules','jetpack-module-control'); ?></span></legend>
 		<?php
 		foreach ( $modules as $slug => $module ) {
-			$icon = isset($icons[$slug]) ? $icons[$slug] : self::$default_icon;
+			$icon = isset(self::$known_modules_icons[$slug]) ? self::$known_modules_icons[$slug] : self::$default_icon;
 			?>
 			<label>
 				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo $slug; ?>'
@@ -645,18 +650,18 @@ class Jetpack_Module_Control {
 
 			// add settings fields
 			add_settings_field( 'jetpack_mc_manual_control', __('Manual Control','jetpack-module-control'), array($this, 'manual_control_settings'), $settings, 'jetpack-module-control' ); // array('label_for' => 'elementid')
-			add_settings_field( 'jetpack_mc_development_mode', __('Development Mode','jetpack-module-control'), array($this, 'development_mode_settings'), $settings, 'jetpack-module-control' ); // array('label_for' => 'elementid')
+			add_settings_field( 'jetpack_mc_development_mode', __('Offline Mode','jetpack-module-control'), array($this, 'development_mode_settings'), $settings, 'jetpack-module-control' ); // array('label_for' => 'elementid')
 			add_settings_field( 'jetpack_mc_blacklist', __('Blacklist Modules','jetpack-module-control'), array($this, 'blacklist_settings'), $settings, 'jetpack-module-control' );
 		}
 
 	}
-	
+
 	/**
 	 * Sanitizes blacklist array
 	 *
 	 * @since 1.6
 	 */
-	public function sanitize_blacklist( $options ) {	
+	public function sanitize_blacklist( $options ) {
 		return is_array($options) ? array_values($options) : $options;
 	}
 
@@ -802,7 +807,7 @@ class Jetpack_Module_Control {
 		}
 
 		add_filter( 'jetpack_get_default_modules', array( $this, 'manual_control' ), 99 );
-		add_filter( 'jetpack_development_mode', array( $this, 'development_mode' ) );
+		add_filter( 'jetpack_offline_mode', array( $this, 'development_mode' ) );
 		add_filter( 'jetpack_get_available_modules', array( $this, 'blacklist' ) );
 	}
 
