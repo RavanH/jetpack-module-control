@@ -413,6 +413,43 @@ class Jetpack_Module_Control {
 	 * DEVELOPMENT MODE
 	 */
 
+	 /**
+ 	 * Get the Jetpack Without WordPress.com option
+ 	 *
+ 	 * @since 1.6
+ 	 *
+ 	 * @return bool|string
+ 	 */
+ 	private function get_development_mode() {
+
+ 		if ( is_network_admin() ) {
+ 			// we're in network admin
+ 			if ( is_plugin_active_for_network('slimjetpack/slimjetpack.php') || is_plugin_active_for_network('unplug-jetpack/unplug-jetpack.php') ) {
+ 				$option = '1';
+ 			} else {
+ 				// retrieve network settings
+ 				$option = get_site_option('jetpack_mc_development_mode');
+ 			}
+ 		} else {
+ 			// we're in site admin
+ 			if ( is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php') ) {
+ 				$option = '1';
+ 			} else {
+ 				// check if subsite override allowed
+ 				if( $this->subsite_override() ) {
+ 					//retrieve site setting
+ 					$option = get_option('jetpack_mc_development_mode');
+ 				} else {
+ 					$option = false;
+ 				}
+ 				// fall back on network settings
+ 				if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_development_mode');
+  			}
+ 		}
+
+		return $option;
+	}
+
 	/**
 	 * Adds the Jetpack Without WordPress.com option
 	 *
@@ -424,33 +461,11 @@ class Jetpack_Module_Control {
 	 */
 	public function development_mode_settings() {
 
-		if ( is_network_admin() ) {
-			// we're in network admin
-			if ( is_plugin_active_for_network('slimjetpack/slimjetpack.php') || is_plugin_active_for_network('unplug-jetpack/unplug-jetpack.php') ) {
-				$option = '1';
-				$disabled = true;
-			} else {
-				// retrieve network settings
-				$option = get_site_option('jetpack_mc_development_mode');
-				$disabled = false;
-			}
-		} else {
-			// we're in site admin
-			if ( is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php') ) {
-				$option = '1';
-				$disabled = true;
-			} else {
-				// check if subsite override allowed
-				if( $this->subsite_override() ) {
-					//retrieve site setting
-					$option = get_option('jetpack_mc_development_mode');
-				} else {
-					$option = false;
-				}
-				// fall back on network settings
-				if ( $option === false && is_multisite() ) $option = get_site_option('jetpack_mc_development_mode');
-				$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
-			}
+		$option = $this->get_development_mode();
+		$disabled = ! is_network_admin() && defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
+
+		if ( is_network_admin() && ( is_plugin_active_for_network('slimjetpack/slimjetpack.php') || is_plugin_active_for_network('unplug-jetpack/unplug-jetpack.php') ) || is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php') ) {
+			$disabled = true;
 		}
 
 		?>
@@ -559,6 +574,8 @@ class Jetpack_Module_Control {
 			$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
 		}
 
+		$devmode = $this->get_development_mode();
+
 		// blacklist must be an array, if anything else then just make it an empty array
 		if ( !is_array($blacklist) ) $blacklist = array();
 
@@ -570,13 +587,14 @@ class Jetpack_Module_Control {
 		<?php
 		foreach ( $modules as $slug => $module ) {
 			$icon = isset(self::$known_modules_icons[$slug]) ? self::$known_modules_icons[$slug] : self::$default_icon;
+			$reqconn = !empty($module['requires_connection']) && true === $module['requires_connection'];
 			?>
 			<label>
 				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo $slug; ?>'
-				<?php checked( in_array( $slug, $blacklist ), true ); ?>
-				<?php disabled( $disabled ); ?>>
+				<?php checked( in_array( $slug, $blacklist ) || $devmode && $reqconn ); ?>
+				<?php disabled( $disabled || $devmode && $reqconn ); ?>>
 				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo translate_with_gettext_context( $module['name'], 'Module Name', 'jetpack' ) ?>
-			</label><?php echo !empty($module['requires_connection']) && true === $module['requires_connection'] ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a WordPress.com connection','jetpack-module-control') . '">*</a>' : ''; ?><br>
+			</label><?php echo $reqconn ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a WordPress.com connection','jetpack-module-control') . '">*</a>' : ''; ?><br>
 			<?php
 		}
 		?>
