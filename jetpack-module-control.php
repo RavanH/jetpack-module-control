@@ -252,8 +252,6 @@ class Jetpack_Module_Control {
 	 * @return array
 	 */
 	private function get_available_modules() {
-		// TODO : consider removing connection dependent modules when 'jetpack_mc_development_mode' is ON
-
 		if ( null === self::$modules ) {
 			if ( class_exists('Jetpack') ) {
 				remove_filter( 'jetpack_get_available_modules', array($this, 'blacklist') );
@@ -588,17 +586,18 @@ class Jetpack_Module_Control {
 		foreach ( $modules as $slug => $module ) {
 			$icon = isset(self::$known_modules_icons[$slug]) ? self::$known_modules_icons[$slug] : self::$default_icon;
 			$reqconn = !empty($module['requires_connection']) && true === $module['requires_connection'];
+			if ( $devmode && $reqconn ) continue;
 			?>
 			<label>
 				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo $slug; ?>'
-				<?php checked( in_array( $slug, $blacklist ) || $devmode && $reqconn ); ?>
-				<?php disabled( $disabled || $devmode && $reqconn ); ?>>
+				<?php checked( in_array( $slug, $blacklist ) ); ?>
+				<?php disabled( $disabled ); ?>>
 				<span class="dashicons dashicons-<?php echo $icon; ?>"></span> <?php echo translate_with_gettext_context( $module['name'], 'Module Name', 'jetpack' ) ?>
 			</label><?php echo $reqconn ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . __('Requires a WordPress.com connection','jetpack-module-control') . '">*</a>' : ''; ?><br>
 			<?php
 		}
+		if ( ! $devmode ) echo '<aside role="note" id="jmc-note-1"><p class="description">' . __('*) Modules marked with an asterisk require a WordPress.com connection. They will be unavailable if Jetpack is forced into offline mode.','jetpack-module-control') . '</p></aside>';
 		?>
-		<aside role="note" id="jmc-note-1"><p class="description"><?php _e('*) Modules marked with an asterisk require a WordPress.com connection. They will be unavailable if Jetpack is forced into development mode.','jetpack-module-control'); ?></p></aside>
 		</fieldset>
 		<?php
 
