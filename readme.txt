@@ -2,9 +2,9 @@
 Contributors: RavanH
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Module%20Control%20for%20Jetpack
 Tags: Jetpack, jet pack, jetpack light, manual control, blacklist, blacklist jetpack modules, slim jetpack
-Stable tag: 1.5
+Stable tag: 1.6
 Requires at least: 4.0
-Tested up to: 5.4
+Tested up to: 5.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -70,10 +70,16 @@ Please [contact me](http://status301.net/contact-en/) to submit your translation
 
 == Upgrade Notice ==
 
-= 1.5 =
-Allow site admins override, contributed by @harshit_ps
+= 1.6 =
+Use jetpack_offline_mode filter, new icons
 
 == Changelog ==
+
+= 1.6 =
+Date: 2020/08/19
+
+* Replace jetpack_development_mode with jetpack_offline_mode filter
+* New module icons
 
 = 1.5 =
 Date: 2016/12/07
