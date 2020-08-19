@@ -47,15 +47,6 @@ The project can be forked and or contributed to on [Github](https://github.com/R
 
 All contributions -- be it in the form of feature requests, bug reports, translations or code -- are welcome!
 
-= Translations =
-
-The package contains a sample jetpack-mc-xx_XX.po file ready for translators.
-
-- **Dutch** * R.A. van Hagen http://status301.net/ (version 1.4)
-- **French** * R.A. van Hagen http://status301.net/ (version 1.2, incomplete)
-
-Please [contact me](http://status301.net/contact-en/) to submit your translation and get mentioned here :)
-
 == Installation ==
 
 1. Install Jetpack Module Control either via the WordPress.org plugin directory, or by uploading the files to your server.
