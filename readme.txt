@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravan
 Tags: Jetpack, jet pack, jetpack light, manual control, blacklist, blacklist jetpack modules, slim jetpack
 Stable tag: 1.6
 Requires at least: 4.0
-Tested up to: 5.5
+Tested up to: 5.7
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
