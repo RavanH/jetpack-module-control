@@ -1,10 +1,10 @@
 === Module Control for Jetpack ===
 Contributors: RavanH
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Module%20Control%20for%20Jetpack
-Tags: Jetpack, jet pack, jetpack light, manual control, blacklist, blacklist jetpack modules, slim jetpack
+Tags: Jetpack, jet pack, jetpack light, manual control, blacklist, blacklist jetpack modules, slim jetpack, unplug jetpack
 Stable tag: 1.6
 Requires at least: 4.0
-Tested up to: 5.7
+Tested up to: 6.2
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,24 +12,24 @@ Your Jetpack, Controlled.
 
 == Description ==
 
-[Jetpack](https://wordpress.org/plugins/jetpack/) adds powerful features... but sometimes we don't want them all. This plugin brings additional control over Jetpack modules.
+[Jetpack](https://wordpress.org/plugins/jetpack/) adds powerful features, but sometimes we don't want them all... This plugin brings additional control over Jetpack.
 
 = Features =
 
 1. Blacklist / remove individual Jetpack modules.
 1. Prevent module auto-activation on connection or after an upgrade.
-1. Allow activation of Jetpack modules without a WordPress.com connection.
+1. Run Jetpack "unplugged", without a WordPress.com connection.
 1. Single site and Multisite compatible.
 
 = Examples =
 
 In most use cases, a carefully considered combination of Jetpack modules can be a really good thing. But not always is much consideration being done beforehand. Or site admins just don't know all the implications...
 
-- Maybe your Nginx web server uses FastCGI caching, making it incompatible with the Mobile Theme module? Blacklist that module to prevent any admin from activating it.
-- Do you already a light box provided by your theme or another plugin? Then blacklist the Carousel module to prevent accidental activation.
+- Using Jetpack on a network? Then network incompatible WAF (Web Application Firewall) module should be blacklisted to prevent accidental activation!
+- Do you already use a light box provided by your theme or another plugin? Then blacklist the Carousel module to prevent accidental activation.
 - Or you're running a Multisite and do not want any admins monitoring uptime with the Monitor module just to call you every time their site is briefly inaccessible?
-- Or you offer your own backup service and do not care much for VaultPress competition?
-- You're running a school network and (some) sites are managed by minors who are not allowed to sign up for an account at WordPress.com? Then use the Jetpack Development Mode option to allow usage of modules that do not require a connection.
+- Offer your own backup service and do not care much for VaultPress competition?
+- You're running a school network and (some) sites are managed by minors who are not allowed to sign up for an account at WordPress.com? Then use the Jetpack Offline Mode option to allow usage of modules that do not require a connection.
 
 Any one of Jetpack's modules can bring overlapping or even conflicting functionality. In such cases, being able to prevent (accidental) activation is a good thing.
 
