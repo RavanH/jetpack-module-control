@@ -9,7 +9,7 @@
  * Network: true
  * Text Domain: jetpack-module-control
  * License: GPL2+
- * Version: 1.7-alpha1
+ * Version: 1.7-alpha2
  *
  * @package Module Control for Jetpack
  */
