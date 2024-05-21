@@ -736,6 +736,9 @@ class Jetpack_Module_Control {
 	 */
 	public function admin_init() {
 
+		// Admin translations.
+		load_plugin_textdomain( 'jetpack-module-control' );
+
 		$this->no_manage_notice();
 
 		$this->no_dev_notice();
@@ -911,26 +914,6 @@ class Jetpack_Module_Control {
 	}
 
 	/**
-	 * Routines to execute on plugins_loaded
-	 *
-	 * See https://github.com/Automattic/jetpack/pull/2027 >> request accepted and fixed
-	 *
-	 * @since 0.1
-	 */
-	public function plugins_loaded() {
-		global $pagenow;
-
-		// only need translations on admin page.
-		if ( is_admin() ) {
-			load_plugin_textdomain( 'jetpack-module-control' );
-		}
-
-		add_filter( 'jetpack_get_default_modules', array( $this, 'manual_control' ), 99 );
-		add_filter( 'jetpack_offline_mode', array( $this, 'development_mode' ) );
-		add_filter( 'jetpack_get_available_modules', array( $this, 'blacklist' ) );
-	}
-
-	/**
 	 * Getter method for retrieving single object instance.
 	 *
 	 * @since 0.1
@@ -950,7 +933,10 @@ class Jetpack_Module_Control {
 	 * @since  0.1
 	 */
 	private function __construct() {
-		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ), 0 );
+		add_filter( 'jetpack_get_default_modules', array( $this, 'manual_control' ), 99 );
+		add_filter( 'jetpack_offline_mode', array( $this, 'development_mode' ) );
+		add_filter( 'jetpack_get_available_modules', array( $this, 'blacklist' ) );
+
 		add_action( 'admin_init', array( $this, 'admin_init' ), 11 );
 	}
 

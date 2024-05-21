@@ -67,13 +67,10 @@ Use jetpack_offline_mode filter, new icons
 == Changelog ==
 
 = 1.7 =
-Date:
+Date: 2024/05/21
 
 * Coding standards
-TODO :
-+ Network settings nonce!
-+ Test 6.6 compatibility
-+ Add new modules, remove old
+* FIX: jetpack_offline_mode filter added too late, thanks @jqz
 
 = 1.6 =
 Date: 2020/08/19
