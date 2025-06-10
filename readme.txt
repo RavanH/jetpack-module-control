@@ -70,7 +70,10 @@ Use jetpack_offline_mode filter, new icons
 Date: 2024/05/21
 
 * Coding standards
+* NEW: filter jmc_get_available_modules
 * FIX: jetpack_offline_mode filter added too late, thanks @jqz
+
+TODO: nonce on admin save
 
 = 1.6 =
 Date: 2020/08/19

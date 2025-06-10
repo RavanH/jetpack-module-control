@@ -351,7 +351,8 @@ class Jetpack_Module_Control {
 				self::$modules = self::$known_modules;
 			}
 		}
-		return self::$modules;
+
+		return apply_filters( 'jmc_get_available_modules', self::$modules );
 	}
 
 	/**
