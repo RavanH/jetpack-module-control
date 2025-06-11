@@ -3,7 +3,7 @@ Contributors: RavanH
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Module%20Control%20for%20Jetpack
 Tags: Jetpack, jetpack light, blacklist jetpack modules, slim jetpack, unplug jetpack
 Stable tag: 1.6
-Requires at least: 4.0
+Requires at least: 4.6
 Tested up to: 6.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
@@ -74,7 +74,7 @@ Date: 2024/05/21
 * FIX: network settings nonce verification
 * FIX: jetpack_offline_mode filter added too late, thanks @jqz
 
-TODO: nonce on admin save
+TODO: test de/activate, test uninstall, test sub-site override, test autoloaded options
 
 = 1.6 =
 Date: 2020/08/19
