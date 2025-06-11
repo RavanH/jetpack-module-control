@@ -1,10 +1,10 @@
 === Module Control for Jetpack ===
 Contributors: RavanH
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Module%20Control%20for%20Jetpack
-Tags: Jetpack, jet pack, jetpack light, manual control, blacklist, blacklist jetpack modules, slim jetpack, unplug jetpack
+Tags: Jetpack, jetpack light, blacklist jetpack modules, slim jetpack, unplug jetpack
 Stable tag: 1.6
 Requires at least: 4.0
-Tested up to: 6.2
+Tested up to: 6.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -70,7 +70,11 @@ Use jetpack_offline_mode filter, new icons
 Date: 2024/05/21
 
 * Coding standards
+* NEW: filter jmc_get_available_modules
+* FIX: network settings nonce verification
 * FIX: jetpack_offline_mode filter added too late, thanks @jqz
+
+TODO: nonce on admin save
 
 = 1.6 =
 Date: 2020/08/19
