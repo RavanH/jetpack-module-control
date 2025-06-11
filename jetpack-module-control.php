@@ -46,8 +46,7 @@
  *
  * Since 0.1
  */
-class Jetpack_Module_Control
-{
+class Jetpack_Module_Control {
 
 	/**
 	 * The single instance.
@@ -335,8 +334,8 @@ class Jetpack_Module_Control
 	 * @return array
 	 * @since 0.1
 	 */
-	private function get_available_modules(){
-		return apply_filters('jmc_get_available_modules', self::$modules ??= self::$known_modules);
+	private function get_available_modules() {
+		return apply_filters( 'jmc_get_available_modules', self::$modules ??= self::$known_modules );
 	}
 
 
@@ -349,25 +348,25 @@ class Jetpack_Module_Control
 	 *
 	 * @return void
 	 */
-	public function auto_load_jetpack_modules(){
-		if(!class_exists('Jetpack')){
+	public function auto_load_jetpack_modules() {
+		if ( ! class_exists( 'Jetpack' ) ) {
 			// Attempt to manually require Jetpack main files
 			$jetpack_dir = WP_PLUGIN_DIR . '/jetpack';
-			if(file_exists($jetpack_dir . '/jetpack.php')){
+			if ( file_exists( $jetpack_dir . '/jetpack.php' ) ) {
 				require_once $jetpack_dir . '/jetpack.php';
 			}
 		}
 
-		if(class_exists('Jetpack') && method_exists('Jetpack', 'get_available_modules')){
+		if ( class_exists( 'Jetpack' ) && method_exists( 'Jetpack', 'get_available_modules' ) ) {
 			$modules = array();
-			foreach(Jetpack::get_available_modules() as $slug){
-				remove_filter('jetpack_get_available_modules', array($this, 'blacklist'));
-				$module = Jetpack::get_module($slug);
-				if($module){
-					$modules[$slug] = $module;
+			foreach ( Jetpack::get_available_modules() as $slug ) {
+				remove_filter( 'jetpack_get_available_modules', array( $this, 'blacklist' ) );
+				$module = Jetpack::get_module( $slug );
+				if ( $module ) {
+					$modules[ $slug ] = $module;
 				}
 			}
-			add_filter('jetpack_get_available_modules', array($this, 'blacklist'));
+			add_filter( 'jetpack_get_available_modules', array( $this, 'blacklist' ) );
 			self::$modules = $modules;
 		}
 	}
@@ -379,9 +378,9 @@ class Jetpack_Module_Control
 	 * @since 0.1
 	 *
 	 */
-	private function plugin_basename(){
-		if(null === self::$plugin_basename){
-			self::$plugin_basename = plugin_basename(__FILE__);
+	private function plugin_basename() {
+		if ( null === self::$plugin_basename ) {
+			self::$plugin_basename = plugin_basename( __FILE__ );
 		}
 
 		return self::$plugin_basename;
@@ -399,18 +398,18 @@ class Jetpack_Module_Control
 	 * @echo Html Checkbox input field for jetpack_mc_subsite_override option
 	 * @see  get_site_option(), checked(), disabled()
 	 */
-	public function subsite_override_settings(){
+	public function subsite_override_settings() {
 
-		if(is_network_admin()){
-			$option = get_site_option('jetpack_mc_subsite_override');
+		if ( is_network_admin() ) {
+			$option = get_site_option( 'jetpack_mc_subsite_override' );
 		}
 		$disabled = false;
 		?>
 		<label>
 			<input type='checkbox' name='jetpack_mc_subsite_override' value='1'
-				<?php checked($option, '1'); ?>
-				<?php disabled($disabled); ?>>
-			<?php esc_html_e('Allow individual site administrators to manage their own settings for Jetpack Module Control', 'jetpack-module-control'); ?>
+				<?php checked( $option, '1' ); ?>
+				<?php disabled( $disabled ); ?>>
+			<?php esc_html_e( 'Allow individual site administrators to manage their own settings for Jetpack Module Control', 'jetpack-module-control' ); ?>
 		</label>
 
 		<?php
@@ -422,11 +421,11 @@ class Jetpack_Module_Control
 	 * @return  bool jetpack_mc_subsite_override network option. Always true if single site installation
 	 * @uses  get_site_option()
 	 */
-	public function subsite_override(){
+	public function subsite_override() {
 
-		if(is_multisite()){
-			$option = get_site_option('jetpack_mc_subsite_override');
-		}else{
+		if ( is_multisite() ) {
+			$option = get_site_option( 'jetpack_mc_subsite_override' );
+		} else {
 			// Always return true if not multisite.
 			$option = true;
 		}
@@ -449,38 +448,38 @@ class Jetpack_Module_Control
 	 * @echo Html Checkbox input field for jetpack_mc_manual_control option
 	 * @since 0.1
 	 */
-	public function manual_control_settings(){
+	public function manual_control_settings() {
 
-		if(is_network_admin()){
+		if ( is_network_admin() ) {
 			// we're in network admin: retrieve network settings.
-			$disabled = is_plugin_active_for_network('manual-control/manual-control.php');
-			$option   = $disabled ? '1' : get_site_option('jetpack_mc_manual_control');
-		}elseif(is_plugin_active('manual-control/manual-control.php')){
+			$disabled = is_plugin_active_for_network( 'manual-control/manual-control.php' );
+			$option   = $disabled ? '1' : get_site_option( 'jetpack_mc_manual_control' );
+		} elseif ( is_plugin_active( 'manual-control/manual-control.php' ) ) {
 			$option   = '1';
 			$disabled = true;
-		}else{
+		} else {
 			// check if subsite override allowed.
-			if($this->subsite_override()){
+			if ( $this->subsite_override() ) {
 				// retrieve site setting.
-				$option = get_option('jetpack_mc_manual_control');
-			}else{
+				$option = get_option( 'jetpack_mc_manual_control' );
+			} else {
 				$option = false;
 			}
 			// fall back on network settings.
-			if(false === $option && is_multisite()){
-				$option = get_site_option('jetpack_mc_manual_control');
+			if ( false === $option && is_multisite() ) {
+				$option = get_site_option( 'jetpack_mc_manual_control' );
 			}
-			$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
+			$disabled = defined( 'JETPACK_MC_LOCKDOWN' ) && JETPACK_MC_LOCKDOWN ? true : false;
 		}
 
 		?>
 		<label>
 			<input type='checkbox' name='jetpack_mc_manual_control' value='1'
-				<?php checked($option, '1'); ?>
-				<?php disabled($disabled); ?>>
-			<?php esc_html_e('Prevent Jetpack from auto-activating (new) modules', 'jetpack-module-control'); ?>
+				<?php checked( $option, '1' ); ?>
+				<?php disabled( $disabled ); ?>>
+			<?php esc_html_e( 'Prevent Jetpack from auto-activating (new) modules', 'jetpack-module-control' ); ?>
 		</label>
-		<p class="description"><?php printf( /* translators: the Protect module name */ esc_html__('Note: The module %s is excepted from this rule.', 'jetpack-module-control'), esc_html_x('Protect', 'Module Name', 'jetpack')); ?></p>
+		<p class="description"><?php printf( /* translators: the Protect module name */ esc_html__( 'Note: The module %s is excepted from this rule.', 'jetpack-module-control' ), esc_html_x( 'Protect', 'Module Name', 'jetpack' ) ); ?></p>
 		<?php
 	} // END manual_control_settings()
 
@@ -494,20 +493,20 @@ class Jetpack_Module_Control
 	 * @see add_filter()
 	 * @since 0.1
 	 */
-	public function manual_control($modules){
+	public function manual_control( $modules ) {
 
 		// check if subsite override allowed.
-		if($this->subsite_override()){
-			$option = get_option('jetpack_mc_manual_control');
-		}else{
+		if ( $this->subsite_override() ) {
+			$option = get_option( 'jetpack_mc_manual_control' );
+		} else {
 			$option = false;
 		}
 		// if false, fall back on network settings.
-		if(false === $option && is_multisite()){
-			$option = get_site_option('jetpack_mc_manual_control');
+		if ( false === $option && is_multisite() ) {
+			$option = get_site_option( 'jetpack_mc_manual_control' );
 		}
 
-		return !empty($option) ? array() : $modules;
+		return ! empty( $option ) ? array() : $modules;
 	} // END manual_control()
 
 	/**
@@ -521,29 +520,29 @@ class Jetpack_Module_Control
 	 * @since 1.6
 	 *
 	 */
-	private function get_development_mode(){
+	private function get_development_mode() {
 
-		if(is_network_admin()){
+		if ( is_network_admin() ) {
 			// we're in network admin.
-			if(is_plugin_active_for_network('slimjetpack/slimjetpack.php') || is_plugin_active_for_network('unplug-jetpack/unplug-jetpack.php')){
+			if ( is_plugin_active_for_network( 'slimjetpack/slimjetpack.php' ) || is_plugin_active_for_network( 'unplug-jetpack/unplug-jetpack.php' ) ) {
 				$option = '1';
-			}else{
+			} else {
 				// retrieve network settings.
-				$option = get_site_option('jetpack_mc_development_mode');
+				$option = get_site_option( 'jetpack_mc_development_mode' );
 			}
-		}elseif(is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php')){
+		} elseif ( is_plugin_active( 'slimjetpack/slimjetpack.php' ) || is_plugin_active( 'unplug-jetpack/unplug-jetpack.php' ) ) {
 			$option = '1';
-		}else{
+		} else {
 			// check if subsite override allowed.
-			if($this->subsite_override()){
+			if ( $this->subsite_override() ) {
 				// retrieve site setting.
-				$option = get_option('jetpack_mc_development_mode');
-			}else{
+				$option = get_option( 'jetpack_mc_development_mode' );
+			} else {
 				$option = false;
 			}
 			// fall back on network settings.
-			if(false === $option && is_multisite()){
-				$option = get_site_option('jetpack_mc_development_mode');
+			if ( false === $option && is_multisite() ) {
+				$option = get_site_option( 'jetpack_mc_development_mode' );
 			}
 		}
 
@@ -559,23 +558,23 @@ class Jetpack_Module_Control
 	 * @echo Html Checkbox input field for jetpack_mc_development_mode option
 	 * @since 1.0
 	 */
-	public function development_mode_settings(){
+	public function development_mode_settings() {
 
 		$option   = $this->get_development_mode();
-		$disabled = !is_network_admin() && defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
+		$disabled = ! is_network_admin() && defined( 'JETPACK_MC_LOCKDOWN' ) && JETPACK_MC_LOCKDOWN ? true : false;
 
-		if(is_network_admin() && (is_plugin_active_for_network('slimjetpack/slimjetpack.php') || is_plugin_active_for_network('unplug-jetpack/unplug-jetpack.php')) || is_plugin_active('slimjetpack/slimjetpack.php') || is_plugin_active('unplug-jetpack/unplug-jetpack.php')){
+		if ( is_network_admin() && ( is_plugin_active_for_network( 'slimjetpack/slimjetpack.php' ) || is_plugin_active_for_network( 'unplug-jetpack/unplug-jetpack.php' ) ) || is_plugin_active( 'slimjetpack/slimjetpack.php' ) || is_plugin_active( 'unplug-jetpack/unplug-jetpack.php' ) ) {
 			$disabled = true;
 		}
 
 		?>
 		<label>
 			<input type='checkbox' name='jetpack_mc_development_mode' value='1'
-				<?php checked($option, '1'); ?>
-				<?php disabled($disabled); ?>>
-			<?php esc_html_e('Use Jetpack modules without a WordPress.com connection', 'jetpack-module-control'); ?>
+				<?php checked( $option, '1' ); ?>
+				<?php disabled( $disabled ); ?>>
+			<?php esc_html_e( 'Use Jetpack modules without a WordPress.com connection', 'jetpack-module-control' ); ?>
 		</label>
-		<p class="description"><?php esc_html_e('By forcing Jetpack into development mode, modules are used without a WordPress.com account. All modules that require a WordPress.com connection will be unavailable. These modules are marked with an asterisk (*) below. The admin message about Jetpack running in development mode will be hidden.', 'jetpack-module-control'); ?></p>
+		<p class="description"><?php esc_html_e( 'By forcing Jetpack into development mode, modules are used without a WordPress.com account. All modules that require a WordPress.com connection will be unavailable. These modules are marked with an asterisk (*) below. The admin message about Jetpack running in development mode will be hidden.', 'jetpack-module-control' ); ?></p>
 		<?php
 	} // END development_mode_settings()
 
@@ -586,20 +585,20 @@ class Jetpack_Module_Control
 	 * @since 1.0
 	 * @see add_filter()
 	 */
-	public function development_mode(){
+	public function development_mode() {
 		// check if subsite override allowed.
-		if($this->subsite_override()){
-			$option = get_option('jetpack_mc_development_mode');
-		}else{
+		if ( $this->subsite_override() ) {
+			$option = get_option( 'jetpack_mc_development_mode' );
+		} else {
 			$option = false;
 		}
 
 		// if false, fall back on network settings.
-		if(false === $option && is_multisite()){
-			$option = get_site_option('jetpack_mc_development_mode');
+		if ( false === $option && is_multisite() ) {
+			$option = get_site_option( 'jetpack_mc_development_mode' );
 		}
 
-		return !empty($option) ? true : false;
+		return ! empty( $option ) ? true : false;
 	}
 
 	/**
@@ -612,21 +611,21 @@ class Jetpack_Module_Control
 	 * @since 0.1
 	 * @see add_filter()
 	 */
-	private function no_manage_notice(){
+	private function no_manage_notice() {
 		// check if subsite override allowed.
-		if($this->subsite_override()){
-			$blacklist = get_option('jetpack_mc_blacklist');
-		}else{
+		if ( $this->subsite_override() ) {
+			$blacklist = get_option( 'jetpack_mc_blacklist' );
+		} else {
 			$blacklist = false;
 		}
 
 		// fall back on network setting.
-		if(false === $blacklist && is_multisite()){
-			$blacklist = get_site_option('jetpack_mc_blacklist');
+		if ( false === $blacklist && is_multisite() ) {
+			$blacklist = get_site_option( 'jetpack_mc_blacklist' );
 		}
 
-		if(is_array($blacklist) && in_array('manage', $blacklist, true)){
-			add_filter('can_display_jetpack_manage_notice', '__return_false');
+		if ( is_array( $blacklist ) && in_array( 'manage', $blacklist, true ) ) {
+			add_filter( 'can_display_jetpack_manage_notice', '__return_false' );
 		}
 	}
 
@@ -636,9 +635,9 @@ class Jetpack_Module_Control
 	 * @since 0.1
 	 * @see add_filter()
 	 */
-	private function no_dev_notice(){
-		if(class_exists('Jetpack') && (get_option('jetpack_mc_development_mode') || get_site_option('jetpack_mc_development_mode'))){
-			remove_action('jetpack_notices', array(Jetpack::init(), 'show_development_mode_notice'));
+	private function no_dev_notice() {
+		if ( class_exists( 'Jetpack' ) && ( get_option( 'jetpack_mc_development_mode' ) || get_site_option( 'jetpack_mc_development_mode' ) ) ) {
+			remove_action( 'jetpack_notices', array( Jetpack::init(), 'show_development_mode_notice' ) );
 		}
 	}
 
@@ -655,62 +654,62 @@ class Jetpack_Module_Control
 	 * @uses jetpack_mc_blacklist network option
 	 * @echo Html Checkbox input field table for jetpack_mc_blacklist option
 	 */
-	public function blacklist_settings(){
+	public function blacklist_settings() {
 
-		if(is_network_admin()){
+		if ( is_network_admin() ) {
 			// in network admin retrieve network settings.
-			$blacklist = get_site_option('jetpack_mc_blacklist', array());
+			$blacklist = get_site_option( 'jetpack_mc_blacklist', array() );
 			$disabled  = false;
-		}else{
+		} else {
 			// check if subsite override allowed.
-			if($this->subsite_override()){
+			if ( $this->subsite_override() ) {
 				// in site admin retrieve site settings.
-				$blacklist = get_option('jetpack_mc_blacklist');
-			}else{
+				$blacklist = get_option( 'jetpack_mc_blacklist' );
+			} else {
 				$blacklist = false;
 			}
 
 			// fall back on network setting.
-			if(false === $blacklist && is_multisite()){
-				$blacklist = get_site_option('jetpack_mc_blacklist');
+			if ( false === $blacklist && is_multisite() ) {
+				$blacklist = get_site_option( 'jetpack_mc_blacklist' );
 			}
-			$disabled = defined('JETPACK_MC_LOCKDOWN') && JETPACK_MC_LOCKDOWN ? true : false;
+			$disabled = defined( 'JETPACK_MC_LOCKDOWN' ) && JETPACK_MC_LOCKDOWN ? true : false;
 		}
 
 		$devmode = $this->get_development_mode();
 
 		// blacklist must be an array, if anything else then just make it an empty array.
-		if(!is_array($blacklist)){
+		if ( ! is_array( $blacklist ) ) {
 			$blacklist = array();
 		}
 
 		$modules = $this->get_available_modules();
-		asort($modules);
+		asort( $modules );
 
 		?>
 		<fieldset>
 			<legend class="screen-reader-text">
-				<span><?php esc_html_e('Blacklist Modules', 'jetpack-module-control'); ?></span></legend>
+				<span><?php esc_html_e( 'Blacklist Modules', 'jetpack-module-control' ); ?></span></legend>
 			<?php
-			foreach($modules as $slug => $module){
-				$icon    = isset(self::$known_modules_icons[$slug]) ? self::$known_modules_icons[$slug] : self::$default_icon;
-				$reqconn = !empty($module['requires_connection']) && true === $module['requires_connection'];
-				if($devmode && $reqconn){
+			foreach ( $modules as $slug => $module ) {
+				$icon    = isset( self::$known_modules_icons[ $slug ] ) ? self::$known_modules_icons[ $slug ] : self::$default_icon;
+				$reqconn = ! empty( $module['requires_connection'] ) && true === $module['requires_connection'];
+				if ( $devmode && $reqconn ) {
 					continue;
 				}
 				?>
 				<label>
-				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo esc_attr($slug); ?>'
-					<?php checked(in_array($slug, $blacklist, true)); ?>
-					<?php disabled($disabled); ?>>
+				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo esc_attr( $slug ); ?>'
+					<?php checked( in_array( $slug, $blacklist, true ) ); ?>
+					<?php disabled( $disabled ); ?>>
 				<span
-					class="dashicons dashicons-<?php echo esc_attr($icon); ?>"></span> <?php echo esc_html_x($module['name'], 'Module Name', 'jetpack'); ?>
-				</label><?php echo $reqconn ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . esc_html__('Requires a WordPress.com connection', 'jetpack-module-control') . '">*</a>' : ''; ?>
+					class="dashicons dashicons-<?php echo esc_attr( $icon ); ?>"></span> <?php echo esc_html_x( $module['name'], 'Module Name', 'jetpack' ); ?>
+				</label><?php echo $reqconn ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . esc_html__( 'Requires a WordPress.com connection', 'jetpack-module-control' ) . '">*</a>' : ''; ?>
 				<br>
 				<?php
 			}
-			if(!$devmode){
-				echo '<aside role="note" id="jmc-note-1"><p class="description">' . esc_html__('*) Modules marked with an asterisk require a WordPress.com connection. They will be unavailable if Jetpack is forced into offline mode.', 'jetpack-module-control') . '</p></aside>';
+			if ( ! $devmode ) {
+				echo '<aside role="note" id="jmc-note-1"><p class="description">' . esc_html__( '*) Modules marked with an asterisk require a WordPress.com connection. They will be unavailable if Jetpack is forced into offline mode.', 'jetpack-module-control' ) . '</p></aside>';
 			}
 			?>
 		</fieldset>
@@ -726,23 +725,23 @@ class Jetpack_Module_Control
 	 * @return Array Allowed modules after unsetting blacklisted modules from all modules array
 	 * @since 0.1
 	 */
-	public function blacklist($modules){
+	public function blacklist( $modules ) {
 
 		// check if subsite override allowed.
-		if($this->subsite_override()){
-			$blacklist = get_option('jetpack_mc_blacklist');
-		}else{
+		if ( $this->subsite_override() ) {
+			$blacklist = get_option( 'jetpack_mc_blacklist' );
+		} else {
 			$blacklist = false;
 		}
 
 		// fall back on network setting.
-		if(false === $blacklist && is_multisite()){
-			$blacklist = get_site_option('jetpack_mc_blacklist');
+		if ( false === $blacklist && is_multisite() ) {
+			$blacklist = get_site_option( 'jetpack_mc_blacklist' );
 		}
 
-		foreach((array) $blacklist as $mod){
-			if(isset($modules[$mod])){
-				unset($modules[$mod]);
+		foreach ( (array) $blacklist as $mod ) {
+			if ( isset( $modules[ $mod ] ) ) {
+				unset( $modules[ $mod ] );
 			}
 		}
 
@@ -758,16 +757,16 @@ class Jetpack_Module_Control
 	 *
 	 * @since 0.1
 	 */
-	public function admin_init(){
+	public function admin_init() {
 
 		// Admin translations.
-		load_plugin_textdomain('jetpack-module-control');
+		load_plugin_textdomain( 'jetpack-module-control' );
 
 		$this->no_manage_notice();
 
 		$this->no_dev_notice();
 
-		if(is_plugin_active_for_network($this->plugin_basename())){
+		if ( is_plugin_active_for_network( $this->plugin_basename() ) ) {
 			// Check for network activation, else these will also take effect when
 			// plugin is activated on the primary site alone.
 			// TODO : see if you can actually use this scenario where plugin is activatied on site 1 and
@@ -775,49 +774,49 @@ class Jetpack_Module_Control
 
 			// Add settings to Network Settings
 			// thanks to http://zao.is/2013/07/adding-settings-to-network-settings-for-wordpress-multisite/.
-			add_filter('wpmu_options', array($this, 'show_network_settings'));
-			add_action('update_wpmu_options', array($this, 'save_network_settings'));
+			add_filter( 'wpmu_options', array( $this, 'show_network_settings' ) );
+			add_action( 'update_wpmu_options', array( $this, 'save_network_settings' ) );
 
 			// Plugin action links.
-			add_filter('network_admin_plugin_action_links_' . $this->plugin_basename(), array(
+			add_filter( 'network_admin_plugin_action_links_' . $this->plugin_basename(), array(
 				$this,
 				'add_action_link'
-			));
+			) );
 		}
 
 		// check if subsite override allowed.
-		if($this->subsite_override()){
+		if ( $this->subsite_override() ) {
 			// Plugin action links.
-			add_filter('plugin_action_links_' . $this->plugin_basename(), array($this, 'add_action_link'));
+			add_filter( 'plugin_action_links_' . $this->plugin_basename(), array( $this, 'add_action_link' ) );
 
 			// Do regular register/add_settings stuff in 'general' settings on options-general.php.
 			$settings = 'general';
 
-			add_settings_section('jetpack-module-control', '<a name="jetpack-mc"></a>' . __('Jetpack Module Control', 'jetpack-module-control'), array(
+			add_settings_section( 'jetpack-module-control', '<a name="jetpack-mc"></a>' . __( 'Jetpack Module Control', 'jetpack-module-control' ), array(
 				$this,
 				'add_settings_section'
-			), $settings);
+			), $settings );
 
 			// register settings.
-			if(!defined('JETPACK_MC_LOCKDOWN') || !JETPACK_MC_LOCKDOWN){
-				register_setting($settings, 'jetpack_mc_manual_control'); // sanitize_callback 'boolval' ?
-				register_setting($settings, 'jetpack_mc_development_mode'); // sanitize_callback 'boolval' ?
-				register_setting($settings, 'jetpack_mc_blacklist', array($this, 'sanitize_blacklist'));
+			if ( ! defined( 'JETPACK_MC_LOCKDOWN' ) || ! JETPACK_MC_LOCKDOWN ) {
+				register_setting( $settings, 'jetpack_mc_manual_control' ); // sanitize_callback 'boolval' ?
+				register_setting( $settings, 'jetpack_mc_development_mode' ); // sanitize_callback 'boolval' ?
+				register_setting( $settings, 'jetpack_mc_blacklist', array( $this, 'sanitize_blacklist' ) );
 			}
 
 			// add settings fields.
-			add_settings_field('jetpack_mc_manual_control', __('Manual Control', 'jetpack-module-control'), array(
+			add_settings_field( 'jetpack_mc_manual_control', __( 'Manual Control', 'jetpack-module-control' ), array(
 				$this,
 				'manual_control_settings'
-			), $settings, 'jetpack-module-control');
-			add_settings_field('jetpack_mc_development_mode', __('Offline Mode', 'jetpack-module-control'), array(
+			), $settings, 'jetpack-module-control' );
+			add_settings_field( 'jetpack_mc_development_mode', __( 'Offline Mode', 'jetpack-module-control' ), array(
 				$this,
 				'development_mode_settings'
-			), $settings, 'jetpack-module-control');
-			add_settings_field('jetpack_mc_blacklist', __('Blacklist Modules', 'jetpack-module-control'), array(
+			), $settings, 'jetpack-module-control' );
+			add_settings_field( 'jetpack_mc_blacklist', __( 'Blacklist Modules', 'jetpack-module-control' ), array(
 				$this,
 				'blacklist_settings'
-			), $settings, 'jetpack-module-control');
+			), $settings, 'jetpack-module-control' );
 		}
 	}
 
@@ -828,8 +827,8 @@ class Jetpack_Module_Control
 	 *
 	 * @since 1.6
 	 */
-	public function sanitize_blacklist($options){
-		return is_array($options) ? array_values($options) : $options;
+	public function sanitize_blacklist( $options ) {
+		return is_array( $options ) ? array_values( $options ) : $options;
 	}
 
 	/**
@@ -837,18 +836,18 @@ class Jetpack_Module_Control
 	 *
 	 * @since 0.2
 	 */
-	public function save_network_settings(){
+	public function save_network_settings() {
 		// TODO nonce verification!
 
 		$posted_settings = array(
-			'jetpack_mc_manual_control'   => isset($_POST['jetpack_mc_manual_control']),
-			'jetpack_mc_development_mode' => isset($_POST['jetpack_mc_development_mode']),
-			'jetpack_mc_blacklist'        => isset($_POST['jetpack_mc_blacklist']) ? $this->sanitize_blacklist($_POST['jetpack_mc_blacklist']) : false,
-			'jetpack_mc_subsite_override' => isset($_POST['jetpack_mc_subsite_override']),
+			'jetpack_mc_manual_control'   => isset( $_POST['jetpack_mc_manual_control'] ),
+			'jetpack_mc_development_mode' => isset( $_POST['jetpack_mc_development_mode'] ),
+			'jetpack_mc_blacklist'        => isset( $_POST['jetpack_mc_blacklist'] ) ? $this->sanitize_blacklist( $_POST['jetpack_mc_blacklist'] ) : false,
+			'jetpack_mc_subsite_override' => isset( $_POST['jetpack_mc_subsite_override'] ),
 		);
 
-		foreach($posted_settings as $name => $value){
-			update_site_option($name, $value);
+		foreach ( $posted_settings as $name => $value ) {
+			update_site_option( $name, $value );
 		}
 	}
 
@@ -857,16 +856,16 @@ class Jetpack_Module_Control
 	 *
 	 * @since 0.2
 	 */
-	public function show_network_settings(){
+	public function show_network_settings() {
 		?>
-		<h3><a name="jetpack-mc"></a><?php esc_html_e('Jetpack Module Control', 'jetpack-module-control'); ?></h3>
+		<h3><a name="jetpack-mc"></a><?php esc_html_e( 'Jetpack Module Control', 'jetpack-module-control' ); ?></h3>
 		<?php
-		$this->add_settings_section('');
+		$this->add_settings_section( '' );
 		?>
 		<table class="form-table">
 			<tbody>
 			<tr>
-				<th scope="row"><?php esc_html_e('Sub-site Override', 'jetpack-module-control'); ?></th>
+				<th scope="row"><?php esc_html_e( 'Sub-site Override', 'jetpack-module-control' ); ?></th>
 				<td>
 					<?php
 					$this->subsite_override_settings();
@@ -875,7 +874,7 @@ class Jetpack_Module_Control
 			</tr>
 
 			<tr>
-				<th scope="row"><?php esc_html_e('Manual Control', 'jetpack-module-control'); ?></th>
+				<th scope="row"><?php esc_html_e( 'Manual Control', 'jetpack-module-control' ); ?></th>
 				<td>
 					<?php
 					$this->manual_control_settings();
@@ -883,7 +882,7 @@ class Jetpack_Module_Control
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><?php esc_html_e('Development Mode', 'jetpack-module-control'); ?></th>
+				<th scope="row"><?php esc_html_e( 'Development Mode', 'jetpack-module-control' ); ?></th>
 				<td>
 					<?php
 					$this->development_mode_settings();
@@ -891,7 +890,7 @@ class Jetpack_Module_Control
 				</td>
 			</tr>
 			<tr>
-				<th scope="row"><?php esc_html_e('Blacklist Modules', 'jetpack-module-control'); ?></th>
+				<th scope="row"><?php esc_html_e( 'Blacklist Modules', 'jetpack-module-control' ); ?></th>
 				<td>
 					<?php
 					$this->blacklist_settings();
@@ -910,24 +909,24 @@ class Jetpack_Module_Control
 	 *
 	 * @echo Html
 	 */
-	public function add_settings_section(){
+	public function add_settings_section() {
 		echo '<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Jetpack%20Module%20Control&item_number='
-			 . esc_url($this->version)
+			 . esc_url( $this->version )
 			 . '&no_shipping=0&tax=0&charset=UTF%2d8&currency_code=EUR" title="'
-			 . esc_html__('Donate to keep plugin development going!', 'jetpack-module-control')
+			 . esc_html__( 'Donate to keep plugin development going!', 'jetpack-module-control' )
 			 . '" target="_blank"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" style="border:none;float:right;margin:5px 0 0 10px" alt="'
-			 . esc_html__('Donate to keep plugin development going!', 'jetpack-module-control') . '" width="92" height="26" /></a>'
+			 . esc_html__( 'Donate to keep plugin development going!', 'jetpack-module-control' ) . '" width="92" height="26" /></a>'
 			 . sprintf( /* translators: plugin name, linked to plugin home page */
-				 esc_html__('The options in this section are provided by %s.', 'jetpack-module-control'),
+				 esc_html__( 'The options in this section are provided by %s.', 'jetpack-module-control' ),
 				 '<strong><a href="http://status301.net/wordpress-plugins/jetpack-module-control/">'
-				 . esc_html__('Jetpack Module Control', 'jetpack-module-control') . ' ' . esc_html($this->version) . '</a></strong>'
+				 . esc_html__( 'Jetpack Module Control', 'jetpack-module-control' ) . ' ' . esc_html( $this->version ) . '</a></strong>'
 			 ) . ' '
-			 . esc_html__('This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.', 'jetpack-module-control') . ' ';
+			 . esc_html__( 'This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.', 'jetpack-module-control' ) . ' ';
 
-		if(!is_multisite()){
-			printf( /* translators: code snippet */ esc_html__('These settings can be locked down by adding %s to your wp-config.php file.', 'jetpack-module-control'), '<code>define(\'JETPACK_MC_LOCKDOWN\', true);</code>');
-		}elseif(is_network_admin()){
-			echo '<br><em>' . esc_html__('These settings are only visible to you as Super Admin and these settings affect all sites on the network.', 'jetpack-module-control') . '</em>';
+		if ( ! is_multisite() ) {
+			printf( /* translators: code snippet */ esc_html__( 'These settings can be locked down by adding %s to your wp-config.php file.', 'jetpack-module-control' ), '<code>define(\'JETPACK_MC_LOCKDOWN\', true);</code>' );
+		} elseif ( is_network_admin() ) {
+			echo '<br><em>' . esc_html__( 'These settings are only visible to you as Super Admin and these settings affect all sites on the network.', 'jetpack-module-control' ) . '</em>';
 		}
 
 		echo '</p>';
@@ -943,13 +942,13 @@ class Jetpack_Module_Control
 	 * @see is_plugin_active_for_network(), admin_url(), network_admin_url()
 	 *
 	 */
-	public function add_action_link($links){
-		$settings_link = is_plugin_active_for_network($this->plugin_basename()) ?
-			'<a href="' . network_admin_url('settings.php#jetpack-mc') . '">' . esc_html__('Network Settings') . '</a>' :
-			'<a href="' . admin_url('options-general.php#jetpack-mc') . '">' . esc_html__('Settings') . '</a>';
+	public function add_action_link( $links ) {
+		$settings_link = is_plugin_active_for_network( $this->plugin_basename() ) ?
+			'<a href="' . network_admin_url( 'settings.php#jetpack-mc' ) . '">' . esc_html__( 'Network Settings' ) . '</a>' :
+			'<a href="' . admin_url( 'options-general.php#jetpack-mc' ) . '">' . esc_html__( 'Settings' ) . '</a>';
 
 		return array_merge(
-			array('settings' => $settings_link),
+			array( 'settings' => $settings_link ),
 			$links
 		);
 	}
@@ -961,8 +960,8 @@ class Jetpack_Module_Control
 	 * @since 0.1
 	 *
 	 */
-	public static function instance(){
-		if(is_null(self::$instance)){
+	public static function instance() {
+		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();
 		}
 
@@ -974,13 +973,13 @@ class Jetpack_Module_Control
 	 *
 	 * @since  0.1
 	 */
-	private function __construct(){
-		add_filter('jetpack_get_default_modules', array($this, 'manual_control'), 99);
-		add_filter('jetpack_offline_mode', array($this, 'development_mode'));
-		add_filter('jetpack_get_available_modules', array($this, 'blacklist'));
+	private function __construct() {
+		add_filter( 'jetpack_get_default_modules', array( $this, 'manual_control' ), 99 );
+		add_filter( 'jetpack_offline_mode', array( $this, 'development_mode' ) );
+		add_filter( 'jetpack_get_available_modules', array( $this, 'blacklist' ) );
 
-		add_action('admin_init', array($this, 'admin_init'), 11);
-		add_action('plugins_loaded', array($this, 'auto_load_jetpack_modules'));
+		add_action( 'admin_init', array( $this, 'admin_init' ), 11 );
+		add_action( 'plugins_loaded', array( $this, 'auto_load_jetpack_modules' ) );
 	}
 
 	/**
@@ -988,7 +987,7 @@ class Jetpack_Module_Control
 	 *
 	 * @since  0.1
 	 */
-	private function __clone(){
+	private function __clone() {
 	}
 }
 
