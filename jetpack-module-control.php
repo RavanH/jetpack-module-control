@@ -5,11 +5,11 @@
  * Description: This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.
  * Author: RavanH
  * Author URI: https://status301.net/
- * Requires Plugins: jetpack-module-control
+ * Requires Plugins: jetpack
  * Network: true
  * Text Domain: jetpack-module-control
  * License: GPL2+
- * Version: 1.7-alpha2
+ * Version: 1.7-alpha3
  *
  * @package Module Control for Jetpack
  */
@@ -545,7 +545,7 @@ class Jetpack_Module_Control {
 		$option   = $this->get_development_mode();
 		$disabled = ! is_network_admin() && defined( 'JETPACK_MC_LOCKDOWN' ) && JETPACK_MC_LOCKDOWN ? true : false;
 
-		if ( is_network_admin() && ( is_plugin_active_for_network( 'slimjetpack/slimjetpack.php' ) || is_plugin_active_for_network( 'unplug-jetpack/unplug-jetpack.php' ) ) || is_plugin_active( 'slimjetpack/slimjetpack.php' ) || is_plugin_active( 'unplug-jetpack/unplug-jetpack.php' ) ) {
+		if ( ( is_network_admin() && ( is_plugin_active_for_network( 'slimjetpack/slimjetpack.php' ) || is_plugin_active_for_network( 'unplug-jetpack/unplug-jetpack.php' ) ) ) || is_plugin_active( 'slimjetpack/slimjetpack.php' ) || is_plugin_active( 'unplug-jetpack/unplug-jetpack.php' ) ) {
 			$disabled = true;
 		}
 
@@ -791,7 +791,20 @@ class Jetpack_Module_Control {
 	 * @param mixed $options Options array.
 	 */
 	public function sanitize_blacklist( $options ) {
-		return is_array( $options ) ? array_values( $options ) : $options;
+		// If not an array or empty, return false.
+		if ( ! is_array( $options ) || empty( $options ) ) {
+			return false;
+		}
+		// Get only array values.
+		$options = array_values( $options );
+		// Remove empty values.
+		$options = array_filter( $options );
+		// Remove duplicates.
+		$options = array_unique( $options );
+		// Sanitize each.
+		$options = array_map( 'sanitize_text_field', $options );
+
+		return $options;
 	}
 
 	/**
@@ -800,16 +813,33 @@ class Jetpack_Module_Control {
 	 * @since 0.2
 	 */
 	public function save_network_settings() {
-		// TODO nonce verification!
+		// Nonce verification for security.
+		if (
+			! isset( $_POST['_jetpack_mc_nonce'] ) ||
+			! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['_jetpack_mc_nonce'] ) ), 'jetpack_mc_network_settings' )
+		) {
+			add_settings_error(
+				'jetpack_mc_network_settings',
+				'jetpack_mc_nonce_fail',
+				esc_html__( 'Security check failed. Jetpack Module Control settings were not updated.', 'jetpack-module-control' ),
+				'error'
+			);
+			return;
+		}
 
-		$posted_settings = array(
+		// Get sanitized blacklist from POST data.
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$blacklist = isset( $_POST['jetpack_mc_blacklist'] ) ? $this->sanitize_blacklist( wp_unslash( $_POST['jetpack_mc_blacklist'] ) ) : false;
+
+		// Construct the settings array to save.
+		$settings = array(
 			'jetpack_mc_manual_control'   => isset( $_POST['jetpack_mc_manual_control'] ),
 			'jetpack_mc_development_mode' => isset( $_POST['jetpack_mc_development_mode'] ),
-			'jetpack_mc_blacklist'        => isset( $_POST['jetpack_mc_blacklist'] ) ? $this->sanitize_blacklist( $_POST['jetpack_mc_blacklist'] ) : false,
+			'jetpack_mc_blacklist'        => $blacklist,
 			'jetpack_mc_subsite_override' => isset( $_POST['jetpack_mc_subsite_override'] ),
 		);
 
-		foreach ( $posted_settings as $name => $value ) {
+		foreach ( $settings as $name => $value ) {
 			update_site_option( $name, $value );
 		}
 	}
@@ -824,6 +854,8 @@ class Jetpack_Module_Control {
 		<h3><a name="jetpack-mc"></a><?php esc_html_e( 'Jetpack Module Control', 'jetpack-module-control' ); ?></h3>
 		<?php
 			$this->add_settings_section( '' );
+			// Add nonce field for security.
+			wp_nonce_field( 'jetpack_mc_network_settings', '_jetpack_mc_nonce' );
 		?>
 		<table class="form-table">
 			<tbody>
@@ -835,7 +867,6 @@ class Jetpack_Module_Control {
 						?>
 					</td>
 				</tr>
-
 				<tr>
 					<th scope="row"><?php esc_html_e( 'Manual Control', 'jetpack-module-control' ); ?></th>
 					<td>

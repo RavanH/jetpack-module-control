@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravan
 Tags: Jetpack, jetpack light, blacklist jetpack modules, slim jetpack, unplug jetpack
 Stable tag: 1.6
 Requires at least: 4.0
-Tested up to: 6.5
+Tested up to: 6.8
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -71,6 +71,7 @@ Date: 2024/05/21
 
 * Coding standards
 * NEW: filter jmc_get_available_modules
+* FIX: network settings nonce verification
 * FIX: jetpack_offline_mode filter added too late, thanks @jqz
 
 TODO: nonce on admin save
