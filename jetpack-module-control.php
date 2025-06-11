@@ -674,6 +674,7 @@ class Jetpack_Module_Control {
 		foreach ( $modules as $slug => $module ) {
 			$icon    = isset( self::$known_modules_icons[ $slug ] ) ? self::$known_modules_icons[ $slug ] : self::$default_icon;
 			$reqconn = ! empty( $module['requires_connection'] ) && true === $module['requires_connection'];
+			$name    = ! empty( $module['name'] ) ? $module['name'] : __( 'Unknown', 'jetpack-module-control' );
 			if ( $devmode && $reqconn ) {
 				continue;
 			}
@@ -682,7 +683,7 @@ class Jetpack_Module_Control {
 				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo esc_attr( $slug ); ?>'
 				<?php checked( in_array( $slug, $blacklist, true ) ); ?>
 				<?php disabled( $disabled ); ?>>
-				<span class="dashicons dashicons-<?php echo esc_attr( $icon ); ?>"></span> <?php echo esc_html_x( $module['name'], 'Module Name', 'jetpack' ); ?>
+				<span class="dashicons dashicons-<?php echo esc_attr( $icon ); ?>"></span> <?php echo esc_html_x( $name, 'Module Name', 'jetpack' );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?>
 			</label><?php echo $reqconn ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . esc_html__( 'Requires a WordPress.com connection', 'jetpack-module-control' ) . '">*</a>' : ''; ?><br>
 			<?php
 		}
