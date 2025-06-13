@@ -76,6 +76,7 @@ Date: 2024/05/21
 
 TODO:
 * update fallback module list and icons
+* upgrade routine to set autoload?
 * test de/activate, 
 * test uninstall, 
 * test sub-site override, 
