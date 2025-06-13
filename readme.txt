@@ -74,7 +74,12 @@ Date: 2024/05/21
 * FIX: network settings nonce verification
 * FIX: jetpack_offline_mode filter added too late, thanks @jqz
 
-TODO: test de/activate, test uninstall, test sub-site override, test autoloaded options
+TODO:
+* update fallback module list and icons
+* test de/activate, 
+* test uninstall, 
+* test sub-site override, 
+* test autoloaded options
 
 = 1.6 =
 Date: 2020/08/19
