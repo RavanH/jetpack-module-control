@@ -43,6 +43,7 @@
 defined( 'WPINC' ) || die( 'No direct access allowed.' );
 
 define( 'JMC_BASENAME', plugin_basename( __FILE__ ) );
+define( 'JMC_DIR', __DIR__ );
 
 add_filter( 'jetpack_get_default_modules', array( '\JMC\Filters', 'manual_control' ), 99 );
 add_filter( 'jetpack_offline_mode', array( '\JMC\Filters', 'development_mode' ) );
@@ -74,7 +75,7 @@ spl_autoload_register(
 		$path_array = explode( '\\', $class_name );
 		$class_name = array_pop( $path_array );
 		$class_name = str_replace( '_', '-', $class_name );
-		$file       = realpath( XMLSF_DIR ) . DIRECTORY_SEPARATOR . \implode( DIRECTORY_SEPARATOR, $path_array ) . DIRECTORY_SEPARATOR . 'class-' . $class_name . '.php';
+		$file       = realpath( JMC_DIR ) . DIRECTORY_SEPARATOR . \implode( DIRECTORY_SEPARATOR, $path_array ) . DIRECTORY_SEPARATOR . 'class-' . $class_name . '.php';
 
 		// If the file exists for the class name, load it.
 		if ( file_exists( $file ) ) {
