@@ -265,7 +265,7 @@ class Admin {
 	 * @since 0.1
 	 * @return array
 	 */
-	private function get_available_modules() {
+	private static function get_available_modules() {
 		if ( null === self::$modules ) {
 			if ( class_exists( 'Jetpack' ) ) {
 				remove_filter( 'jetpack_get_available_modules', array( __CLASS__, 'blacklist' ) );
@@ -375,7 +375,7 @@ class Admin {
 	 *
 	 * @return bool|string
 	 */
-	private function get_development_mode() {
+	private static function get_development_mode() {
 
 		if ( is_network_admin() ) {
 			// we're in network admin.
@@ -443,7 +443,7 @@ class Admin {
 	 * @since 0.1
 	 * @see add_filter()
 	 */
-	private function no_manage_notice() {
+	private static function no_manage_notice() {
 		// check if subsite override allowed.
 		if ( self::subsite_override() ) {
 			$blacklist = get_option( 'jetpack_mc_blacklist' );
@@ -467,7 +467,7 @@ class Admin {
 	 * @since 0.1
 	 * @see add_filter()
 	 */
-	private function no_dev_notice() {
+	private static function no_dev_notice() {
 		if ( class_exists( 'Jetpack' ) && ( get_option( 'jetpack_mc_development_mode' ) || get_site_option( 'jetpack_mc_development_mode' ) ) ) {
 			remove_action( 'jetpack_notices', array( Jetpack::init(), 'show_development_mode_notice' ) );
 		}
