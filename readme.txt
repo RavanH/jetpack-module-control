@@ -66,6 +66,9 @@ New filter, bugfix, new icons
 
 == Changelog ==
 
+= 1.8 =
+TODO test dropped constants (autoloader anonymous with __DIR__)
+
 = 1.7 =
 Date: 2024/06/16
 
