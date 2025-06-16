@@ -609,8 +609,7 @@ class Admin {
 	 * @echo Html
 	 */
 	public static function add_settings_section() {
-		echo '<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Jetpack%20Module%20Control&item_number='
-				. \esc_url( JMC_VERSION )
+		echo '<p><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Jetpack%20Module%20Control'
 				. '&no_shipping=0&tax=0&charset=UTF%2d8&currency_code=EUR" title="'
 				. \esc_html__( 'Donate to keep plugin development going!', 'jetpack-module-control' )
 				. '" target="_blank"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" style="border:none;float:right;margin:5px 0 0 10px" alt="'
@@ -618,7 +617,7 @@ class Admin {
 				. sprintf( /* translators: plugin name, linked to plugin home page */
 					\esc_html__( 'The options in this section are provided by %s.', 'jetpack-module-control' ),
 					'<strong><a href="http://status301.net/wordpress-plugins/jetpack-module-control/">'
-					. \esc_html__( 'Jetpack Module Control', 'jetpack-module-control' ) . ' ' . \esc_html( JMC_VERSION ) . '</a></strong>'
+					. \esc_html__( 'Jetpack Module Control', 'jetpack-module-control' ) . '</a></strong>'
 				) . ' '
 				. \esc_html__( 'This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.', 'jetpack-module-control' ) . ' ';
 
