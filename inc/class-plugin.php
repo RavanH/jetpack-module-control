@@ -55,8 +55,11 @@ class Plugin {
 		// check if subsite override allowed.
 		if ( ! \is_multisite() || \get_site_option( 'jetpack_mc_subsite_override' ) ) {
 			// Get our autoload setting from wp_load_alloptions to avoid loading the option table.
-			$all   = \wp_load_alloptions();
-			$value = isset( $all[ $option_name ] ) ? \maybe_unserialize( $all[ $option_name ] ) : false;
+			// $all   = \wp_load_alloptions();
+			// $value = isset( $all[ $option_name ] ) ? \maybe_unserialize( $all[ $option_name ] ) : false;.
+
+			// Get the option value.
+			$value = \get_option( $option_name );
 		}
 
 		// fall back on network setting.
@@ -111,14 +114,9 @@ class Plugin {
 	public static function blacklist( $modules ) {
 		if ( null === self::$blacklist ) {
 			$blacklist       = self::get_option( 'jetpack_mc_blacklist' );
-			self::$blacklist = ! empty( $blacklist ) ? \array_flip( (array) $blacklist ) : false;
+			self::$blacklist = ! empty( $blacklist ) ? \array_flip( (array) $blacklist ) : array();
 		}
 
-		if ( false === self::$blacklist ) {
-			// If no blacklist, return all modules.
-			return $modules;
-		}
-
-		return \array_diff_key( $modules, self::$blacklist );
+		return ! empty( self::$blacklist ) ? \array_diff_key( $modules, self::$blacklist ) : $modules;
 	}
 }
