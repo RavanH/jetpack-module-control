@@ -485,6 +485,8 @@ class Admin {
 			\add_settings_field( 'jetpack_mc_development_mode', __( 'Offline Mode', 'jetpack-module-control' ), array( __CLASS__, 'development_mode_settings' ), $settings, 'jetpack-module-control' );
 			\add_settings_field( 'jetpack_mc_blacklist', __( 'Blacklist Modules', 'jetpack-module-control' ), array( __CLASS__, 'blacklist_settings' ), $settings, 'jetpack-module-control' );
 		}
+
+		add_filter( 'wp_default_autoload_value', array( __CLASS__, 'autoload_value' ), 10, 2 );
 	}
 
 	/**

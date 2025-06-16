@@ -39,6 +39,26 @@ class Plugin {
 	private static $blacklist;
 
 	/**
+	 * Initializes the plugin by setting up filters and static properties.
+	 *
+	 * @since 1.7
+	 */
+	public static function init() {
+		// Initialize the static properties.
+		self::$manual_control   = null;
+		self::$development_mode = null;
+		self::$blacklist        = null;
+
+		// Check if Jetpack is active before adding filters.
+		if ( \class_exists( 'Jetpack' ) ) {
+			// Add filters for Jetpack module control.
+			\add_filter( 'jetpack_get_default_modules', array( __CLASS__, 'manual_control' ), 99 );
+			\add_filter( 'jetpack_offline_mode', array( __CLASS__, 'development_mode' ) );
+			\add_filter( 'jetpack_get_available_modules', array( __CLASS__, 'blacklist' ) );
+		}
+	}
+
+	/**
 	 * Gets subsite or site option
 	 *
 	 * @since 1.7
