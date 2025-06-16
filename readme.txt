@@ -75,12 +75,7 @@ Date: 2024/05/21
 * FIX: jetpack_offline_mode filter added too late, thanks @jqz
 
 TODO:
-* update fallback module list and icons
-* upgrade routine to set autoload?
-* test de/activate, 
-* test uninstall, 
-* test sub-site override, 
-* test autoloaded options
+* test sub-site override,
 
 = 1.6 =
 Date: 2020/08/19

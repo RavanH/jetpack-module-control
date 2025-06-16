@@ -11,7 +11,6 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || exit();
 $default_options = array(
 	'jetpack_mc_manual_control',
 	'jetpack_mc_development_mode',
-	'jetpack_mc_subsite_override',
 	'jetpack_mc_blacklist',
 );
 
@@ -32,10 +31,12 @@ if ( is_multisite() ) {
 		}
 		restore_current_blog();
 	}
+
 	// Remove network options.
 	foreach ( $default_options as $option ) {
 		delete_site_option( $option );
 	}
+	delete_site_option( 'jetpack_mc_subsite_override' );
 } else {
 	// Remove site options.
 	foreach ( $default_options as $option ) {

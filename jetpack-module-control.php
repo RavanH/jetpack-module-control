@@ -9,7 +9,7 @@
  * Network: true
  * Text Domain: jetpack-module-control
  * License: GPL2+
- * Version: 1.7-alpha3
+ * Version: 1.7-alpha13
  *
  * @package Module Control for Jetpack
  */
@@ -42,12 +42,13 @@
 
 defined( 'WPINC' ) || die( 'No direct access allowed.' );
 
+define( 'JMC_VERSION', '1.7' );
 define( 'JMC_BASENAME', plugin_basename( __FILE__ ) );
 define( 'JMC_DIR', __DIR__ );
 
-add_filter( 'jetpack_get_default_modules', array( '\JMC\Filters', 'manual_control' ), 99 );
-add_filter( 'jetpack_offline_mode', array( '\JMC\Filters', 'development_mode' ) );
-add_filter( 'jetpack_get_available_modules', array( '\JMC\Filters', 'blacklist' ) );
+add_filter( 'jetpack_get_default_modules', array( '\JMC\Plugin', 'manual_control' ), 99 );
+add_filter( 'jetpack_offline_mode', array( '\JMC\Plugin', 'development_mode' ) );
+add_filter( 'jetpack_get_available_modules', array( '\JMC\Plugin', 'blacklist' ) );
 
 add_action( 'admin_init', array( '\JMC\Admin', 'init' ), 11 );
 
