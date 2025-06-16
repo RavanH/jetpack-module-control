@@ -61,21 +61,20 @@ All contributions -- be it in the form of feature requests, bug reports, transla
 
 == Upgrade Notice ==
 
-= 1.6 =
-Use jetpack_offline_mode filter, new icons
+= 1.7 =
+New filter, bugfix, new icons
 
 == Changelog ==
 
 = 1.7 =
-Date: 2024/05/21
+Date: 2024/06/16
 
+* Updated fallback and icons list
+* Namespace and autloading
 * Coding standards
+* Network settings nonce verification
 * NEW: filter jmc_get_available_modules
-* FIX: network settings nonce verification
 * FIX: jetpack_offline_mode filter added too late, thanks @jqz
-
-TODO:
-* test sub-site override,
 
 = 1.6 =
 Date: 2020/08/19
