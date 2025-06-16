@@ -475,9 +475,9 @@ class Admin {
 
 			// register settings.
 			if ( ! \defined( 'JETPACK_MC_LOCKDOWN' ) || ! JETPACK_MC_LOCKDOWN ) {
-				\register_setting( $settings, 'jetpack_mc_manual_control' ); // sanitize_callback 'boolval' ?
-				\register_setting( $settings, 'jetpack_mc_development_mode' ); // sanitize_callback 'boolval' ?
-				\register_setting( $settings, 'jetpack_mc_blacklist', array( __CLASS__, 'sanitize_blacklist' ) );
+				\register_setting( $settings, 'jetpack_mc_manual_control' );
+				\register_setting( $settings, 'jetpack_mc_development_mode' );
+				\register_setting( $settings, 'jetpack_mc_blacklist', array( 'sanitize_callback' => array( __CLASS__, 'sanitize_blacklist' ) ) );
 			}
 
 			// add settings fields.
@@ -632,6 +632,27 @@ class Admin {
 	}
 
 	/**
+	 * Returns the autoload value for the option.
+	 *
+	 * @since 1.7
+	 * @see add_filter()
+	 *
+	 * @param string $autoload The autoload value.
+	 * @param string $option The option name.
+	 *
+	 * @return string The autoload value, 'no' if manual control is enabled.
+	 */
+	public static function autoload_value( $autoload, $option ) {
+		$options_autoload = array(
+			'jetpack_mc_manual_control',
+			'jetpack_mc_development_mode',
+			'jetpack_mc_blacklist',
+		);
+
+		return in_array( $option, $options_autoload, true );
+	}
+
+	/**
 	 * Adds an action link on the Plugins page
 	 *
 	 * @since 0.1
@@ -688,8 +709,8 @@ class Admin {
 			}
 		} else {
 			foreach ( $default_options as $option => $value ) {
-				// Add new autoloaded option or re-enable autoload.
-				\add_option( $option, $value, '', true ) || \wp_set_options_autoload( array( $option ), true );
+				// Re-enable autoload.
+				\wp_set_options_autoload( array_keys( $default_options ), true );
 			}
 		}
 	}
