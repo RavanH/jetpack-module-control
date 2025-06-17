@@ -44,7 +44,10 @@ defined( 'WPINC' ) || die( 'No direct access allowed.' );
 
 define( 'JMC_BASENAME', plugin_basename( __FILE__ ) );
 
-add_action( 'init', array( '\JMC\Plugin', 'init' ) );
+add_filter( 'jetpack_get_default_modules', array( '\JMC\Plugin', 'manual_control' ), 99 );
+add_filter( 'jetpack_offline_mode', array( '\JMC\Plugin', 'development_mode' ) );
+add_filter( 'jetpack_get_available_modules', array( '\JMC\Plugin', 'blacklist' ) );
+
 add_action( 'admin_init', array( '\JMC\Admin', 'init' ), 11 );
 
 register_activation_hook( __FILE__, array( '\JMC\Admin', 'activate' ) );
