@@ -599,8 +599,8 @@ class Admin {
 					</td>
 				</tr>
 			</tbody>
-			</table>
-			<?php
+		</table>
+		<?php
 	}
 
 	/**
