@@ -68,6 +68,7 @@ New filter, bugfix, new icons
 
 = 1.8 =
 * FIX: Save empty blacklist as empty, not false (relevant for options cache)
+* Move wp_default_autoload_value filter to admin class
 TODO split up settings class and admin class
 TODO test dropped constants (autoloader anonymous with __DIR__)
 
