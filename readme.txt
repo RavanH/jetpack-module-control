@@ -2,7 +2,7 @@
 Contributors: RavanH
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Module%20Control%20for%20Jetpack
 Tags: Jetpack, jetpack light, blacklist jetpack modules, slim jetpack, unplug jetpack
-Stable tag: 1.6
+Stable tag: 1.7.1
 Requires at least: 4.6
 Tested up to: 6.8
 License: GPLv3 or later
@@ -61,19 +61,20 @@ All contributions -- be it in the form of feature requests, bug reports, transla
 
 == Upgrade Notice ==
 
-= 1.7 =
-New filter, bugfix, new icons
+= 1.7.1 =
+Optimizations and bugfixes.
 
 == Changelog ==
 
-= 1.8 =
+= 1.7.1 =
+Date: 2025/06/20
 * FIX: Save empty blacklist as empty, not false (relevant for options cache)
+* FIX: Allow autoload filter to reutnr null
 * Move wp_default_autoload_value filter to admin class
 * Split up admin class
 
 = 1.7 =
-Date: 2024/06/16
-
+Date: 2025/06/16
 * Updated fallback and icons list
 * Namespace and autloading
 * Coding standards
@@ -83,71 +84,58 @@ Date: 2024/06/16
 
 = 1.6 =
 Date: 2020/08/19
-
 * Replace jetpack_development_mode with jetpack_offline_mode filter
 * New module icons
 * Shorter list when Offline Mode is activated
 
 = 1.5 =
 Date: 2016/12/07
-
 * NEW: option to allow site admins override contributed by @harshit_ps https://github.com/RavanH/jetpack-module-control/pull/8
 
 = 1.4.2 =
 Date: 2016/04/14
-
 * Text domain name change to correspond with plugin slug
 
 = 1.4.1 =
 Date: 2016/04/01
-
 * Added FR/NL translation files
 
 = 1.4 =
 Date: 2016/03/29
-
 * Allow per site settings by Super Admin
 * Added Sitemaps to known modules
 
 = 1.3 =
 Date: 2015/09/02
-
 * Module names now translated using jetpack.mo
 * BUGFIX options not saving deactivation
 * BUGFIX translation files not found
 
 = 1.2 =
 Date: 2015/08/01
-
 * Fix "Missing argument 1 for Jetpack_Module_Control::add_settings_section()" https://github.com/RavanH/jetpack-module-control/issues/2
 
 = 1.1 =
 Date: 2015/05/11
-
 * Detect the Unplug Jetpack plugin
 
 = 1.0 =
 Date: 2015/05/05
-
 * Jetpack Debug Mode to allow modules without connection
 * Show which modules require a connection
 
 = 0.4 =
 Date: 2015/05/01
-
 * Settings action link on Network plugins page
 
 = 0.3 =
 Date: 2015/04/27
-
 * Added dashicons
 
 = 0.2 =
 Date: 2015/04/26
-
 * Added network options
 
 = 0.1 =
 Date: 2015/04/25
-
 * Initial release
