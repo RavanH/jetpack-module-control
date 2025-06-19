@@ -1,6 +1,6 @@
 <?php
 /**
- * Jetpack Module Control Admin
+ * Module Control for Jetpack Admin
  *
  * @package Module Control for Jetpack
  */
@@ -8,7 +8,7 @@
 namespace JMC;
 
 /**
- * Jetpack Module Control Admin Class
+ * Module Control for Jetpack Admin Class
  *
  * Since 1.7
  */
@@ -45,7 +45,7 @@ class Admin {
 			// Do regular register/add_settings stuff in 'general' settings on options-general.php.
 			$settings = 'general';
 
-			\add_settings_section( 'jetpack-module-control', '<a name="jetpack-mc"></a>' . __( 'Jetpack Module Control', 'jetpack-module-control' ), array( '\JMC\Settings', 'add_settings_section' ), $settings );
+			\add_settings_section( 'jetpack-module-control', '<a name="jetpack-mc"></a>' . __( 'Module Control for Jetpack', 'jetpack-module-control' ), array( '\JMC\Settings', 'add_settings_section' ), $settings );
 
 			// register settings.
 			if ( ! \defined( 'JETPACK_MC_LOCKDOWN' ) || ! JETPACK_MC_LOCKDOWN ) {

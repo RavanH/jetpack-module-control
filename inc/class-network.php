@@ -1,6 +1,6 @@
 <?php
 /**
- * Jetpack Module Control Admin
+ * Module Control for Jetpack Admin
  *
  * @package Module Control for Jetpack
  */
@@ -8,9 +8,9 @@
 namespace JMC;
 
 /**
- * Jetpack Module Control Admin Class
+ * Module Control for Jetpack Admin Class
  *
- * Since 1.8
+ * Since 1.7.1
  */
 class Network extends Settings {
 
@@ -28,7 +28,7 @@ class Network extends Settings {
 			\add_settings_error(
 				'jetpack_mc_network_settings',
 				'jetpack_mc_nonce_fail',
-				\esc_html__( 'Security check failed. Jetpack Module Control settings were not updated.', 'jetpack-module-control' ),
+				\esc_html__( 'Security check failed. Module Control for Jetpack settings were not updated.', 'jetpack-module-control' ),
 				'error'
 			);
 			return;
@@ -59,7 +59,7 @@ class Network extends Settings {
 	public static function show_network_settings() {
 		$subsite_override = \get_site_option( 'jetpack_mc_subsite_override' );
 		?>
-		<h3><a name="jetpack-mc"></a><?php \esc_html_e( 'Jetpack Module Control', 'jetpack-module-control' ); ?></h3>
+		<h3><a name="jetpack-mc"></a><?php \esc_html_e( 'Module Control for Jetpack', 'jetpack-module-control' ); ?></h3>
 		<?php
 			parent::add_settings_section( '' );
 			// Add nonce field for security.
@@ -72,7 +72,7 @@ class Network extends Settings {
 					<td>
 						<label>
 							<input type='checkbox' name='jetpack_mc_subsite_override' value='1' <?php \checked( $subsite_override, '1' ); ?>>
-							<?php \esc_html_e( 'Allow individual site administrators to manage their own settings for Jetpack Module Control', 'jetpack-module-control' ); ?>
+							<?php \esc_html_e( 'Allow individual site administrators to manage their own settings for Module Control for Jetpack', 'jetpack-module-control' ); ?>
 						</label>
 						<p class="description"><?php printf( /* translators: General Settings */ \esc_html__( 'This adds the below options to each sub-site %s. Their settings here will be treated as default settings.', 'jetpack-module-control' ), esc_html( translate( 'General Settings' ) ) ); ?></p>
 					</td>

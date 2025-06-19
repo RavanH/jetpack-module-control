@@ -1,6 +1,6 @@
 <?php
 /**
- * Jetpack Module Control Filters
+ * Module Control for Jetpack Filters
  *
  * @package Module Control for Jetpack
  * @since 1.7
@@ -9,7 +9,7 @@
 namespace JMC;
 
 /**
- * Jetpack Module Control Filters Class
+ * Module Control for Jetpack Filters Class
  *
  * Since 1.7
  */

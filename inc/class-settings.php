@@ -1,6 +1,6 @@
 <?php
 /**
- * Jetpack Module Control Admin
+ * Module Control for Jetpack Admin
  *
  * @package Module Control for Jetpack
  */
@@ -8,9 +8,9 @@
 namespace JMC;
 
 /**
- * Jetpack Module Control Admin Class
+ * Module Control for Jetpack Admin Class
  *
- * Since 1.8
+ * Since 1.7.1
  */
 class Settings {
 	/**
@@ -473,7 +473,7 @@ class Settings {
 				. sprintf( /* translators: plugin name, linked to plugin home page */
 					\esc_html__( 'The options in this section are provided by %s.', 'jetpack-module-control' ),
 					'<strong><a href="http://status301.net/wordpress-plugins/jetpack-module-control/">'
-					. \esc_html__( 'Jetpack Module Control', 'jetpack-module-control' ) . '</a></strong>'
+					. \esc_html__( 'Module Control for Jetpack', 'jetpack-module-control' ) . '</a></strong>'
 				) . ' '
 				. \esc_html__( 'This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.', 'jetpack-module-control' ) . ' ';
 

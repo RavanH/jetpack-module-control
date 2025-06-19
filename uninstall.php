@@ -1,6 +1,6 @@
 <?php
 /**
- * Uninstall Jetpack Module Control.
+ * Uninstall Module Control for Jetpack
  *
  * @package JMC
  */
