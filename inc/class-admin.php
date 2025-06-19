@@ -60,7 +60,7 @@ class Admin {
 			\add_settings_field( 'jetpack_mc_blacklist', __( 'Blacklist Modules', 'jetpack-module-control' ), array( '\JMC\Settings', 'blacklist_settings' ), $settings, 'jetpack-module-control' );
 		}
 
-		add_filter( 'wp_default_autoload_value', array( __CLASS__, 'autoload_value' ), 10, 2 );
+		\add_filter( 'wp_default_autoload_value', array( __CLASS__, 'autoload_value' ), 10, 2 );
 	}
 
 	/**
@@ -81,7 +81,7 @@ class Admin {
 			'jetpack_mc_blacklist',
 		);
 
-		return in_array( $option, $options_autoload, true );
+		return in_array( $option, $options_autoload, true ) ? true : $autoload;
 	}
 
 	/**
