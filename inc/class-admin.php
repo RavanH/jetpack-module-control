@@ -498,7 +498,7 @@ class Admin {
 	public static function sanitize_blacklist( $options ) {
 		// If not an array or empty, return false.
 		if ( ! is_array( $options ) || empty( $options ) ) {
-			return false;
+			return '';
 		}
 		// Get only array values.
 		$options = array_values( $options );

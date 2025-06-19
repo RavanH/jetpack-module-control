@@ -67,6 +67,8 @@ New filter, bugfix, new icons
 == Changelog ==
 
 = 1.8 =
+* FIX: Save empty blacklist as empty, not false (relevant for options cache)
+TODO split up settings class and admin class
 TODO test dropped constants (autoloader anonymous with __DIR__)
 
 = 1.7 =
