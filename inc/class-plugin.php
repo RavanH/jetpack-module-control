@@ -84,7 +84,7 @@ class Plugin {
 			self::$manual_control = self::get_option( 'jetpack_mc_manual_control' );
 		}
 
-		return ! empty( $option ) ? array() : $modules;
+		return ! empty( self::$manual_control ) ? array() : $modules;
 	}
 
 	/**
