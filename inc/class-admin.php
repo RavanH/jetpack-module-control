@@ -7,6 +7,8 @@
 
 namespace JMC;
 
+use JMC\Plugin;
+
 /**
  * Module Control for Jetpack Admin Class
  *

@@ -7,12 +7,14 @@
 
 namespace JMC;
 
+use JMC\Settings;
+
 /**
  * Module Control for Jetpack Admin Class
  *
  * Since 1.7.1
  */
-class Network extends Settings {
+class Network {
 
 	/**
 	 * Saves the network settings
@@ -36,7 +38,7 @@ class Network extends Settings {
 
 		// Get sanitized blacklist from POST data.
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$blacklist = isset( $_POST['jetpack_mc_blacklist'] ) ? parent::sanitize_blacklist( \wp_unslash( $_POST['jetpack_mc_blacklist'] ) ) : false;
+		$blacklist = isset( $_POST['jetpack_mc_blacklist'] ) ? Settings::sanitize_blacklist( \wp_unslash( $_POST['jetpack_mc_blacklist'] ) ) : false;
 
 		// Construct the settings array to save.
 		$settings = array(
@@ -61,7 +63,7 @@ class Network extends Settings {
 		?>
 		<h3><a name="jetpack-mc"></a><?php \esc_html_e( 'Module Control for Jetpack', 'jetpack-module-control' ); ?></h3>
 		<?php
-			parent::add_settings_section( '' );
+			Settings::add_settings_section( '' );
 			// Add nonce field for security.
 			\wp_nonce_field( 'jetpack_mc_network_settings', '_jetpack_mc_nonce' );
 		?>
@@ -81,7 +83,7 @@ class Network extends Settings {
 					<th scope="row"><?php \esc_html_e( 'Manual Control', 'jetpack-module-control' ); ?></th>
 					<td>
 						<?php
-						parent::manual_control_settings();
+						Settings::manual_control_settings();
 						?>
 					</td>
 				</tr>
@@ -89,7 +91,7 @@ class Network extends Settings {
 					<th scope="row"><?php \esc_html_e( 'Development Mode', 'jetpack-module-control' ); ?></th>
 					<td>
 						<?php
-						parent::development_mode_settings();
+						Settings::development_mode_settings();
 						?>
 					</td>
 				</tr>
@@ -97,7 +99,7 @@ class Network extends Settings {
 					<th scope="row"><?php \esc_html_e( 'Blacklist Modules', 'jetpack-module-control' ); ?></th>
 					<td>
 						<?php
-						parent::blacklist_settings();
+						Settings::blacklist_settings();
 						?>
 					</td>
 				</tr>

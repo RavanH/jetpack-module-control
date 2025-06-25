@@ -1,14 +1,16 @@
 <?php
 /**
- * Module Control for Jetpack Admin
+ * Module Control for Jetpack Settings
  *
  * @package Module Control for Jetpack
  */
 
 namespace JMC;
 
+use JMC\Plugin;
+
 /**
- * Module Control for Jetpack Admin Class
+ * Module Control for Jetpack Settings Class
  *
  * Since 1.7.1
  */
