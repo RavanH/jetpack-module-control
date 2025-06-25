@@ -2,7 +2,7 @@
 Contributors: RavanH
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Module%20Control%20for%20Jetpack
 Tags: Jetpack, jetpack light, blacklist jetpack modules, slim jetpack, unplug jetpack
-Stable tag: 1.7.1
+Stable tag: 1.7.2
 Requires at least: 4.6
 Tested up to: 6.8
 License: GPLv3 or later
@@ -61,16 +61,20 @@ All contributions -- be it in the form of feature requests, bug reports, transla
 
 == Upgrade Notice ==
 
-= 1.7.1 =
-Optimizations and bugfixes.
+= 1.7.2 =
+Remove unused submenus and bugfix.
 
 == Changelog ==
+
+= 1.7.2 =
+Date: 2025/06/25
+* Remove Search and Social submenus when related module is blacklisted
+* FIX: Manual control failing
 
 = 1.7.1 =
 Date: 2025/06/20
 * FIX: Save empty blacklist as empty, not false (relevant for options cache)
-* FIX: Allow autoload filter to reutnr null
-* Move wp_default_autoload_value filter to admin class
+* FIX: Allow autoload filter to return null
 * Split up admin class
 
 = 1.7 =
