@@ -188,9 +188,16 @@ class Admin {
 	 * @since 1.7.2
 	 */
 	public static function control_submenus() {
+		if ( Plugin::development_mode() ) {
+			// Make sure all known connection dependant submenus are removed.
+			// These can be present if a module was activated before development mode was activated.
+			\remove_submenu_page( 'jetpack', 'jetpack-search' );
+			\remove_submenu_page( 'jetpack', 'jetpack-social' );
+		}
+
 		$blacklist = Plugin::get_option( 'jetpack_mc_blacklist' );
 
-		if ( empty( $blacklist ) || Plugin::development_mode() ) {
+		if ( empty( $blacklist ) ) {
 			return;
 		}
 
