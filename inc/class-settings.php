@@ -348,12 +348,12 @@ class Settings {
 			<?php \disabled( $disabled ); ?>>
 			<?php \esc_html_e( 'Prevent Jetpack from auto-activating (new) modules', 'jetpack-module-control' ); ?>
 		</label>
-		<p class="description"><?php printf( /* translators: the Protect module name */ \esc_html__( 'Note: The module %s is excepted from this rule.', 'jetpack-module-control' ), esc_html_x( 'Protect', 'Module Name', 'jetpack' ) ); ?></p>
+		<p class="description"><?php printf( /* translators: the Protect module name */ \esc_html__( 'Note: The module %s is excluded from this rule.', 'jetpack-module-control' ), esc_html_x( 'Protect', 'Module Name', 'jetpack' ) ); ?></p>
 		<?php
 	}
 
 	/**
-	 * Adds the Jetpack Without WordPress.com option
+	 * Adds the Jetpack Without WordPress.com optionBrute force protection
 	 *
 	 * @since 1.0
 	 * @see get_site_option(), checked(), disabled()
@@ -376,7 +376,7 @@ class Settings {
 			<?php \disabled( $disabled ); ?>>
 			<?php \esc_html_e( 'Use Jetpack without a WordPress.com connection', 'jetpack-module-control' ); ?>
 		</label>
-		<p class="description"><?php \esc_html_e( 'By forcing Jetpack into development mode, modules are used without a WordPress.com account. All modules that require a WordPress.com connection will be unavailable. These modules are marked with an asterisk (*) below. The admin message about Jetpack running in development mode will be hidden.', 'jetpack-module-control' ); ?></p>
+		<p class="description"><?php \esc_html_e( 'By forcing Jetpack into development mode, all modules that do not depend on a WordPress.com connection will become instantly available. The admin message about Jetpack running in development mode will be hidden.', 'jetpack-module-control' ); ?></p>
 		<?php
 	}
 
