@@ -49,6 +49,8 @@ add_filter( 'jetpack_offline_mode', array( '\JMC\Plugin', 'development_mode' ) )
 add_filter( 'jetpack_get_available_modules', array( '\JMC\Plugin', 'blacklist' ) );
 
 add_action( 'admin_init', array( '\JMC\Admin', 'init' ), 11 );
+add_action( 'admin_menu', array( '\JMC\Admin', 'control_submenus' ), 1001 );
+add_filter( 'wp_default_autoload_value', array( '\JMC\Admin', 'autoload_value' ), 10, 2 );
 
 register_activation_hook( __FILE__, array( '\JMC\Admin', 'activate' ) );
 register_deactivation_hook( __FILE__, array( '\JMC\Admin', 'deactivate' ) );
