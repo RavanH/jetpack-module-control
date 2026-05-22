@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravan
 Tags: Jetpack, jetpack light, blacklist jetpack modules, slim jetpack, unplug jetpack
 Stable tag: 1.7.2
 Requires at least: 4.6
-Tested up to: 6.8
+Tested up to: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
