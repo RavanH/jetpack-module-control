@@ -24,7 +24,7 @@ class Admin {
 		// Admin translations.
 		\load_plugin_textdomain( 'jetpack-module-control' );
 
-		if ( \is_plugin_active_for_network( JMC_BASENAME ) ) {
+		if ( \is_plugin_active_for_network( \JMC_BASENAME ) ) {
 			// Check for network activation, else these will also take effect when
 			// plugin is activated on the primary site alone.
 			// TODO : see if you can actually use this scenario where plugin is activatied on site 1 and
@@ -36,13 +36,13 @@ class Admin {
 			\add_action( 'update_wpmu_options', array( '\JMC\Network', 'save_network_settings' ) );
 
 			// Plugin action links.
-			\add_filter( 'network_admin_plugin_action_links_' . JMC_BASENAME, array( __CLASS__, 'add_action_link' ) );
+			\add_filter( 'network_admin_plugin_action_links_' . \JMC_BASENAME, array( __CLASS__, 'add_action_link' ) );
 		}
 
 		// check if subsite override allowed.
 		if ( ! \is_multisite() || \get_site_option( 'jetpack_mc_subsite_override' ) ) {
 			// Plugin action links.
-			\add_filter( 'plugin_action_links_' . JMC_BASENAME, array( __CLASS__, 'add_action_link' ) );
+			\add_filter( 'plugin_action_links_' . \JMC_BASENAME, array( __CLASS__, 'add_action_link' ) );
 
 			// Do regular register/add_settings stuff in 'general' settings on options-general.php.
 			$settings = 'general';
@@ -50,7 +50,7 @@ class Admin {
 			\add_settings_section( 'jetpack-module-control', '<a name="jetpack-mc"></a>' . __( 'Module Control for Jetpack', 'jetpack-module-control' ), array( '\JMC\Settings', 'add_settings_section' ), $settings );
 
 			// register settings.
-			if ( ! \defined( 'JETPACK_MC_LOCKDOWN' ) || ! JETPACK_MC_LOCKDOWN ) {
+			if ( ! \defined( 'JETPACK_MC_LOCKDOWN' ) || ! \JETPACK_MC_LOCKDOWN ) {
 				\register_setting( $settings, 'jetpack_mc_manual_control' );
 				\register_setting( $settings, 'jetpack_mc_development_mode' );
 				\register_setting( $settings, 'jetpack_mc_blacklist', array( 'sanitize_callback' => array( '\JMC\Settings', 'sanitize_blacklist' ) ) );
@@ -94,7 +94,7 @@ class Admin {
 	 * @return array Plugin links plus Settings link.
 	 */
 	public static function add_action_link( $links ) {
-		$settings_link = \is_plugin_active_for_network( JMC_BASENAME ) ?
+		$settings_link = \is_plugin_active_for_network( \JMC_BASENAME ) ?
 			'<a href="' . \network_admin_url( 'settings.php#jetpack-mc' ) . '">' . \esc_html__( 'Network Settings' ) . '</a>' :
 			'<a href="' . \admin_url( 'options-general.php#jetpack-mc' ) . '">' . \esc_html__( 'Settings' ) . '</a>';
 
@@ -184,7 +184,7 @@ class Admin {
 
 	/**
 	 * Control admin submenus.
-	 * 
+	 *
 	 * @since 1.7.2
 	 */
 	public static function control_submenus() {

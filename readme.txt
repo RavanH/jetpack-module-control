@@ -2,9 +2,9 @@
 Contributors: RavanH
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Module%20Control%20for%20Jetpack
 Tags: Jetpack, jetpack light, blacklist jetpack modules, slim jetpack, unplug jetpack
-Stable tag: 1.7.2
+Stable tag: 1.7.3
 Requires at least: 4.6
-Tested up to: 6.8
+Tested up to: 7.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -65,6 +65,10 @@ All contributions -- be it in the form of feature requests, bug reports, transla
 Remove unused submenus and bugfix.
 
 == Changelog ==
+
+= 1.7.3 =
+Date: 20260525
+* New knwon modules: WPcom Reader, Canonical URLs
 
 = 1.7.2 =
 Date: 2025/06/25
