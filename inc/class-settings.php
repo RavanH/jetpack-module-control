@@ -209,7 +209,7 @@ class Settings {
 			'requires_connection' => true,
 		'wpcom-reader' => array(
 			'name'                => 'WordPress.com Reader',
-			'requires_connection' => true,
+			'requires_connection' => false,
 		),
 		),
 	);
@@ -373,20 +373,17 @@ class Settings {
 	 */
 	public static function development_mode_settings() {
 		$option   = self::get_development_mode();
-		$disabled = ! \is_network_admin() && \defined( 'JETPACK_MC_LOCKDOWN' ) && \JETPACK_MC_LOCKDOWN ? true : false;
-
-		if ( ( \is_network_admin() && ( \is_plugin_active_for_network( 'slimjetpack/slimjetpack.php' ) || \is_plugin_active_for_network( 'unplug-jetpack/unplug-jetpack.php' ) ) ) || \is_plugin_active( 'slimjetpack/slimjetpack.php' ) || \is_plugin_active( 'unplug-jetpack/unplug-jetpack.php' ) ) {
-			$disabled = true;
-		}
+		$locked   = ! \is_network_admin() && \defined( 'JETPACK_MC_LOCKDOWN' ) && \JETPACK_MC_LOCKDOWN ? true : false;
+		$disabled = ( \is_network_admin() && ( \is_plugin_active_for_network( 'slimjetpack/slimjetpack.php' ) || \is_plugin_active_for_network( 'unplug-jetpack/unplug-jetpack.php' ) ) ) || \is_plugin_active( 'slimjetpack/slimjetpack.php' ) || \is_plugin_active( 'unplug-jetpack/unplug-jetpack.php' );
 
 		?>
 		<label>
 			<input type='checkbox' name='jetpack_mc_development_mode' value='1'
 			<?php \checked( $option, '1' ); ?>
-			<?php \disabled( $disabled ); ?>>
+			<?php \disabled( $disabled || $locked ); ?>>
 			<?php \esc_html_e( 'Use Jetpack without a WordPress.com connection', 'jetpack-module-control' ); ?>
 		</label>
-		<p class="description"><?php \esc_html_e( 'By forcing Jetpack into development mode, all modules that do not depend on a WordPress.com connection will become instantly available. The admin message about Jetpack running in development mode will be hidden.', 'jetpack-module-control' ); ?></p>
+		<p class="description"><?php \esc_html_e( 'By forcing Jetpack into offline mode, all modules that do not depend on a WordPress.com connection will become instantly available.', 'jetpack-module-control' ); ?></p>
 		<?php
 	}
 
@@ -400,16 +397,9 @@ class Settings {
 	 * @echo Html Checkbox input field table for jetpack_mc_blacklist option
 	 */
 	public static function blacklist_settings() {
-		if ( \is_network_admin() ) {
-			// in network admin retrieve network settings.
-			$blacklist = \get_site_option( 'jetpack_mc_blacklist', array() );
-			$disabled  = false;
-		} else {
-			$blacklist = Plugin::get_option( 'jetpack_mc_blacklist' );
-			$disabled  = \defined( 'JETPACK_MC_LOCKDOWN' ) && \JETPACK_MC_LOCKDOWN ? true : false;
-		}
-
-		$devmode = self::get_development_mode();
+		$blacklist = \is_network_admin() ? \get_site_option( 'jetpack_mc_blacklist', array() ) : Plugin::get_option( 'jetpack_mc_blacklist' );
+		$locked    = ! \is_network_admin() && \defined( 'JETPACK_MC_LOCKDOWN' ) && \JETPACK_MC_LOCKDOWN ? true : false;
+		$devmode   = self::get_development_mode();
 
 		// blacklist must be an array, if anything else then just make it an empty array.
 		if ( ! is_array( $blacklist ) ) {
@@ -426,22 +416,17 @@ class Settings {
 			$icon    = isset( self::$known_modules_icons[ $slug ] ) ? self::$known_modules_icons[ $slug ] : 'star-empty';
 			$reqconn = ! empty( $module['requires_connection'] ) && true === $module['requires_connection'];
 			$name    = ! empty( $module['name'] ) ? $module['name'] : __( 'Unknown', 'jetpack-module-control' );
-			if ( $devmode && $reqconn ) {
-				continue;
-			}
 			?>
 			<label>
 				<input type='checkbox' name='jetpack_mc_blacklist[]' value='<?php echo \esc_attr( $slug ); ?>'
-				<?php \checked( in_array( $slug, $blacklist, true ) ); ?>
-				<?php \disabled( $disabled ); ?>>
+				<?php \checked( in_array( $slug, $blacklist, true ) || $locked || ( $devmode && $reqconn ) ); ?>
+				<?php \disabled( $locked || ( $devmode && $reqconn ) ); ?>>
 				<span class="dashicons dashicons-<?php echo \esc_attr( $icon ); ?>"></span> <?php echo \esc_html_x( $name, 'Module Name', 'jetpack' );  // phpcs:ignore WordPress.WP.I18n.NonSingularStringLiteralText ?>
 			</label><?php echo $reqconn ? ' <a href="#jmc-note-1" style="text-decoration:none" title="' . \esc_html__( 'Requires a WordPress.com connection', 'jetpack-module-control' ) . '">*</a>' : ''; ?><br>
 			<?php
 		}
-		if ( ! $devmode ) {
-			echo '<aside role="note" id="jmc-note-1"><p class="description">' . \esc_html__( '*) Modules marked with an asterisk require a WordPress.com connection. They will be unavailable if Jetpack is forced into offline mode.', 'jetpack-module-control' ) . '</p></aside>';
-		}
 		?>
+			<aside role="note" id="jmc-note-1"><p class="description"><?php \esc_html_e( '*) Modules marked with an asterisk require a WordPress.com connection. They will be unavailable if Jetpack is forced into offline mode.', 'jetpack-module-control' ); ?></p></aside>
 		</fieldset>
 		<?php
 	}
@@ -450,7 +435,7 @@ class Settings {
 	 * Sanitizes blacklist array
 	 *
 	 * @since 1.6
-	 * @param mixed $options Options array.
+	 * @param array|string $options Options array or empty string.
 	 */
 	public static function sanitize_blacklist( $options ) {
 		// If not an array or empty, return false.

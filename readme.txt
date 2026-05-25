@@ -2,7 +2,7 @@
 Contributors: RavanH
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Module%20Control%20for%20Jetpack
 Tags: Jetpack, jetpack light, blacklist jetpack modules, slim jetpack, unplug jetpack
-Stable tag: 1.7.3
+Stable tag: 1.7.4
 Requires at least: 4.6
 Tested up to: 7.0
 License: GPLv3 or later
@@ -61,14 +61,17 @@ All contributions -- be it in the form of feature requests, bug reports, transla
 
 == Upgrade Notice ==
 
-= 1.7.2 =
-Remove unused submenus and bugfix.
+= 1.7.4 =
+New modules, remove more submenus.
 
 == Changelog ==
 
-= 1.7.3 =
+= 1.7.4 =
 Date: 20260525
-* New knwon modules: WPcom Reader, Canonical URLs
+* New known modules: WPcom Reader, Canonical URLs
+* Disable AI when in offline mode
+* Remove Newsletter submenu
+* Small admin improvements
 
 = 1.7.2 =
 Date: 2025/06/25
