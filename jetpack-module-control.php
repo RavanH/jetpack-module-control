@@ -9,7 +9,7 @@
  * Network: true
  * Text Domain: jetpack-module-control
  * License: GPL2+
- * Version: 1.7.2
+ * Version: 1.7.3
  *
  * @package Module Control for Jetpack
  */
@@ -33,8 +33,6 @@
  * Option to disable JUMPSTART with "Jetpack_Options::update_option( 'jumpstart', 'jumpstart_dismissed' );" ??
  * or do we need to go through apply_filters( 'jetpack_module_feature' ...
  * If we want to be able to select which modules should appear in Jumpstart later!
- *
- * Can we disable Debug link in the footer menu?
  *
  * Option to "force_deactivate" (same as blacklist?) as described on https://github.com/Automattic/jetpack/issues/1452
  *
