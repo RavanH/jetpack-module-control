@@ -119,4 +119,20 @@ class Plugin {
 
 		return ! empty( self::$blacklist ) ? \array_diff_key( $modules, self::$blacklist ) : $modules;
 	}
+
+	/**
+	 * Optionally disable AI. Currenly only if in Offline Mode.
+	 *
+	 * @since 1.7.5
+	 *
+	 * @param bool $ai_enabled AI assistant state.
+	 * @return bool
+	 */
+	public static function ai_enabled( $ai_enabled ) {
+		if ( self::development_mode() ) {
+			$ai_enabled = false;
+		}
+
+		return $ai_enabled;
+	}
 }
