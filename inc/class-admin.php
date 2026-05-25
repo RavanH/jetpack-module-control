@@ -50,7 +50,7 @@ class Admin {
 			\add_settings_section( 'jetpack-module-control', '<a name="jetpack-mc"></a>' . __( 'Module Control for Jetpack', 'jetpack-module-control' ), array( '\JMC\Settings', 'add_settings_section' ), $settings );
 
 			// register settings.
-			if ( ! \defined( 'JETPACK_MC_LOCKDOWN' ) || ! JETPACK_MC_LOCKDOWN ) {
+			if ( ! \defined( 'JETPACK_MC_LOCKDOWN' ) || ! \JETPACK_MC_LOCKDOWN ) {
 				\register_setting( $settings, 'jetpack_mc_manual_control' );
 				\register_setting( $settings, 'jetpack_mc_development_mode' );
 				\register_setting( $settings, 'jetpack_mc_blacklist', array( 'sanitize_callback' => array( '\JMC\Settings', 'sanitize_blacklist' ) ) );
@@ -184,7 +184,7 @@ class Admin {
 
 	/**
 	 * Control admin submenus.
-	 * 
+	 *
 	 * @since 1.7.2
 	 */
 	public static function control_submenus() {

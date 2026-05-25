@@ -33,7 +33,7 @@ class Settings {
 	 */
 	private static $known_modules = array(
 		'account-protection'    => array(
-			'name'                => 'Account protection',
+			'name'                => 'Account Protection',
 			'requires_connection' => true,
 		),
 		'wordads'               => array(
@@ -46,6 +46,10 @@ class Settings {
 		),
 		'blocks'                => array(
 			'name'                => 'Blocks',
+			'requires_connection' => false,
+		),
+		'canonical-urls'        => array(
+			'name'                => 'Canonical URLs',
 			'requires_connection' => false,
 		),
 		'carousel'              => array(
@@ -203,6 +207,10 @@ class Settings {
 		'woocommerce-analytics' => array(
 			'name'                => 'WooCommerce Analytics',
 			'requires_connection' => true,
+		'wpcom-reader' => array(
+			'name'                => 'WordPress.com Reader',
+			'requires_connection' => true,
+		),
 		),
 	);
 
@@ -219,6 +227,7 @@ class Settings {
 		'wordads'               => 'money-alt',
 		'blaze'                 => 'megaphone',
 		'blocks'                => 'block-default',
+		'canonical-urls'        => 'external',
 		'carousel'              => 'camera',
 		'comments'              => 'format-chat',
 		'comment-likes'         => 'star-filled',
@@ -258,6 +267,7 @@ class Settings {
 		'widget-visibility'     => 'visibility',
 		'widgets'               => 'welcome-widgets-menus',
 		'woocommerce-analytics' => 'cart',
+		'wpcom-reader'          => 'wordpress',
 	);
 
 	/**
@@ -338,7 +348,7 @@ class Settings {
 			$disabled = true;
 		} else {
 			$option   = Plugin::get_option( 'jetpack_mc_manual_control' );
-			$disabled = \defined( 'JETPACK_MC_LOCKDOWN' ) && JETPACK_MC_LOCKDOWN ? true : false;
+			$disabled = \defined( 'JETPACK_MC_LOCKDOWN' ) && \JETPACK_MC_LOCKDOWN ? true : false;
 		}
 
 		?>
@@ -363,7 +373,7 @@ class Settings {
 	 */
 	public static function development_mode_settings() {
 		$option   = self::get_development_mode();
-		$disabled = ! \is_network_admin() && \defined( 'JETPACK_MC_LOCKDOWN' ) && JETPACK_MC_LOCKDOWN ? true : false;
+		$disabled = ! \is_network_admin() && \defined( 'JETPACK_MC_LOCKDOWN' ) && \JETPACK_MC_LOCKDOWN ? true : false;
 
 		if ( ( \is_network_admin() && ( \is_plugin_active_for_network( 'slimjetpack/slimjetpack.php' ) || \is_plugin_active_for_network( 'unplug-jetpack/unplug-jetpack.php' ) ) ) || \is_plugin_active( 'slimjetpack/slimjetpack.php' ) || \is_plugin_active( 'unplug-jetpack/unplug-jetpack.php' ) ) {
 			$disabled = true;
@@ -396,7 +406,7 @@ class Settings {
 			$disabled  = false;
 		} else {
 			$blacklist = Plugin::get_option( 'jetpack_mc_blacklist' );
-			$disabled  = \defined( 'JETPACK_MC_LOCKDOWN' ) && JETPACK_MC_LOCKDOWN ? true : false;
+			$disabled  = \defined( 'JETPACK_MC_LOCKDOWN' ) && \JETPACK_MC_LOCKDOWN ? true : false;
 		}
 
 		$devmode = self::get_development_mode();

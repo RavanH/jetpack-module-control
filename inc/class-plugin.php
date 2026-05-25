@@ -109,7 +109,7 @@ class Plugin {
 	 * @since 0.1
 	 * @param array $modules Modules array.
 	 *
-	 * @return Array Allowed modules after unsetting blacklisted modules from all modules array
+	 * @return array Allowed modules after unsetting blacklisted modules from all modules array
 	 */
 	public static function blacklist( $modules ) {
 		if ( null === self::$blacklist ) {
