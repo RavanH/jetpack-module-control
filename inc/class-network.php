@@ -63,7 +63,7 @@ class Network {
 		?>
 		<h3><a name="jetpack-mc"></a><?php \esc_html_e( 'Module Control for Jetpack', 'jetpack-module-control' ); ?></h3>
 		<?php
-			Settings::add_settings_section( '' );
+			Settings::add_settings_section();
 			// Add nonce field for security.
 			\wp_nonce_field( 'jetpack_mc_network_settings', '_jetpack_mc_nonce' );
 		?>
@@ -76,7 +76,7 @@ class Network {
 							<input type='checkbox' name='jetpack_mc_subsite_override' value='1' <?php \checked( $subsite_override, '1' ); ?>>
 							<?php \esc_html_e( 'Allow individual site administrators to manage their own settings for Module Control for Jetpack', 'jetpack-module-control' ); ?>
 						</label>
-						<p class="description"><?php printf( /* translators: General Settings */ \esc_html__( 'This adds the below options to each sub-site %s. Their settings here will be treated as default settings.', 'jetpack-module-control' ), esc_html( translate( 'General Settings' ) ) ); ?></p>
+						<p class="description"><?php printf( /* translators: General Settings */ \esc_html__( 'This adds the below options to each sub-site %s. The settings here will be treated as default settings.', 'jetpack-module-control' ), esc_html( translate( 'General Settings' ) ) ); ?></p>
 					</td>
 				</tr>
 				<tr>
