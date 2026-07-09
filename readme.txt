@@ -1,6 +1,6 @@
 === Module Control for Jetpack ===
 Contributors: RavanH
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=ravanhagen%40gmail%2ecom&item_name=Module%20Control%20for%20Jetpack
+Donate link: https://donate.stripe.com/6oUbJ10Nz8xYfF7b5qdEs01
 Tags: Jetpack, jetpack light, blacklist jetpack modules, slim jetpack, unplug jetpack
 Stable tag: 1.7.2
 Requires at least: 4.6
