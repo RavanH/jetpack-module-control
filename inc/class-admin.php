@@ -34,33 +34,36 @@ class Admin {
 			// thanks to http://zao.is/2013/07/adding-settings-to-network-settings-for-wordpress-multisite/.
 			\add_filter( 'wpmu_options', array( '\JMC\Network', 'show_network_settings' ) );
 			\add_action( 'update_wpmu_options', array( '\JMC\Network', 'save_network_settings' ) );
-
-			// Plugin action links.
-			\add_filter( 'network_admin_plugin_action_links_' . \JMC_BASENAME, array( __CLASS__, 'add_action_link' ) );
 		}
 
-		// check if subsite override allowed.
-		if ( ! \is_multisite() || \get_site_option( 'jetpack_mc_subsite_override' ) ) {
-			// Plugin action links.
-			\add_filter( 'plugin_action_links_' . \JMC_BASENAME, array( __CLASS__, 'add_action_link' ) );
-
+		// Single site active or subsite override allowed.
+		if ( ! \is_multisite() || ! \is_plugin_active_for_network( \JMC_BASENAME ) || \get_site_option( 'jetpack_mc_subsite_override' ) ) {
 			// Do regular register/add_settings stuff in 'general' settings on options-general.php.
-			$settings = 'general';
+			$settings_page = 'jetpack-module-control';
 
-			\add_settings_section( 'jetpack-module-control', '<a name="jetpack-mc"></a>' . __( 'Module Control for Jetpack', 'jetpack-module-control' ), array( '\JMC\Settings', 'add_settings_section' ), $settings );
+			\add_settings_section( 'jetpack-module-control', null, array( __NAMESPACE__ . '\Settings', 'add_settings_section' ), $settings_page );
 
 			// register settings.
 			if ( ! \defined( 'JETPACK_MC_LOCKDOWN' ) || ! \JETPACK_MC_LOCKDOWN ) {
-				\register_setting( $settings, 'jetpack_mc_manual_control' );
-				\register_setting( $settings, 'jetpack_mc_development_mode' );
-				\register_setting( $settings, 'jetpack_mc_blacklist', array( 'sanitize_callback' => array( '\JMC\Settings', 'sanitize_blacklist' ) ) );
+				\register_setting( $settings_page, 'jetpack_mc_manual_control', array( 'sanitize_callback' => 'absint' ) );
+				\register_setting( $settings_page, 'jetpack_mc_development_mode', array( 'sanitize_callback' => 'absint' ) );
+				\register_setting( $settings_page, 'jetpack_mc_blacklist', array( 'sanitize_callback' => array( __NAMESPACE__ . '\Settings', 'sanitize_blacklist' ) ) );
 			}
 
 			// add settings fields.
-			\add_settings_field( 'jetpack_mc_manual_control', __( 'Manual Control', 'jetpack-module-control' ), array( '\JMC\Settings', 'manual_control_settings' ), $settings, 'jetpack-module-control' );
-			\add_settings_field( 'jetpack_mc_development_mode', __( 'Offline Mode', 'jetpack-module-control' ), array( '\JMC\Settings', 'development_mode_settings' ), $settings, 'jetpack-module-control' );
-			\add_settings_field( 'jetpack_mc_blacklist', __( 'Blacklist Modules', 'jetpack-module-control' ), array( '\JMC\Settings', 'blacklist_settings' ), $settings, 'jetpack-module-control' );
+			\add_settings_field( 'jetpack_mc_manual_control', __( 'Manual Control', 'jetpack-module-control' ), array( __NAMESPACE__ . '\Settings', 'manual_control_settings' ), $settings_page, 'jetpack-module-control' );
+			\add_settings_field( 'jetpack_mc_development_mode', __( 'Offline Mode', 'jetpack-module-control' ), array( __NAMESPACE__ . '\Settings', 'development_mode_settings' ), $settings_page, 'jetpack-module-control' );
+			\add_settings_field( 'jetpack_mc_blacklist', __( 'Blacklist Modules', 'jetpack-module-control' ), array( __NAMESPACE__ . '\Settings', 'blacklist_settings' ), $settings_page, 'jetpack-module-control' );
+
+			// Prepare for settings reset.
+			\add_filter( 'pre_update_option_jetpack_mc_manual_control', array( __NAMESPACE__ . '\Settings', 'maybe_block_option_update' ), 10, 3 );
+			\add_filter( 'pre_update_option_jetpack_mc_development_mode', array( __NAMESPACE__ . '\Settings', 'maybe_block_option_update' ), 10, 3 );
+			\add_filter( 'pre_update_option_jetpack_mc_blacklist', array( __NAMESPACE__ . '\Settings', 'maybe_block_option_update' ), 10, 3 );
 		}
+
+		// Plugin action links.
+		\add_filter( 'plugin_action_links_' . \JMC_BASENAME, array( __CLASS__, 'action_links' ) );
+		\add_filter( 'network_admin_plugin_action_links_' . \JMC_BASENAME, array( __CLASS__, 'action_links' ) );
 	}
 
 	/**
@@ -93,13 +96,19 @@ class Admin {
 	 * @param array $links Plugin de/activation and deletion links.
 	 * @return array Plugin links plus Settings link.
 	 */
-	public static function add_action_link( $links ) {
-		$settings_link = \is_plugin_active_for_network( \JMC_BASENAME ) ?
-			'<a href="' . \network_admin_url( 'settings.php#jetpack-mc' ) . '">' . \esc_html__( 'Network Settings' ) . '</a>' :
-			'<a href="' . \admin_url( 'options-general.php#jetpack-mc' ) . '">' . \esc_html__( 'Settings' ) . '</a>';
+	public static function action_links( $links ) {
+		$settings_links = array();
+
+		if ( ! \is_multisite() || ! \is_plugin_active_for_network( \JMC_BASENAME ) || \get_site_option( 'jetpack_mc_subsite_override' ) ) {
+			$settings_links['settings'] = '<a href="' . \admin_url( 'admin.php?page=jetpack-module-control' ) . '">' . \esc_html( translate( 'Settings' ) ) . '</a>'; // phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction
+		}
+
+		if ( \is_plugin_active_for_network( \JMC_BASENAME ) && current_user_can( 'manage_network_options' ) ) {
+			$settings_links['network-settings'] = '<a href="' . \network_admin_url( 'settings.php#jetpack-mc' ) . '">' . \esc_html( translate( 'Network Settings' ) ) . '</a>'; // phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction
+		}
 
 		return array_merge(
-			array( 'settings' => $settings_link ),
+			$settings_links,
 			$links
 		);
 	}
@@ -192,7 +201,7 @@ class Admin {
 		$devmode   = Plugin::development_mode();
 		$blacklist = (array) Plugin::get_option( 'jetpack_mc_blacklist' );
 
-		if ( $devmode ) {
+		if ( $devmode || \in_array( 'ai', $blacklist ) ) {
 			// Remove AI submenu.
 			\remove_submenu_page( 'jetpack', 'jetpack-ai' );
 		}
@@ -211,5 +220,32 @@ class Admin {
 			// Remove Jetpack Social submenu.
 			\remove_submenu_page( 'jetpack', 'jetpack-newsletter' );
 		}
+
+		if ( \in_array( 'stats', $blacklist ) ) {
+			\remove_menu_page( 'stats' );
+		}
+
+		if ( ! \is_multisite() || ! \is_plugin_active_for_network( \JMC_BASENAME ) || \get_site_option( 'jetpack_mc_subsite_override' ) ) {
+			\add_submenu_page(
+				'jetpack',
+				__( 'Module Control', 'jetpack-module-control' ),
+				__( 'Module Control', 'jetpack-module-control' ),
+				'manage_options',
+				'jetpack-module-control',
+				array( __NAMESPACE__ . '\Settings', 'render_settings_page' ),
+				999
+			);
+		}
 	}
+
+	/**
+	 * Add admin style to hide offline notice.
+	 *
+	 * @since 1.7.5
+	 */
+	public static function hide_offline_notice() {
+			if ( 'jetpack_page_jetpack_modules' === get_current_screen()->id && Plugin::development_mode() ) {
+				echo '<style>.jetpack-admin-page .jetpack-offline-notice { display: none; }</style>';
+			}
+		}
 }

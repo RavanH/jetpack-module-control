@@ -70,7 +70,7 @@ class Network {
 							<input type='checkbox' name='jetpack_mc_subsite_override' value='1' <?php \checked( $subsite_override, '1' ); ?>>
 							<?php \esc_html_e( 'Allow individual site administrators to manage their own settings for Module Control for Jetpack', 'jetpack-module-control' ); ?>
 						</label>
-						<p class="description"><?php printf( /* translators: General Settings */ \esc_html__( 'This adds the below options to each sub-site %s. The settings here will be treated as default settings.', 'jetpack-module-control' ), esc_html( translate( 'General Settings' ) ) ); ?></p>
+						<p class="description"><?php printf( /* translators: %s: Jetpack menu */ \esc_html__( 'This adds the below options to each sub-site %s. The settings here will be treated as default settings.', 'jetpack-module-control' ), \esc_html__( 'Jetpack menu', 'jetpack-module-control' ) ); ?></p>
 					</td>
 				</tr>
 				<tr>

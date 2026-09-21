@@ -5,37 +5,11 @@
  * Description: This plugin brings additional control over Jetpack modules. You can blacklist / remove individual modules, prevent auto-activation or allow activation without a WordPress.com account.
  * Author: RavanH
  * Author URI: https://status301.net/
- * Requires Plugins: jetpack
- * Network: true
  * Text Domain: jetpack-module-control
  * License: GPL2+
- * Version: 1.7.4
+ * Version: 1.7.5
  *
  * @package Module Control for Jetpack
- */
-
-/*
- * ROADMAP
- *
- * version 2.0
- * Replace "Prevent the Jetpack plugin from auto-activating (new) modules" with
- * finer grained "Select which modules to auto-activate"
- * see http://jeremy.hu/customize-the-list-of-modules-available-in-jetpack/
- *  function jeherve_auto_activate_stats() {
-		return array( 'stats' );
-	}
-	add_filter( 'jetpack_get_default_modules', 'jeherve_auto_activate_stats' );
- *
- * TO CONSIDER
- *
- * Make blacklist or whitelist optional
- *
- * Option to disable JUMPSTART with "Jetpack_Options::update_option( 'jumpstart', 'jumpstart_dismissed' );" ??
- * or do we need to go through apply_filters( 'jetpack_module_feature' ...
- * If we want to be able to select which modules should appear in Jumpstart later!
- *
- * Option to "force_deactivate" (same as blacklist?) as described on https://github.com/Automattic/jetpack/issues/1452
- *
  */
 
 defined( 'WPINC' ) || die( 'No direct access allowed.' );
@@ -45,11 +19,11 @@ define( 'JMC_BASENAME', plugin_basename( __FILE__ ) );
 add_filter( 'jetpack_get_default_modules', array( '\JMC\Plugin', 'manual_control' ), 99 );
 add_filter( 'jetpack_offline_mode', array( '\JMC\Plugin', 'development_mode' ) );
 add_filter( 'jetpack_get_available_modules', array( '\JMC\Plugin', 'blacklist' ) );
-add_filter( 'jetpack_ai_enabled', array( '\JMC\Plugin', 'ai_enabled' ) );
 
 add_action( 'admin_init', array( '\JMC\Admin', 'init' ), 11 );
 add_action( 'admin_menu', array( '\JMC\Admin', 'control_submenus' ), 1001 );
 add_filter( 'wp_default_autoload_value', array( '\JMC\Admin', 'autoload_value' ), 10, 2 );
+add_action( 'admin_head', array( '\JMC\Admin', 'hide_offline_notice' ) );
 
 register_activation_hook( __FILE__, array( '\JMC\Admin', 'activate' ) );
 register_deactivation_hook( __FILE__, array( '\JMC\Admin', 'deactivate' ) );

@@ -2,9 +2,9 @@
 Contributors: RavanH
 Donate link: https://donate.stripe.com/6oUbJ10Nz8xYfF7b5qdEs01
 Tags: Jetpack, jetpack light, blacklist jetpack modules, slim jetpack, unplug jetpack
-Stable tag: 1.7.4
+Stable tag: 1.7.5
 Requires at least: 4.6
-Tested up to: 7.0
+Tested up to: 7.1
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -16,6 +16,7 @@ Your Jetpack, Controlled.
 
 = Features =
 
+1. Disable Jetpack AI.
 1. Blacklist / remove individual Jetpack modules.
 1. Optionally prevent module auto-activation on connection or after an upgrade.
 1. Optionally run Jetpack "unplugged", without a WordPress.com connection.
@@ -61,10 +62,16 @@ All contributions -- be it in the form of feature requests, bug reports, transla
 
 == Upgrade Notice ==
 
-= 1.7.4 =
-New modules, remove more submenus.
+= 1.7.5 =
+New modules, remove AI submenu.
 
 == Changelog ==
+
+= 1.7.5 =
+Date: 20260921
+* Add AI and Podcasts to known modules
+* Dedicated single site admin page
+* NEW: Remove AI subpage when AI module disabled
 
 = 1.7.4 =
 Date: 20260525

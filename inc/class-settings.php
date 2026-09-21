@@ -32,6 +32,10 @@ class Settings {
 	 * @var array
 	 */
 	private static $known_modules = array(
+		'ai'                    => array(
+			'name'                => 'AI',
+			'requires_connection' => true,
+		),
 		'account-protection'    => array(
 			'name'                => 'Account Protection',
 			'requires_connection' => true,
@@ -124,6 +128,10 @@ class Settings {
 			'name'                => 'Asset CDN',
 			'requires_connection' => false,
 		),
+		'podcas'             => array(
+			'name'                => 'Podcast',
+			'requires_connection' => false,
+		),
 		'post-by-email'         => array(
 			'name'                => 'Post by email',
 			'requires_connection' => true,
@@ -207,10 +215,10 @@ class Settings {
 		'woocommerce-analytics' => array(
 			'name'                => 'WooCommerce Analytics',
 			'requires_connection' => true,
+		),
 		'wpcom-reader' => array(
 			'name'                => 'WordPress.com Reader',
 			'requires_connection' => false,
-		),
 		),
 	);
 
@@ -223,6 +231,7 @@ class Settings {
 	 * @var array
 	 */
 	private static $known_modules_icons = array(
+		'ai'                    => 'lightbulb',
 		'account-protection'    => 'superhero',
 		'wordads'               => 'money-alt',
 		'blaze'                 => 'megaphone',
@@ -245,6 +254,7 @@ class Settings {
 		'notes'                 => 'admin-comments',
 		'photon'                => 'performance',
 		'photon-cdn'            => 'performance',
+		'podcast'               => 'microphone',
 		'post-by-email'         => 'email',
 		'post-list'             => 'list-view',
 		'protect'               => 'lock',
@@ -435,23 +445,54 @@ class Settings {
 	 * Sanitizes blacklist array
 	 *
 	 * @since 1.6
-	 * @param array|string $options Options array or empty string.
+	 * @param array|string $modules Modules array or empty string.
 	 */
-	public static function sanitize_blacklist( $options ) {
+	public static function sanitize_blacklist( $modules ) {
 		// If not an array or empty, return false.
-		if ( ! is_array( $options ) || empty( $options ) ) {
+		if ( ! is_array( $modules ) || empty( $modules ) ) {
 			return '';
 		}
 		// Get only array values.
-		$options = array_values( $options );
+		$modules = array_values( $modules );
 		// Remove empty values.
-		$options = array_filter( $options );
+		$modules = array_filter( $modules );
 		// Remove duplicates.
-		$options = array_unique( $options );
+		$modules = array_unique( $modules );
 		// Sanitize each.
-		$options = array_map( 'sanitize_text_field', $options );
+		$modules = array_map( 'sanitize_text_field', $modules );
 
-		return $options;
+		return $modules;
+	}
+
+	/**
+	 * Maybe block option update if settings are locked down
+	 *
+	 * @since 1.7.5
+	 * @param mixed $new_value The new value for the option.
+	 * @param mixed $old_value The old value for the option.
+	 * @param string $option The option name.
+	 * @return mixed The value to be saved for the option.
+	 */
+	public static function maybe_block_option_update( $new_value, $old_value, $option ) {
+		static $error_added = false;
+
+		if ( isset( $_POST['jetpack_mc_reset_settings'] ) ) {
+			delete_option( $option );
+
+			if ( false === $error_added ) {
+				\add_settings_error(
+					'notice_clear_settings',
+					'notice_clear_settings',
+					\esc_html__( 'Settings reset to the plugin defaults.', 'jetpack-module-control' ),
+					'info'
+				);
+				$error_added = true;
+			}
+
+			return $old_value; // Return the old value to prevent the update.
+		}
+
+		return $new_value; // Return the new value to allow the update.
 	}
 
 	/**
@@ -481,5 +522,36 @@ class Settings {
 		}
 
 		echo '</p>';
+	}
+
+	/**
+	 * Render settings page
+	 *
+	 * @since 1.7.5
+	 */
+	public static function render_settings_page() {
+		if ( ! is_plugin_active( 'jetpack/jetpack.php' )) {
+			?>
+			<div class="notice notice-error">
+				<p><?php esc_html_e( 'Jetpack is not active. The settings here will not take effect until Jetpack is activated.', 'jetpack-module-control' ); ?></p>
+			</div>
+			<?php
+		}
+		?>
+		<div class="wrap">
+			<h1><?php \esc_html_e( 'Module Control for Jetpack', 'jetpack-module-control' ); ?></h1>
+			<?php settings_errors(); ?>
+			<form method="post" action="options.php">
+				<?php
+				\settings_fields( 'jetpack-module-control' );
+				\do_settings_sections( 'jetpack-module-control' );
+				\submit_button();
+				?>
+				<p>
+					<input type="submit" name="jetpack_mc_reset_settings" class="button button-link button-link-delete" value="<?php esc_attr_e( 'Reset settings', 'jetpack-module-control' ); ?>" onclick="javascript:return confirm( '<?php echo esc_js( __( 'You are about to reset all Module Control settings to the plugin defaults.', 'jetpack-module-control' ) ); ?>\n\n<?php echo esc_js( translate( 'Are you sure you want to do this?' ) ); // phpcs:ignore WordPress.WP.I18n.LowLevelTranslationFunction ?>' )" />
+				</p>
+			</form>
+		</div>
+		<?php
 	}
 }
