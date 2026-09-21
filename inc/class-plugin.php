@@ -83,6 +83,8 @@ class Plugin {
 	 * First modelled after Manual Control for Jetpack by Mark Jaquith http://coveredwebservices.com/
 	 * To be converted to allow selected modules instead of all or none.
 	 *
+	 * Hooked to jetpack_get_default_modules filter.
+	 *
 	 * @since 0.1
 	 * @see add_filter()
 	 * @param array $modules Modules array.
@@ -99,6 +101,8 @@ class Plugin {
 	 * Activates Development Mode by returning true on jetpack_development_mode filter.
 	 * Based on http://jeremy.hu/customize-the-list-of-modules-available-in-jetpack/
 	 *
+	 * Hooked to jetpack_offline_mode filter.
+	 *
 	 * @since 1.0
 	 * @see add_filter()
 	 */
@@ -112,7 +116,9 @@ class Plugin {
 
 	/**
 	 * Blacklist Jetpack modules
-	 * Modelled after ParhamG's blacklist_jetpack_modules.php https://gist.github.com/ParhamG/6494979
+	 * Modelled after ParhamG's blacklist_jetpack_modules.php https://gist.github.com/ParhamG/
+	 *
+	 * Hooked to jetpack_get_available_modules filter.
 	 *
 	 * @since 0.1
 	 * @param array $modules Modules array.
