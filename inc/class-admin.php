@@ -244,8 +244,8 @@ class Admin {
 	 * @since 1.7.5
 	 */
 	public static function hide_offline_notice() {
-			if ( 'jetpack_page_jetpack_modules' === get_current_screen()->id && Plugin::development_mode() ) {
-				echo '<style>.jetpack-admin-page .jetpack-offline-notice { display: none; }</style>';
-			}
+		if ( 'jetpack_page_jetpack_modules' === get_current_screen()->id && Plugin::development_mode() ) {
+			echo '<style>.jetpack-admin-page .jetpack-offline-notice { display: none; }</style>';
 		}
+	}
 }
