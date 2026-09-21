@@ -474,18 +474,19 @@ class Settings {
 	 * @return mixed The value to be saved for the option.
 	 */
 	public static function maybe_block_option_update( $new_value, $old_value, $option ) {
-		static $errors_added = false;
+		static $error_added = false;
 
 		if ( isset( $_POST['jetpack_mc_reset_settings'] ) ) {
 			delete_option( $option );
 
-			if ( false === $errors_added ) {
+			if ( false === $error_added ) {
 				\add_settings_error(
 					'notice_clear_settings',
 					'notice_clear_settings',
 					\esc_html__( 'Settings reset to the plugin defaults.', 'jetpack-module-control' ),
-					'updated'
+					'info'
 				);
+				$error_added = true;
 			}
 
 			return $old_value; // Return the old value to prevent the update.
