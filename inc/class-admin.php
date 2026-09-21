@@ -56,9 +56,9 @@ class Admin {
 			\add_settings_field( 'jetpack_mc_blacklist', __( 'Blacklist Modules', 'jetpack-module-control' ), array( __NAMESPACE__ . '\Settings', 'blacklist_settings' ), $settings_page, 'jetpack-module-control' );
 
 			// Prepare for settings reset.
-			\add_filter( 'pre_update_option_jetpack_mc_manual_control', array( __NAMESPACE__ . '\Settings', 'maybe_block_option_update' ), 10, 3 );
-			\add_filter( 'pre_update_option_jetpack_mc_development_mode', array( __NAMESPACE__ . '\Settings', 'maybe_block_option_update' ), 10, 3 );
-			\add_filter( 'pre_update_option_jetpack_mc_blacklist', array( __NAMESPACE__ . '\Settings', 'maybe_block_option_update' ), 10, 3 );
+			\add_filter( 'pre_update_option_jetpack_mc_manual_control', array( __NAMESPACE__ . '\Settings', 'maybe_reset_option' ), 10, 3 );
+			\add_filter( 'pre_update_option_jetpack_mc_development_mode', array( __NAMESPACE__ . '\Settings', 'maybe_reset_option' ), 10, 3 );
+			\add_filter( 'pre_update_option_jetpack_mc_blacklist', array( __NAMESPACE__ . '\Settings', 'maybe_reset_option' ), 10, 3 );
 		}
 
 		// Plugin action links.

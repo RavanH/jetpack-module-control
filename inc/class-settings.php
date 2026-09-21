@@ -473,7 +473,7 @@ class Settings {
 	 * @param string $option The option name.
 	 * @return mixed The value to be saved for the option.
 	 */
-	public static function maybe_block_option_update( $new_value, $old_value, $option ) {
+	public static function maybe_reset_option( $new_value, $old_value, $option ) {
 		static $error_added = false;
 
 		if ( isset( $_POST['jetpack_mc_reset_settings'] ) ) {
