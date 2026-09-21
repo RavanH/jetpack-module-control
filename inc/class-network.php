@@ -38,19 +38,13 @@ class Network {
 
 		// Get sanitized blacklist from POST data.
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$blacklist = isset( $_POST['jetpack_mc_blacklist'] ) ? Settings::sanitize_blacklist( \wp_unslash( $_POST['jetpack_mc_blacklist'] ) ) : false;
+		$blacklist = isset( $_POST['jetpack_mc_blacklist'] ) ? Settings::sanitize_blacklist( \wp_unslash( $_POST['jetpack_mc_blacklist'] ) ) : '';
 
-		// Construct the settings array to save.
-		$settings = array(
-			'jetpack_mc_manual_control'   => isset( $_POST['jetpack_mc_manual_control'] ),
-			'jetpack_mc_development_mode' => isset( $_POST['jetpack_mc_development_mode'] ),
-			'jetpack_mc_blacklist'        => $blacklist,
-			'jetpack_mc_subsite_override' => isset( $_POST['jetpack_mc_subsite_override'] ),
-		);
-
-		foreach ( $settings as $name => $value ) {
-			\update_site_option( $name, $value );
-		}
+		// Save settings.
+		\update_site_option( 'jetpack_mc_manual_control', isset( $_POST['jetpack_mc_manual_control'] ) );
+		\update_site_option( 'jetpack_mc_development_mode', isset( $_POST['jetpack_mc_development_mode'] ) );
+		\update_site_option( 'jetpack_mc_blacklist', $blacklist );
+		\update_site_option( 'jetpack_mc_subsite_override', isset( $_POST['jetpack_mc_subsite_override'] ) );
 	}
 
 	/**
@@ -70,7 +64,7 @@ class Network {
 		<table class="form-table">
 			<tbody>
 				<tr>
-					<th scope="row"><?php \esc_html_e( 'Sub-site Override', 'jetpack-module-control' ); ?></th>
+					<th scope="row"><?php \esc_html_e( 'Sub-site override', 'jetpack' ); ?></th>
 					<td>
 						<label>
 							<input type='checkbox' name='jetpack_mc_subsite_override' value='1' <?php \checked( $subsite_override, '1' ); ?>>
@@ -88,7 +82,7 @@ class Network {
 					</td>
 				</tr>
 				<tr>
-					<th scope="row"><?php \esc_html_e( 'Development Mode', 'jetpack-module-control' ); ?></th>
+					<th scope="row"><?php \esc_html_e( 'Offline Mode', 'jetpack' ); ?></th>
 					<td>
 						<?php
 						Settings::development_mode_settings();

@@ -72,7 +72,7 @@ class Admin {
 	 * @param string $autoload The autoload value.
 	 * @param string $option The option name.
 	 *
-	 * @return string The autoload value, 'no' if manual control is enabled.
+	 * @return bool
 	 */
 	public static function autoload_value( $autoload, $option ) {
 		$options_autoload = array(
@@ -188,27 +188,28 @@ class Admin {
 	 * @since 1.7.2
 	 */
 	public static function control_submenus() {
-		if ( Plugin::development_mode() ) {
-			// Make sure all known connection dependant submenus are removed.
-			// These can be present if a module was activated before development mode was activated.
-			\remove_submenu_page( 'jetpack', 'jetpack-search' );
-			\remove_submenu_page( 'jetpack', 'jetpack-social' );
+		// Make sure all known connection dependant submenus are removed.
+		$devmode   = Plugin::development_mode();
+		$blacklist = (array) Plugin::get_option( 'jetpack_mc_blacklist' );
+
+		if ( $devmode ) {
+			// Remove AI submenu.
+			\remove_submenu_page( 'jetpack', 'jetpack-ai' );
 		}
 
-		$blacklist = Plugin::get_option( 'jetpack_mc_blacklist' );
-
-		if ( empty( $blacklist ) ) {
-			return;
-		}
-
-		if ( \in_array( 'search', $blacklist ) ) {
+		if ( $devmode || \in_array( 'search', $blacklist ) ) {
 			// Remove Jetpack Search submenu.
 			\remove_submenu_page( 'jetpack', 'jetpack-search' );
 		}
 
-		if ( \in_array( 'publicize', $blacklist ) ) {
+		if ( $devmode || \in_array( 'publicize', $blacklist ) ) {
 			// Remove Jetpack Social submenu.
 			\remove_submenu_page( 'jetpack', 'jetpack-social' );
+		}
+
+		if ( $devmode || \in_array( 'publicize', $blacklist ) ) {
+			// Remove Jetpack Social submenu.
+			\remove_submenu_page( 'jetpack', 'jetpack-newsletter' );
 		}
 	}
 }

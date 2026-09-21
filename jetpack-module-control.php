@@ -9,7 +9,7 @@
  * Network: true
  * Text Domain: jetpack-module-control
  * License: GPL2+
- * Version: 1.7.3
+ * Version: 1.7.4
  *
  * @package Module Control for Jetpack
  */
@@ -45,6 +45,7 @@ define( 'JMC_BASENAME', plugin_basename( __FILE__ ) );
 add_filter( 'jetpack_get_default_modules', array( '\JMC\Plugin', 'manual_control' ), 99 );
 add_filter( 'jetpack_offline_mode', array( '\JMC\Plugin', 'development_mode' ) );
 add_filter( 'jetpack_get_available_modules', array( '\JMC\Plugin', 'blacklist' ) );
+add_filter( 'jetpack_ai_enabled', array( '\JMC\Plugin', 'ai_enabled' ) );
 
 add_action( 'admin_init', array( '\JMC\Admin', 'init' ), 11 );
 add_action( 'admin_menu', array( '\JMC\Admin', 'control_submenus' ), 1001 );
