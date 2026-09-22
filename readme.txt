@@ -67,6 +67,10 @@ New modules, remove AI submenu.
 
 == Changelog ==
 
+= 1.7.6 =
+Date:
+* Improve option loading performance (Plugin::get_option)
+
 = 1.7.5 =
 Date: 20260921
 * Add AI and Podcasts to known modules
