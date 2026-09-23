@@ -2,7 +2,7 @@
 Contributors: RavanH
 Donate link: https://donate.stripe.com/6oUbJ10Nz8xYfF7b5qdEs01
 Tags: Jetpack, jetpack light, blacklist jetpack modules, slim jetpack, unplug jetpack
-Stable tag: 1.7.5
+Stable tag: 1.7.6
 Requires at least: 4.6
 Tested up to: 7.1
 License: GPLv3 or later
@@ -16,15 +16,16 @@ Your Jetpack, Controlled.
 
 = Features =
 
-1. Disable Jetpack AI.
-1. Blacklist / remove individual Jetpack modules.
+1. Blacklist / disable Jetpack AI or any other Jetpack module.
 1. Optionally prevent module auto-activation on connection or after an upgrade.
-1. Optionally run Jetpack "unplugged", without a WordPress.com connection.
+1. Optionally run Jetpack "unplugged", in offline mode without a WordPress.com connection.
 1. Single site and Multisite compatible.
 
-= Examples =
+In most use cases, a carefully considered combination of Jetpack modules can be a really good thing. But not always is much consideration being done beforehand, impacting page speed or cause other issues.
 
-In most use cases, a carefully considered combination of Jetpack modules can be a really good thing. But not always is much consideration being done beforehand. Or site admins just don't know all the implications...
+Any one of Jetpack's modules can bring overlapping or even conflicting functionality. In such cases, being able to prevent (accidental) activation is a good thing.
+
+= Examples =
 
 - Using Jetpack on a network? Then network incompatible WAF (Web Application Firewall) module should be blacklisted to prevent accidental activation!
 - Do you already use a light box provided by your theme or another plugin? Then blacklist the Carousel module to prevent accidental activation.
@@ -32,13 +33,11 @@ In most use cases, a carefully considered combination of Jetpack modules can be 
 - Offer your own backup service? Backlist VaultPress if you do not care for VaultPress competition.
 - You're running a school network and sites are managed by minors who are not allowed to sign up for an account at WordPress.com? Then use the Jetpack Offline Mode option to allow usage of modules that do not require a connection.
 
-Any one of Jetpack's modules can bring overlapping or even conflicting functionality. In such cases, being able to prevent (accidental) activation is a good thing.
-
 = Single site and Multisite =
 
 Although the original idea arose on a multisite installation, Module Control for Jetpack is developed for both single and multisite installations.
 
-On **multisite**, it can only be network activated and allows global rules for Jetpack on all sites. At this point it also allows per-site changes by Super Admin only. Jetpack itself can, but does not need to be network activated. In that case, activate Jetpack on the main site and then network-activate Module Control.
+On **multisite**, when network activated or activated on the main site, it allows global rules for Jetpack on all sites. You can also set it to allow per-site changes by site admins.
 
 For **single site** installations, plugin settings can be locked down by adding `define('JETPACK_MC_LOCKDOWN', true)` to wp-config.php for complete security. This can be useful to prevent other admins being able to reactivate blacklisted modules.
 
@@ -51,8 +50,8 @@ All contributions -- be it in the form of feature requests, bug reports, transla
 == Installation ==
 
 1. Install Module Control for Jetpack either via the WordPress.org plugin directory, or by uploading the files to your server.
-2. After activating the plugin, go to either Settings > General (on single site) or Network Admin > Settings (on multisite) you can find the new Module Control for Jetpack section.
-3. Select any module you wish to remove and save settings.
+2. After activating the plugin, go to either Jetpack > Module Control (on single site) or Network Admin > Settings (on multisite) to find the new Module Control for Jetpack settings.
+3. Set your preferences for Sub-site override (on multisite), Manual Control, Offline Mode, select any module you wish to add to the Blacklist and Save Settings.
 4. If you are on a single site installation and you wish to prevent other admins from reactivating any blacklisted modules, add `define('JETPACK_MC_LOCKDOWN', true);` to your wp-config.php to lock down settings.
 5. That's it.
 
@@ -62,10 +61,16 @@ All contributions -- be it in the form of feature requests, bug reports, transla
 
 == Upgrade Notice ==
 
-= 1.7.5 =
-New modules, remove AI submenu.
+= 1.7.6 =
+
+Bugfix and performance improvements.
 
 == Changelog ==
+
+= 1.7.6 =
+Date: 20260923
+* Improve option loading performance (Plugin::get_option)
+* FIX: Call to undefined function is_plugin_active_for_network()
 
 = 1.7.5 =
 Date: 20260921

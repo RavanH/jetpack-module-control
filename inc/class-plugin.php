@@ -31,14 +31,6 @@ class Plugin {
 	private static $development_mode;
 
 	/**
-	 * Holds the AI disabled option.
-	 *
-	 * @since 1.7.5
-	 * @var bool|null
-	 */
-	private static $ai_disabled;
-
-	/**
 	 * Holds the blacklist of Jetpack modules.
 	 *
 	 * @since 1.7
@@ -50,29 +42,25 @@ class Plugin {
 	 * Gets subsite or site option
 	 *
 	 * @since 1.7
-	 * @see get_site_option(), wp_load_alloptions(), is_multisite()
-	 * @uses jetpack_mc_manual_control network option
-	 *
+	 * @see get_network_option(), wp_load_alloptions(), is_plugin_active_for_network()
 	 * @param string $option_name The option name to retrieve.
-	 *
 	 * @return mixed
 	 */
 	public static function get_option( $option_name ) {
-		$value = false;
+		$network = \is_multisite();
 
-		// Single site active or subsite override allowed.
-		if ( ! \is_multisite() || ! \is_plugin_active_for_network( \JMC_BASENAME ) || \get_site_option( 'jetpack_mc_subsite_override' ) ) {
-			// Get our autoload setting from wp_load_alloptions to avoid loading the option table.
-			// $all   = \wp_load_alloptions();
-			// $value = isset( $all[ $option_name ] ) ? \maybe_unserialize( $all[ $option_name ] ) : false;.
-
-			// Get the option value.
-			$value = \get_option( $option_name );
+		// Network active and subsite override not allowed, return network option.
+		if ( $network && ! \get_network_option( null, 'jetpack_mc_subsite_override' ) ) {
+			return \get_network_option( null, $option_name );
 		}
 
-		// fall back on network setting.
-		if ( false === $value && \is_multisite() ) {
-			$value = \get_site_option( $option_name );
+		// Get our autoload setting from wp_load_alloptions to avoid loading the option table when option is not set.
+		$all   = \wp_load_alloptions();
+		$value = isset( $all[ $option_name ] ) ? \maybe_unserialize( $all[ $option_name ] ) : false;
+
+		// Fall back on network setting if necessary.
+		if ( $network && false === $value ) {
+			$value = \get_network_option( null, $option_name );
 		}
 
 		return $value;
@@ -86,8 +74,8 @@ class Plugin {
 	 * Hooked to jetpack_get_default_modules filter.
 	 *
 	 * @since 0.1
-	 * @see add_filter()
 	 * @param array $modules Modules array.
+	 * @return array Empty array if Manual Control is enabled, otherwise the modules array.
 	 */
 	public static function manual_control( $modules ) {
 		if ( null === self::$manual_control ) {
@@ -104,7 +92,7 @@ class Plugin {
 	 * Hooked to jetpack_offline_mode filter.
 	 *
 	 * @since 1.0
-	 * @see add_filter()
+	 * @return bool True if development mode is enabled, false otherwise.
 	 */
 	public static function development_mode() {
 		if ( null === self::$development_mode ) {
@@ -122,7 +110,6 @@ class Plugin {
 	 *
 	 * @since 0.1
 	 * @param array $modules Modules array.
-	 *
 	 * @return array Allowed modules after unsetting blacklisted modules from all modules array
 	 */
 	public static function blacklist( $modules ) {

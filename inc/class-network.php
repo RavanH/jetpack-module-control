@@ -21,7 +21,7 @@ class Network {
 	 *
 	 * @since 0.2
 	 */
-	public static function save_network_settings() {
+	public static function save_settings() {
 		// Nonce verification for security.
 		if (
 			! isset( $_POST['_jetpack_mc_nonce'] ) ||
@@ -52,8 +52,7 @@ class Network {
 	 *
 	 * @since 0.2
 	 */
-	public static function show_network_settings() {
-		$subsite_override = \get_site_option( 'jetpack_mc_subsite_override' );
+	public static function render_settings() {
 		?>
 		<h3><a name="jetpack-mc"></a><?php \esc_html_e( 'Module Control for Jetpack', 'jetpack-module-control' ); ?></h3>
 		<?php
@@ -67,7 +66,7 @@ class Network {
 					<th scope="row"><?php \esc_html_e( 'Sub-site override', 'jetpack' ); ?></th>
 					<td>
 						<label>
-							<input type='checkbox' name='jetpack_mc_subsite_override' value='1' <?php \checked( $subsite_override, '1' ); ?>>
+							<input type='checkbox' name='jetpack_mc_subsite_override' value='1' <?php \checked( \get_site_option( 'jetpack_mc_subsite_override' ) ); ?>>
 							<?php \esc_html_e( 'Allow individual site administrators to manage their own settings for Module Control for Jetpack', 'jetpack-module-control' ); ?>
 						</label>
 						<p class="description"><?php printf( /* translators: %s: Jetpack menu */ \esc_html__( 'This adds the below options to each sub-site %s. The settings here will be treated as default settings.', 'jetpack-module-control' ), \esc_html__( 'Jetpack menu', 'jetpack-module-control' ) ); ?></p>
