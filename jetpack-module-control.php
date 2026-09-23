@@ -7,7 +7,7 @@
  * Author URI: https://status301.net/
  * Text Domain: jetpack-module-control
  * License: GPL2+
- * Version: 1.7.5
+ * Version: 1.7.6
  *
  * @package Module Control for Jetpack
  */

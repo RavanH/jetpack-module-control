@@ -2,7 +2,7 @@
 Contributors: RavanH
 Donate link: https://donate.stripe.com/6oUbJ10Nz8xYfF7b5qdEs01
 Tags: Jetpack, jetpack light, blacklist jetpack modules, slim jetpack, unplug jetpack
-Stable tag: 1.7.5
+Stable tag: 1.7.6
 Requires at least: 4.6
 Tested up to: 7.1
 License: GPLv3 or later
@@ -63,12 +63,14 @@ All contributions -- be it in the form of feature requests, bug reports, transla
 
 = 1.7.6 =
 
+Bugfix and performance improvements.
 
 == Changelog ==
 
 = 1.7.6 =
-Date:
+Date: 20260923
 * Improve option loading performance (Plugin::get_option)
+* FIX: Call to undefined function is_plugin_active_for_network()
 
 = 1.7.5 =
 Date: 20260921
