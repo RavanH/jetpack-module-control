@@ -24,17 +24,10 @@ class Admin {
 		// Admin translations.
 		\load_plugin_textdomain( 'jetpack-module-control' );
 
-		if ( \is_plugin_active_for_network( \JMC_BASENAME ) ) {
-			// Check for network activation, else these will also take effect when
-			// plugin is activated on the primary site alone.
-			// TODO : see if you can actually use this scenario where plugin is activatied on site 1 and
-			// network options can be set to serve as default settings for other site activations !
-
-			// Add settings to Network Settings
-			// thanks to http://zao.is/2013/07/adding-settings-to-network-settings-for-wordpress-multisite/.
-			\add_filter( 'wpmu_options', array( '\JMC\Network', 'show_network_settings' ) );
-			\add_action( 'update_wpmu_options', array( '\JMC\Network', 'save_network_settings' ) );
-		}
+		// Add settings to Network Settings
+		// thanks to http://zao.is/2013/07/adding-settings-to-network-settings-for-wordpress-multisite/.
+		\add_filter( 'wpmu_options', array( '\JMC\Network', 'render_settings' ) );
+		\add_action( 'update_wpmu_options', array( '\JMC\Network', 'save_settings' ) );
 
 		// Single site active or subsite override allowed.
 		if ( ! \is_multisite() || ! \is_plugin_active_for_network( \JMC_BASENAME ) || \get_site_option( 'jetpack_mc_subsite_override' ) ) {

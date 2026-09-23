@@ -47,10 +47,10 @@ class Plugin {
 	 * @return mixed
 	 */
 	public static function get_option( $option_name ) {
-		$networkwide = \is_plugin_active_for_network( \JMC_BASENAME );
+		$network = \is_multisite();
 
 		// Network active and subsite override not allowed, return network option.
-		if ( $networkwide && ! \get_network_option( null, 'jetpack_mc_subsite_override' ) ) {
+		if ( $network && ! \get_network_option( null, 'jetpack_mc_subsite_override' ) ) {
 			return \get_network_option( null, $option_name );
 		}
 
@@ -59,7 +59,7 @@ class Plugin {
 		$value = isset( $all[ $option_name ] ) ? \maybe_unserialize( $all[ $option_name ] ) : false;
 
 		// Fall back on network setting if necessary.
-		if ( $networkwide && false === $value ) {
+		if ( $network && false === $value ) {
 			$value = \get_network_option( null, $option_name );
 		}
 
